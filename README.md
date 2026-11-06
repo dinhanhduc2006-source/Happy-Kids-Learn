@@ -1,7 +1,5 @@
 # 🌟 HAPPY KID LEARN - ỨNG DỤNG HỌC TẬP & MINI-GAME CHO BÉ
 
-> **Dự án xây dựng ứng dụng giáo dục tương tác đa phương thức mô phỏng nền tảng DatPilot Kids, phát triển bằng Android Studio (Java).**
-
 ---
 
 ## 📋 MỤC LỤC
