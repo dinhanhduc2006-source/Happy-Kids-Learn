@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.happykidlearn.R;
+import com.example.happykidlearn.utils.SoundManager;
 
 
 public abstract class BaseGameActivity extends AppCompatActivity {
@@ -27,13 +28,14 @@ public abstract class BaseGameActivity extends AppCompatActivity {
 
     protected boolean isSoundMuted = false;
     protected Dialog victoryDialog;
+    protected SoundManager soundManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        soundManager = SoundManager.getInstance(this);
+        isSoundMuted = soundManager.isBgmMuted() && soundManager.isSfxMuted();
     }
-
-
     protected void setupHeader(String gameTitle) {
         btnHeaderBack = findViewById(R.id.btn_header_back);
         btnHeaderSound = findViewById(R.id.btn_header_sound);
@@ -50,10 +52,10 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         }
 
         if (btnHeaderSound != null) {
+            btnHeaderSound.setImageResource(isSoundMuted ? R.drawable.ic_sound_off : R.drawable.ic_sound_on);
             btnHeaderSound.setOnClickListener(v -> toggleSound());
         }
     }
-
     protected void setGameProgress(int current, int total) {
         if (pbHeaderProgress != null && total > 0) {
             int progressPercent = (int) (((float) current / total) * 100);
@@ -74,7 +76,6 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         }
     }
 
-
     protected void toggleSound() {
         isSoundMuted = !isSoundMuted;
         if (btnHeaderSound != null) {
@@ -83,18 +84,12 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         onSoundToggled(isSoundMuted);
     }
 
-
     protected void onSoundToggled(boolean isMuted) {
-        // Mặc định trống, các Activity con hoặc SoundManager sẽ lắng nghe
+        if (soundManager != null) {
+            soundManager.setAllMuted(isMuted);
+        }
     }
 
-    /**
-     * Hiển thị Popup/Dialog Chúc mừng chiến thắng.
-     *
-     * @param stars     Số sao đạt được (từ 1 đến 3 sao).
-     * @param onNext    Sự kiện khi bấm nút "Tiếp tục".
-     * @param onReplay  Sự kiện khi bấm nút "Chơi lại".
-     */
     protected void showVictoryDialog(int stars, @Nullable Runnable onNext, @Nullable Runnable onReplay) {
         dismissVictoryDialog();
 
@@ -148,6 +143,22 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         if (victoryDialog != null && victoryDialog.isShowing()) {
             victoryDialog.dismiss();
             victoryDialog = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (soundManager != null) {
+            soundManager.resumeBgm();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (soundManager != null) {
+            soundManager.pauseBgm();
         }
     }
 
