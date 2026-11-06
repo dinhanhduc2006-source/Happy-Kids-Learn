@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Kid Friendly Color Palette -->
+    <color name="purple_500">#7C4DFF</color>
+    <color name="purple_700">#651FFF</color>
+    <color name="bg_light_blue">#E0F7FA</color>
+    <color name="accent_orange">#FF9800</color>
+    <color name="accent_yellow">#FFD54F</color>
+    <color name="accent_green">#4CAF50</color>
+    <color name="accent_pink">#FF4081</color>
+    <color name="header_bg">#FFF3E0</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="star_gold">#FFC107</color>
+    <color name="star_gray">#BDBDBD</color>
+    <color name="text_dark">#263238</color>
 </resources>
