@@ -1,0 +1,47 @@
+# Built application files / Binaries
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Gradle cache & build outputs
+.gradle/
+/build/
+**/build/
+/captures/
+
+# Local configuration file (chứa đường dẫn SDK cá nhân)
+local.properties
+
+# Android Studio & IntelliJ IDEA files
+*.iml
+*.ipr
+*.iws
+.idea/
+!.idea/copyright/
+!.idea/icon.theme.xml
+!.idea/codeStyles/
+
+# External native build folders (NDK / C++)
+.externalNativeBuild/
+.cxx/
+
+# Log files & Memory dumps
+*.log
+*.hprof
+
+# OS specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Signing keys / Keystores (bảo mật chìa khóa ký app)
+*.jks
+*.keystore
+*.pepk
+
+# Sensitive config files (nếu có dùng Firebase / API Keys)
+# google-services.json
