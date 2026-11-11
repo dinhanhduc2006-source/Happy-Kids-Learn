@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="140dp"
+    android:viewportWidth="140"
+    android:viewportHeight="140">
+    <!-- Bóng đổ khung tranh 2.5D -->
+    <path
+        android:fillColor="#26383047"
+        android:pathData="M70,14A58,58 0 1,1 70,130A58,58 0 1,1 70,14Z" />
+    <path
+        android:fillColor="#FFE5B4"
+        android:pathData="M70,8A58,58 0 1,1 70,124A58,58 0 1,1 70,8Z" />
+    <!-- Nền trời xanh nắng sớm -->
+    <path
+        android:fillColor="#D9F6F5"
+        android:pathData="M70,14A52,52 0 1,1 70,118A52,52 0 1,1 70,14Z" />
+    <!-- Đồi cỏ giấy cắt lớp phía dưới -->
+    <path
+        android:fillColor="#7BCB97"
+        android:pathData="M22,86Q48,72 74,84T118,84A52,52 0 0,1 22,86Z" />
+    <path
+        android:fillColor="#58B881"
+        android:pathData="M28,96Q58,86 88,96T112,96A52,52 0 0,1 28,96Z" />
+    <!-- Ông mặt trời nhỏ lấp ló -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M94,34A14,14 0 1,1 94,62A14,14 0 1,1 94,34Z" />
+    <!-- Đám mây bông 2.5D có khuôn mặt cười -->
+    <path
+        android:fillColor="#22000000"
+        android:pathData="M30,66C30,54 40,48 48,52C54,40 72,40 78,50C88,48 96,56 96,66C96,76 86,80 62,80C40,80 30,76 30,66Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,62C28,50 38,44 46,48C52,36 70,36 76,46C86,44 94,52 94,62C94,72 84,76 60,76C38,76 28,72 28,62Z" />
+    <!-- Mắt & miệng đám mây -->
+    <path
+        android:fillColor="#383047"
+        android:pathData="M52,54A3.2,3.2 0 1,1 52,60.4A3.2,3.2 0 1,1 52,54Z M70,54A3.2,3.2 0 1,1 70,60.4A3.2,3.2 0 1,1 70,54Z" />
+    <path
+        android:fillColor="#FF9E99"
+        android:pathData="M46,60A3.5,2.5 0 1,1 46,65A3.5,2.5 0 1,1 46,60Z M76,60A3.5,2.5 0 1,1 76,65A3.5,2.5 0 1,1 76,60Z" />
+    <path
+        android:strokeColor="#383047"
+        android:strokeLineCap="round"
+        android:strokeWidth="2.5"
+        android:pathData="M57,62Q61,66 65,62" />
+    <!-- Chiếc lá non 2.5D nổi bật phía trước -->
+    <path
+        android:fillColor="#3A9D64"
+        android:pathData="M54,96C54,74 74,60 98,64C94,86 78,104 54,96Z" />
+    <path
+        android:strokeColor="#FFF7E8"
+        android:strokeLineCap="round"
+        android:strokeWidth="3"
+        android:pathData="M56,94L88,70" />
+</vector>

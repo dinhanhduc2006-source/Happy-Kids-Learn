@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/m2_bg_home_header"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="12dp">
+
+    <!-- Nút quay lại 3D phong cách Cuốn Sách Kỳ Diệu -->
+    <ImageButton
+        android:id="@+id/btn_header_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/m2_bg_parent_button_coral"
+        android:contentDescription="Quay lại"
+        android:padding="11dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/m2_ic_arrow_left" />
+
+    <!-- Khu vực Tiêu đề Thế giới Sách & Thanh tiến độ Ngôi sao -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-black"
+            android:maxLines="1"
+            android:text="Khu Vườn Chữ Biết Nói"
+            android:textColor="@color/m2_text_book_title"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/pb_header_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/m2_bg_progress_bar" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/m2_bg_star_pill"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_star_filled" />
+
+                <TextView
+                    android:id="@+id/tv_header_progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="0/29"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Nút Bật/Tắt Âm thanh 3D xanh ngọc đồng bộ Home Dashboard -->
+    <ImageButton
+        android:id="@+id/btn_header_sound"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/m2_bg_sound_button_teal"
+        android:contentDescription="@string/m2_cd_btn_sound"
+        android:padding="11dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_sound_on" />
+
+</LinearLayout>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Bong bóng hội thoại ABC tiếng Anh -->
+    <path
+        android:fillColor="#651FFF"
+        android:pathData="M8,10h32a4,4 0 0,1 4,4v18a4,4 0 0,1 -4,4H20l-8,6v-6H8a4,4 0 0,1 -4,-4V14a4,4 0 0,1 4,-4z" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M15,28l3,-10h3l3,10h-2.2l-0.6,-2.2h-3.4L17.2,28H15zM18.3,23.8h2.4L19.5,19.8l-1.2,4zM26,18h5a3,3 0 0,1 0,5a3,3 0 0,1 0,5h-5V18zM28.2,20v2h2.2a1,1 0 0,0 0,-2h-2.2zM28.2,24v2h2.4a1,1 0 0,0 0,-2h-2.4z" />
+</vector>
+

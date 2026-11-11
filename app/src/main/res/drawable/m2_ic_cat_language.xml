@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Mở cuốn sách hồng san hô -->
+    <path
+        android:fillColor="#E05A54"
+        android:pathData="M2,6C2,4.9 2.9,4 4,4H10.5C11.3,4 12,4.7 12,5.5V19.5C12,18.7 11.3,18 10.5,18H4C2.9,18 2,17.1 2,16V6Z" />
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M22,6C22,4.9 21.1,4 20,4H13.5C12.7,4 12,4.7 12,5.5V19.5C12,18.7 12.7,18 13.5,18H20C21.1,18 22,17.1 22,16V6Z" />
+    <path
+        android:fillColor="#FFF7E8"
+        android:pathData="M4,6H10.5V16.5H4V6ZM13.5,6H20V16.5H13.5V6Z" />
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M5.5,8.5H9V10H5.5V8.5ZM5.5,11.5H9V13H5.5V11.5ZM15,8.5H18.5V10H15V8.5ZM15,11.5H18.5V13H15V11.5Z" />
+</vector>
+

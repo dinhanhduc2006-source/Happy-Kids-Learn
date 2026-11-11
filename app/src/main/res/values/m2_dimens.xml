@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Quy luật khoảng cách 8dp -->
+    <dimen name="m2_space_xs">4dp</dimen>
+    <dimen name="m2_space_sm">8dp</dimen>
+    <dimen name="m2_space_md">16dp</dimen>
+    <dimen name="m2_space_lg">24dp</dimen>
+    <dimen name="m2_space_xl">32dp</dimen>
+
+    <!-- Bo góc & Vùng chạm tối thiểu 48dp -->
+    <dimen name="m2_card_corner_radius">20dp</dimen>
+    <dimen name="m2_card_elevation">4dp</dimen>
+    <dimen name="m2_touch_target_min">48dp</dimen>
+    <dimen name="m2_game_icon_size">64dp</dimen>
+    <dimen name="m2_game_icon_padding">12dp</dimen>
+    <dimen name="m2_progress_height">10dp</dimen>
+
+    <!-- Cỡ chữ thân thiện trẻ nhỏ -->
+    <dimen name="m2_text_hero">22sp</dimen>
+    <dimen name="m2_text_title">18sp</dimen>
+    <dimen name="m2_text_card_title">17sp</dimen>
+    <dimen name="m2_text_body">14sp</dimen>
+    <dimen name="m2_text_caption">12sp</dimen>
+</resources>
+

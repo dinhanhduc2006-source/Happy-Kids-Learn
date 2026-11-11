@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Đế khối gỗ 3D màu mật ong đậm -->
+    <item android:top="5dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#C67B2B" />
+            <corners android:radius="18dp" />
+        </shape>
+    </item>
+    <!-- Mặt khối gỗ đồ chơi mềm mại -->
+    <item android:bottom="5dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:endColor="#FFE3A3"
+                android:startColor="#FFFDF2" />
+            <corners android:radius="18dp" />
+            <stroke
+                android:width="2.5dp"
+                android:color="#E5983E" />
+        </shape>
+    </item>
+    <!-- Viền sáng vát cạnh trên của khối gỗ -->
+    <item
+        android:bottom="9dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="3dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="14dp" />
+            <stroke
+                android:width="1.5dp"
+                android:color="#99FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

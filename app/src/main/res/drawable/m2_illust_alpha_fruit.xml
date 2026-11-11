@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="140dp"
+    android:viewportWidth="140"
+    android:viewportHeight="140">
+    <!-- Bóng đổ khung tranh 2.5D -->
+    <path
+        android:fillColor="#26383047"
+        android:pathData="M70,14A58,58 0 1,1 70,130A58,58 0 1,1 70,14Z" />
+    <path
+        android:fillColor="#FFE5B4"
+        android:pathData="M70,8A58,58 0 1,1 70,124A58,58 0 1,1 70,8Z" />
+    <!-- Nền vườn cây kem ấm -->
+    <path
+        android:fillColor="#FFF5E4"
+        android:pathData="M70,14A52,52 0 1,1 70,118A52,52 0 1,1 70,14Z" />
+    <!-- Bóng đổ quả táo đất nặn -->
+    <path
+        android:fillColor="#22000000"
+        android:pathData="M70,44C50,38 34,54 38,78C42,98 56,108 70,102C84,108 98,98 102,78C106,54 90,38 70,44Z" />
+    <!-- Cuống gỗ 2.5D -->
+    <path
+        android:strokeColor="#7C4DFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="5"
+        android:pathData="M70,44Q72,30 78,24" />
+    <!-- Chiếc lá xanh ngọc 2.5D -->
+    <path
+        android:fillColor="#58B881"
+        android:pathData="M72,38C76,22 94,20 100,30C90,40 80,42 72,38Z" />
+    <!-- Thân quả trái cây đỏ san hô căng mọng -->
+    <path
+        android:fillColor="#FF6B6B"
+        android:pathData="M70,40C50,34 34,50 38,74C42,94 56,104 70,98C84,104 98,94 102,74C106,50 90,34 70,40Z" />
+    <!-- Highlight bóng đất nặn -->
+    <path
+        android:fillColor="#77FFFFFF"
+        android:pathData="M48,48C42,56 42,68 46,74C48,64 52,54 58,48Z" />
+    <!-- Khuôn mặt trái cây tươi cười -->
+    <path
+        android:fillColor="#383047"
+        android:pathData="M56,64A4,4 0 1,1 56,72A4,4 0 1,1 56,64Z M84,64A4,4 0 1,1 84,72A4,4 0 1,1 84,64Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M55,65A1.5,1.5 0 1,1 55,68A1.5,1.5 0 1,1 55,65Z M83,65A1.5,1.5 0 1,1 83,68A1.5,1.5 0 1,1 83,65Z" />
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M48,72A4.5,3 0 1,1 48,78A4.5,3 0 1,1 48,72Z M92,72A4.5,3 0 1,1 92,78A4.5,3 0 1,1 92,72Z" />
+    <path
+        android:strokeColor="#383047"
+        android:strokeLineCap="round"
+        android:strokeWidth="3"
+        android:pathData="M64,74Q70,81 76,74" />
+</vector>

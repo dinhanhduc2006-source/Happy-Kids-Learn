@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Lớp nền cắt giấy 2.5D ấm áp -->
+    <path android:fillColor="#E5C9A8" android:pathData="M60,12A50,50 0 1,1 60,112A50,50 0 1,1 60,12Z" />
+    <path android:fillColor="#FFF5E4" android:pathData="M60,8A50,50 0 1,1 60,108A50,50 0 1,1 60,8Z" />
+    <!-- Thảm cỏ mềm phía dưới -->
+    <path android:fillColor="#A5D6A7" android:pathData="M18,82Q60,70 102,82A48,48 0 0,1 18,82Z" />
+    <!-- Bóng đổ mèo cam -->
+    <path android:fillColor="#D9BC9B" android:pathData="M60,84a26,7 0 1,0 0.1,0z" />
+    <!-- Đuôi mèo cong 2.5D -->
+    <path android:strokeColor="#E67E22" android:strokeWidth="8" android:strokeLineCap="round" android:pathData="M82,78Q98,68 94,52" />
+    <!-- Thân mèo cam -->
+    <path android:fillColor="#F39C12" android:pathData="M42,62C42,52 78,52 78,62L82,84C82,88 38,88 38,84Z" />
+    <path android:fillColor="#FFF3E0" android:pathData="M50,66A10,12 0 1,1 70,66A10,12 0 1,1 50,66Z" />
+    <!-- Tai mèo 2 lớp -->
+    <path android:fillColor="#E67E22" android:pathData="M32,46L26,20L50,32Z M88,46L94,20L70,32Z" />
+    <path android:fillColor="#FFAB91" android:pathData="M35,42L31,26L46,34Z M85,42L89,26L74,34Z" />
+    <!-- Đầu mèo đất nặn 2.5D -->
+    <path android:fillColor="#E67E22" android:pathData="M60,30A26,24 0 1,1 60,78A26,24 0 1,1 60,30Z" />
+    <path android:fillColor="#FFB74D" android:pathData="M60,27A26,24 0 1,1 60,75A26,24 0 1,1 60,27Z" />
+    <!-- Vằn trán mèo -->
+    <path android:strokeColor="#D35400" android:strokeWidth="3" android:strokeLineCap="round" android:pathData="M60,30L60,38 M53,32L55,38 M67,32L65,38" />
+    <!-- Đôi mắt to long lanh -->
+    <path android:fillColor="#2C2538" android:pathData="M48,46A4.5,4.5 0 1,1 48,55A4.5,4.5 0 1,1 48,46Z M72,46A4.5,4.5 0 1,1 72,55A4.5,4.5 0 1,1 72,46Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M46.5,47.5A1.6,1.6 0 1,1 46.5,50.7A1.6,1.6 0 1,1 46.5,47.5Z M70.5,47.5A1.6,1.6 0 1,1 70.5,50.7A1.6,1.6 0 1,1 70.5,47.5Z" />
+    <!-- Má hồng & mũi hồng -->
+    <path android:fillColor="#FF8A80" android:pathData="M40,56A4,2.5 0 1,1 40,61A4,2.5 0 1,1 40,56Z M80,56A4,2.5 0 1,1 80,61A4,2.5 0 1,1 80,56Z" />
+    <path android:fillColor="#FF6B81" android:pathData="M56,54L64,54L60,59Z" />
+    <!-- Miệng cười & râu mèo -->
+    <path android:strokeColor="#5D4037" android:strokeWidth="2.2" android:strokeLineCap="round" android:pathData="M54,61Q60,66 66,61" />
+    <path android:strokeColor="#8D6E63" android:strokeWidth="1.8" android:strokeLineCap="round" android:pathData="M28,53L38,55 M28,59L38,59 M92,53L82,55 M92,59L82,59" />
+</vector>

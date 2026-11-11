@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bảng màu chủ đạo "CUỐN SÁCH KỲ DIỆU" (Happy Kid Learn) -->
+    <color name="m2_bg_screen">#FFF7E8</color>
+    <color name="m2_bg_cream_warm">#FFF7E8</color>
+    <color name="m2_bg_cream_paper">#FFFDF7</color>
+    <color name="m2_bg_header_gradient_start">#FFF9EE</color>
+    <color name="m2_bg_header_gradient_end">#FFF1D6</color>
+    <color name="m2_bg_summary_card">#ECE3FF</color>
+    <color name="m2_bg_card_surface">#FFFDF8</color>
+
+    <!-- Màu chữ độ tương phản cao, ấm áp -->
+    <color name="m2_text_primary">#383047</color>
+    <color name="m2_text_secondary">#5B526B</color>
+    <color name="m2_text_muted">#7A708B</color>
+    <color name="m2_text_on_accent">#FFFFFF</color>
+    <color name="m2_text_book_title">#7C241E</color>
+
+    <!-- Bộ màu nhận diện chính (Teal, Sunny Gold, Coral, Lavender, Leaf Green) -->
+    <color name="m2_brand_teal">#21B8B7</color>
+    <color name="m2_brand_teal_dark">#158887</color>
+    <color name="m2_brand_gold">#FFC857</color>
+    <color name="m2_brand_coral">#FF7F79</color>
+    <color name="m2_brand_lavender">#A98BFA</color>
+    <color name="m2_brand_green">#7BCB97</color>
+
+    <!-- Màu chủ đề cho Bìa sách 15 trò chơi -->
+    <color name="m2_book_cover_coral">#E86B63</color>
+    <color name="m2_book_cover_teal">#21B8B7</color>
+    <color name="m2_book_cover_purple">#8E72E8</color>
+    <color name="m2_book_cover_gold">#F5B041</color>
+    <color name="m2_book_cover_green">#58B881</color>
+    <color name="m2_book_cover_orange">#F28B50</color>
+    <color name="m2_book_cover_pink">#EC709A</color>
+    <color name="m2_book_cover_sky">#2FA8C4</color>
+
+    <!-- Màu chủ đề tương thích các màn hình mini-game -->
+    <color name="m2_accent_purple">#8E72E8</color>
+    <color name="m2_accent_purple_light">#F2ECFF</color>
+    <color name="m2_accent_orange">#F28B50</color>
+    <color name="m2_accent_orange_light">#FFF2E6</color>
+    <color name="m2_accent_green">#58B881</color>
+    <color name="m2_accent_green_light">#E8F8EE</color>
+    <color name="m2_accent_pink">#FF7F79</color>
+    <color name="m2_accent_pink_light">#FFEAE8</color>
+    <color name="m2_accent_yellow">#FFC857</color>
+    <color name="m2_accent_yellow_light">#FFF6DB</color>
+    <color name="m2_accent_blue">#21B8B7</color>
+    <color name="m2_accent_blue_light">#E3F8F8</color>
+
+    <!-- Trạng thái & Tiến độ -->
+    <color name="m2_progress_track">#EFE4CE</color>
+    <color name="m2_star_gold">#FFC857</color>
+    <color name="m2_badge_ready_bg">#E6F7ED</color>
+    <color name="m2_badge_ready_text">#1E7E48</color>
+    <color name="m2_badge_soon_bg">#FFF3D6</color>
+    <color name="m2_badge_soon_text">#8C5E14</color>
+    <color name="m2_chip_selected_bg">#21B8B7</color>
+    <color name="m2_chip_unselected_bg">#FFFDF8</color>
+    <color name="m2_chip_stroke">#E5D5B8</color>
+    <color name="m2_divider_soft">#EADBC2</color>
+</resources>

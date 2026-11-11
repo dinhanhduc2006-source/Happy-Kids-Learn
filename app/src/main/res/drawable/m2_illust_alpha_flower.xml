@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="140dp"
+    android:viewportWidth="140"
+    android:viewportHeight="140">
+    <!-- Bóng đổ khung tranh 2.5D -->
+    <path
+        android:fillColor="#26383047"
+        android:pathData="M70,14A58,58 0 1,1 70,130A58,58 0 1,1 70,14Z" />
+    <path
+        android:fillColor="#FFE5B4"
+        android:pathData="M70,8A58,58 0 1,1 70,124A58,58 0 1,1 70,8Z" />
+    <!-- Nền vườn hoa hồng phấn -->
+    <path
+        android:fillColor="#FFF0F5"
+        android:pathData="M70,14A52,52 0 1,1 70,118A52,52 0 1,1 70,14Z" />
+    <!-- Thân cây & hai chiếc lá xanh 2.5D -->
+    <path
+        android:strokeColor="#58B881"
+        android:strokeLineCap="round"
+        android:strokeWidth="6"
+        android:pathData="M70,72L70,112" />
+    <path
+        android:fillColor="#58B881"
+        android:pathData="M70,96C54,96 44,86 48,78C58,78 66,86 70,96Z M70,96C86,96 96,86 92,78C82,78 74,86 70,96Z" />
+    <!-- 5 Cánh hoa cắt giấy 2.5D -->
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M70,22A16,16 0 1,1 70,54A16,16 0 1,1 70,22Z M94,40A16,16 0 1,1 94,72A16,16 0 1,1 94,40Z M84,68A16,16 0 1,1 84,100A16,16 0 1,1 84,68Z M56,68A16,16 0 1,1 56,100A16,16 0 1,1 56,68Z M46,40A16,16 0 1,1 46,72A16,16 0 1,1 46,40Z" />
+    <!-- Nhụy hoa vàng nắng 2.5D có khuôn mặt cười -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M70,42A20,20 0 1,1 70,82A20,20 0 1,1 70,42Z" />
+    <path
+        android:fillColor="#383047"
+        android:pathData="M62,56A3.2,3.2 0 1,1 62,62.4A3.2,3.2 0 1,1 62,56Z M78,56A3.2,3.2 0 1,1 78,62.4A3.2,3.2 0 1,1 78,56Z" />
+    <path
+        android:strokeColor="#383047"
+        android:strokeLineCap="round"
+        android:strokeWidth="2.6"
+        android:pathData="M64,66Q70,72 76,66" />
+</vector>

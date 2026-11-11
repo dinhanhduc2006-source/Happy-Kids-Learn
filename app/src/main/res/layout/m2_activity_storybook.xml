@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/m2_storybook_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/m2_bg_screen"
+    android:orientation="vertical"
+    tools:context=".member2.storybook.StorybookActivity">
+
+    <!-- Header 2.5D đồng bộ "Cuốn Sách Kỳ Diệu" -->
+    <include layout="@layout/m2_layout_game_header" />
+
+    <!-- Banner Sao Bông dẫn chuyện Nhà Hát Cổ Tích -->
+    <LinearLayout
+        android:id="@+id/layout_m2_storybook_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/m2_bg_alphabet_garden_banner"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="9dp">
+
+        <ImageView
+            android:id="@+id/iv_m2_storybook_mascot"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/m2_cd_mascot"
+            android:src="@drawable/m2_mascot_saobong_welcome" />
+
+        <TextView
+            android:id="@+id/tv_m2_storybook_banner_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/m2_storybook_library_subtitle"
+            android:textColor="@color/m2_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- MÀN HÌNH 1: THƯ VIỆN TRUYỆN (STORY LIBRARY) -->
+    <ScrollView
+        android:id="@+id/layout_m2_story_library"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="14dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="14dp">
+
+            <LinearLayout
+                android:id="@+id/ll_m2_story_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- MÀN HÌNH 2: ĐỌC TRUYỆN LẬT TRANG (VIEWPAGER2 READER) -->
+    <LinearLayout
+        android:id="@+id/layout_m2_story_reader"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- Thanh thông tin truyện đang đọc & Nút quay lại thư viện -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="14dp">
+
+            <Button
+                android:id="@+id/btn_m2_story_back_library"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/m2_chip_stroke"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:singleLine="true"
+                android:text="@string/m2_storybook_btn_back_library"
+                android:textAllCaps="false"
+                android:textColor="@color/m2_text_primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_m2_story_current_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Tên truyện"
+                android:textColor="@color/m2_text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_m2_story_page_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/m2_bg_star_pill"
+                android:fontFamily="sans-serif-black"
+                android:paddingStart="10dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="Trang 1/5"
+                android:textColor="@color/m2_text_primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- ViewPager2 lật trang truyện -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_m2_story_pages"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1" />
+
+        <!-- Thanh điều khiển Giọng đọc (Đọc/Tạm dừng, Đọc lại) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="14dp">
+
+            <Button
+                android:id="@+id/btn_m2_story_play_pause"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1.35"
+                android:backgroundTint="@color/m2_accent_pink"
+                android:drawableStart="@drawable/m2_ic_speaker"
+                android:drawablePadding="6dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:singleLine="true"
+                android:text="@string/m2_storybook_btn_play"
+                android:textAllCaps="false"
+                android:textColor="@color/m2_text_on_accent"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_m2_story_replay"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/m2_accent_orange"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:singleLine="true"
+                android:text="@string/m2_storybook_btn_replay"
+                android:textAllCaps="false"
+                android:textColor="@color/m2_text_on_accent"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Thanh lật trang Trước / Sau -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/btn_m2_story_prev_page"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/m2_chip_stroke"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:singleLine="true"
+                android:text="@string/m2_storybook_btn_prev_page"
+                android:textAllCaps="false"
+                android:textColor="@color/m2_text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_m2_story_next_page"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/m2_accent_purple"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:singleLine="true"
+                android:text="@string/m2_storybook_btn_next_page"
+                android:textAllCaps="false"
+                android:textColor="@color/m2_text_on_accent"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

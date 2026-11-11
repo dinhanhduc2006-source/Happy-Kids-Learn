@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Bong bóng & Tia chớp phản xạ -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M26,6L12,26h10l-2,16 16,-20H26L26,6z" />
+</vector>
+

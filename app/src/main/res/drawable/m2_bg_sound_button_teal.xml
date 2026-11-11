@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Lớp đế 3D màu xanh ngọc đậm -->
+    <item android:top="2dp">
+        <shape android:shape="oval">
+            <solid android:color="#158887" />
+        </shape>
+    </item>
+    <!-- Lớp mặt chính xanh ngọc -->
+    <item android:bottom="3dp">
+        <shape android:shape="oval">
+            <solid android:color="#21B8B7" />
+            <stroke
+                android:width="2.5dp"
+                android:color="#FFF7E8" />
+        </shape>
+    </item>
+</layer-list>
+

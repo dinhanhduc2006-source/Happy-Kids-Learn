@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Bảng pha màu nghệ thuật -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M24,8C14.6,8 7,15.2 7,24c0,8.8 7.6,16 17,16 2.8,0 5,-2.2 5,-5 0,-1.3 -0.5,-2.4 -1.3,-3.3 -0.7,-0.8 -1.2,-1.8 -1.2,-3 0,-2.5 2,-4.5 4.5,-4.5H34c5,0 9,-4 9,-9C43,14.5 34.5,8 24,8z" />
+    <path
+        android:fillColor="#FF4081"
+        android:pathData="M15,20a3,3 0 1,1 0,0.1z" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M21,14a3,3 0 1,1 0,0.1z" />
+    <path
+        android:fillColor="#7C4DFF"
+        android:pathData="M29,14a3,3 0 1,1 0,0.1z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M15,28a3,3 0 1,1 0,0.1z" />
+</vector>
+

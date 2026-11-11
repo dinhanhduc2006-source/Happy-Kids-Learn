@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <!-- Bóng đổ mềm dưới chân Sao Bông -->
+    <path
+        android:fillColor="#26383047"
+        android:pathData="M26,85a22,5 0,1 0,44 0a22,5 0,1 0,-44 0z" />
+    <!-- Quai và túi ba lô khám phá màu xanh ngọc ở phía sau -->
+    <path
+        android:fillColor="#158F8E"
+        android:pathData="M15,43C15,34 21,29 29,29L36,29L36,63L26,63C19,63 15,57 15,49Z" />
+    <path
+        android:fillColor="#21B8B7"
+        android:pathData="M18,44C18,36 23,32 30,32L35,32L35,60L27,60C21,60 18,55 18,48Z" />
+    <!-- Nắp túi và khóa ba lô vàng -->
+    <path
+        android:fillColor="#4FD1D0"
+        android:pathData="M19,41C19,36 23,33 29,33L34,33L34,44L19,44Z" />
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M23,42h5v5h-5z" />
+    <!-- Lớp nền 3D chiều sâu của ngôi sao Sao Bông -->
+    <path
+        android:fillColor="#E0941B"
+        android:pathData="M51,12L61,31L82,34L66,49L70,70L51,60L32,70L36,49L20,34L41,31Z" />
+    <!-- Thân chính ngôi sao vàng nắng mềm mại -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M50,9L60,28L81,31L65,46L69,67L50,57L31,67L35,46L19,31L40,28Z" />
+    <!-- Lớp highlight ánh sáng ấm mặt trên ngôi sao -->
+    <path
+        android:fillColor="#FFE08A"
+        android:pathData="M50,13L57,28L74,30L61,41L50,37L39,41L26,30L43,28Z" />
+    <!-- Đôi chân nhỏ năng động -->
+    <path
+        android:fillColor="#E0941B"
+        android:pathData="M37,63C35,71 36,78 41,79C45,80 47,74 47,65Z" />
+    <path
+        android:fillColor="#E0941B"
+        android:pathData="M62,63C64,71 63,78 58,79C54,80 52,74 52,65Z" />
+    <!-- Tay phải vẫy chào -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M67,43C74,39 81,34 84,28C86,24 81,21 77,25C73,29 68,35 64,38Z" />
+    <!-- Quai đeo ba lô vắt qua vai trái -->
+    <path
+        android:fillColor="#1A9E9D"
+        android:pathData="M34,30C31,39 32,50 36,57L40,55C37,48 36,39 39,31Z" />
+    <!-- Đôi mắt to tròn lấp lánh -->
+    <path
+        android:fillColor="#383047"
+        android:pathData="M43,39m-4.5,0a4.5,5 0,1 0,9 0a4.5,5 0,1 0,-9 0" />
+    <path
+        android:fillColor="#383047"
+        android:pathData="M58,39m-4.5,0a4.5,5 0,1 0,9 0a4.5,5 0,1 0,-9 0" />
+    <!-- Đốm sáng trong mắt -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M41.5,37.2m-1.7,0a1.7,1.7 0,1 0,3.4 0a1.7,1.7 0,1 0,-3.4 0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M56.5,37.2m-1.7,0a1.7,1.7 0,1 0,3.4 0a1.7,1.7 0,1 0,-3.4 0" />
+    <!-- Đôi má hồng đáng yêu -->
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M36,44.5a3.5,2.2 0,1 0,7 0a3.5,2.2 0,1 0,-7 0" />
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M58,44.5a3.5,2.2 0,1 0,7 0a3.5,2.2 0,1 0,-7 0" />
+    <!-- Miệng cười tươi -->
+    <path
+        android:fillColor="#D94E4E"
+        android:pathData="M46,44C46,49 55,49 55,44Z" />
+    <path
+        android:fillColor="#FF8A84"
+        android:pathData="M48,46.2C49.5,48 51.5,48 53,46.2C51.5,45.5 49.5,45.5 48,46.2Z" />
+    <!-- Bảng tên nhỏ màu kem trên ngực -->
+    <path
+        android:fillColor="#FFF7E8"
+        android:strokeColor="#E0941B"
+        android:strokeWidth="1"
+        android:pathData="M42,51h17c1.5,0 2.5,1 2.5,2.5v3c0,1.5 -1,2.5 -2.5,2.5h-17c-1.5,0 -2.5,-1 -2.5,-2.5v-3c0,-1.5 1,-2.5 2.5,-2.5z" />
+    <!-- Tia sáng vui vẻ quanh đầu -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M73,14L78,10L76,16Z" />
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M24,16m-2.5,0a2.5,2.5 0,1 0,5 0a2.5,2.5 0,1 0,-5 0" />
+</vector>
+

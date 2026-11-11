@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Nền cắt giấy 2.5D -->
+    <path android:fillColor="#C5D8C6" android:pathData="M60,12A50,50 0 1,1 60,112A50,50 0 1,1 60,12Z" />
+    <path android:fillColor="#F0FAF2" android:pathData="M60,8A50,50 0 1,1 60,108A50,50 0 1,1 60,8Z" />
+    <!-- Thảm cỏ xanh -->
+    <path android:fillColor="#81C784" android:pathData="M18,82Q60,70 102,82A48,48 0 0,1 18,82Z" />
+    <!-- Tai thỏ dài 2.5D -->
+    <path android:fillColor="#E0D6CC" android:pathData="M45,14A8,22 0 1,1 45,54A8,22 0 1,1 45,14Z M75,14A8,22 0 1,1 75,54A8,22 0 1,1 75,14Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M45,12A8,21 0 1,1 45,52A8,21 0 1,1 45,12Z M75,12A8,21 0 1,1 75,52A8,21 0 1,1 75,12Z" />
+    <path android:fillColor="#FFCDD2" android:pathData="M45,18A4.5,14 0 1,1 45,46A4.5,14 0 1,1 45,18Z M75,18A4.5,14 0 1,1 75,46A4.5,14 0 1,1 75,18Z" />
+    <!-- Thân thỏ trắng -->
+    <path android:fillColor="#EFEAE4" android:pathData="M40,68C40,56 80,56 80,68L82,88C82,92 38,92 38,88Z" />
+    <!-- Đầu thỏ trắng tròn 2.5D -->
+    <path android:fillColor="#E2DCD5" android:pathData="M60,38A25,22 0 1,1 60,82A25,22 0 1,1 60,38Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M60,35A25,22 0 1,1 60,79A25,22 0 1,1 60,35Z" />
+    <!-- Đôi mắt long lanh -->
+    <path android:fillColor="#2C2538" android:pathData="M48,50A4.2,4.2 0 1,1 48,58.4A4.2,4.2 0 1,1 48,50Z M72,50A4.2,4.2 0 1,1 72,58.4A4.2,4.2 0 1,1 72,50Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M46.5,51.5A1.5,1.5 0 1,1 46.5,54.5A1.5,1.5 0 1,1 46.5,51.5Z M70.5,51.5A1.5,1.5 0 1,1 70.5,54.5A1.5,1.5 0 1,1 70.5,51.5Z" />
+    <!-- Má hồng & mũi hồng -->
+    <path android:fillColor="#FFAB91" android:pathData="M39,60A4.5,2.5 0 1,1 39,65A4.5,2.5 0 1,1 39,60Z M81,60A4.5,2.5 0 1,1 81,65A4.5,2.5 0 1,1 81,60Z" />
+    <path android:fillColor="#FF6B81" android:pathData="M56,59L64,59L60,64Z" />
+    <path android:strokeColor="#6D4C41" android:strokeWidth="2.2" android:strokeLineCap="round" android:pathData="M54,66Q60,70 66,66" />
+    <!-- Củ cà rốt nhỏ thỏ ôm -->
+    <path android:fillColor="#FF7043" android:pathData="M52,78L76,70L60,92Z" />
+    <path android:fillColor="#4CAF50" android:pathData="M74,70L84,64L80,74Z" />
+</vector>

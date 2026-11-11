@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Đế khối gỗ đã đặt vào bàn chế tạo (tông xanh ngọc) -->
+    <item android:top="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#158887" />
+            <corners android:radius="18dp" />
+        </shape>
+    </item>
+    <item android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:endColor="#D6F7F6"
+                android:startColor="#FFFFFF" />
+            <corners android:radius="18dp" />
+            <stroke
+                android:width="2.5dp"
+                android:color="#21B8B7" />
+        </shape>
+    </item>
+</layer-list>

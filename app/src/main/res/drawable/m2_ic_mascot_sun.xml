@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp"
+    android:height="56dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <!-- Tia nắng -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M32,4L36,14L28,14Z M32,60L36,50L28,50Z M4,32L14,36L14,28Z M60,32L50,36L50,28Z M12,12L21,17L17,21Z M52,52L43,47L47,43Z M52,12L47,21L43,17Z M12,52L17,43L21,47Z" />
+    <!-- Khuôn mặt mặt trời -->
+    <path
+        android:fillColor="#FFB300"
+        android:pathData="M32,14A18,18 0 1,1 32,50A18,18 0 1,1 32,14Z" />
+    <!-- Mắt cười -->
+    <path
+        android:fillColor="#263238"
+        android:pathData="M25,27A2.5,2.5 0 1,1 25,32A2.5,2.5 0 1,1 25,27Z M39,27A2.5,2.5 0 1,1 39,32A2.5,2.5 0 1,1 39,27Z" />
+    <!-- Miệng cười -->
+    <path
+        android:strokeColor="#263238"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M25,36 Q32,43 39,36" />
+</vector>
+

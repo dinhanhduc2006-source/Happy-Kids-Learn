@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/m2_home_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/m2_bg_screen"
+    android:orientation="vertical"
+    tools:context=".member2.dashboard.Member2HomeActivity">
+
+    <!-- KHU VỰC A — HEADER: Logo Happy Kid Learn + Nút Âm thanh + Nút Phụ huynh -->
+    <LinearLayout
+        android:id="@+id/m2_home_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="6dp">
+
+        <!-- Logo đám mây giấy: Happy Kid Learn -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/m2_bg_logo_cloud"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/tv_m2_app_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/m2_home_brand_part1"
+                android:textColor="@color/m2_brand_teal_dark"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_m2_app_title_part2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/m2_home_brand_part2"
+                android:textColor="@color/m2_brand_coral"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- Nút Bật/Tắt Âm thanh màu xanh ngọc 3D (>=48dp) -->
+        <ImageButton
+            android:id="@+id/btn_m2_home_sound"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/m2_bg_sound_button_teal"
+            android:contentDescription="@string/m2_cd_btn_sound"
+            android:padding="11dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_sound_on"
+            app:tint="@color/m2_text_on_accent" />
+
+        <!-- Nút Phụ huynh màu hồng san hô 3D có icon + chữ "Phụ huynh" (>=48dp) -->
+        <LinearLayout
+            android:id="@+id/ll_m2_home_parent_container"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/m2_bg_parent_button_coral"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:minWidth="56dp"
+            android:orientation="vertical"
+            android:paddingStart="10dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="6dp">
+
+            <ImageButton
+                android:id="@+id/btn_m2_home_parent"
+                android:layout_width="20dp"
+                android:layout_height="18dp"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:contentDescription="@string/m2_cd_btn_parent"
+                android:focusable="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/m2_ic_parent_people" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/m2_home_parent_btn_label"
+                android:textColor="@color/m2_text_on_accent"
+                android:textSize="9.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- NỘI DUNG CUỘN MƯỢT: Hero Section + Danh mục + Lưới 15 Sách Trò Chơi + Tiếp tục khám phá -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_m2_home_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- KHU VỰC B — HERO SECTION: Cuốn Sách Kỳ Diệu & Linh vật Sao Bông -->
+            <LinearLayout
+                android:id="@+id/ll_m2_summary_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <!-- Dải băng lời chào tím hoa oải hương -->
+                <TextView
+                    android:id="@+id/tv_m2_greeting_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/m2_bg_greeting_ribbon"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:paddingStart="22dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="22dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/m2_home_greeting_title"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <!-- Huy hiệu Ngôi sao & Tiến độ học tập thực tế (Room DB) -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
+                    android:background="@drawable/m2_bg_star_pill"
+                    android:elevation="2dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="6dp">
+
+                    <ImageView
+                        android:id="@+id/iv_m2_hero_star1"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:contentDescription="@string/m2_cd_star_icon"
+                        android:src="@drawable/ic_star_filled" />
+
+                    <ImageView
+                        android:id="@+id/iv_m2_hero_star2"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="2dp"
+                        android:contentDescription="@string/m2_cd_star_icon"
+                        android:src="@drawable/ic_star_filled" />
+
+                    <ImageView
+                        android:id="@+id/iv_m2_hero_star3"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="2dp"
+                        android:contentDescription="@string/m2_cd_star_icon"
+                        android:src="@drawable/ic_star_empty" />
+
+                    <TextView
+                        android:id="@+id/tv_m2_total_completed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="0 bài đã học"
+                        android:textColor="@color/m2_text_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:text="•"
+                        android:textColor="@color/m2_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_m2_total_stars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:text="0 sao thưởng"
+                        android:textColor="@color/m2_text_book_title"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Khung cảnh Cuốn Sách Kỳ Diệu 2.5D bật mở cùng Linh vật Sao Bông -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_m2_hero_scene"
+                    android:layout_width="match_parent"
+                    android:layout_height="156dp"
+                    android:layout_marginTop="6dp"
+                    app:cardBackgroundColor="@color/m2_bg_cream_paper"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="4dp"
+                    app:strokeColor="#E8D6B5"
+                    app:strokeWidth="2dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/iv_m2_hero_popup_book"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/m2_cd_hero_scene"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/m2_illust_hero_popup_book" />
+
+                        <!-- Huy hiệu Linh vật Sao Bông có hoạt ảnh thở nhẹ ở góc dưới phải -->
+                        <LinearLayout
+                            android:id="@+id/ll_m2_mascot_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/m2_bg_logo_cloud"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="6dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="4dp">
+
+                            <ImageView
+                                android:id="@+id/iv_m2_mascot"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:contentDescription="@string/m2_cd_mascot"
+                                android:src="@drawable/m2_mascot_saobong_welcome" />
+
+                            <TextView
+                                android:id="@+id/tv_m2_mascot_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="sans-serif-black"
+                                android:text="Sao Bông"
+                                android:textColor="@color/m2_text_primary"
+                                android:textSize="11.5sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Nút CTA lớn: "Khám phá ngay ▶" có viền khâu chỉ -->
+                <LinearLayout
+                    android:id="@+id/btn_m2_hero_explore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="-12dp"
+                    android:background="@drawable/m2_bg_cta_explore"
+                    android:clickable="true"
+                    android:elevation="6dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:minWidth="230dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="28dp"
+                    android:paddingEnd="24dp">
+
+                    <TextView
+                        android:id="@+id/tv_m2_hero_explore_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:text="@string/m2_home_hero_cta_explore"
+                        android:textColor="@color/m2_text_on_accent"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="8dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/m2_ic_play_triangle" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- KHU VỰC C — DANH MỤC HỌC TẬP (Có icon & ngôn ngữ màu sắc riêng) -->
+            <HorizontalScrollView
+                android:id="@+id/hsv_m2_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clipToPadding="false"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_m2_category_chips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="4dp" />
+            </HorizontalScrollView>
+
+            <!-- KHU VỰC E — TIẾP TỤC KHÁM PHÁ (Hiển thị bài đang học thực tế hoặc gợi ý khởi đầu của Sao Bông) -->
+            <LinearLayout
+                android:id="@+id/ll_m2_continue_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/m2_bg_continue_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/iv_m2_continue_mascot"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:contentDescription="@string/m2_cd_mascot"
+                    android:src="@drawable/m2_mascot_saobong_hint" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_m2_continue_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:text="@string/m2_home_continue_header_starter"
+                        android:textColor="@color/m2_text_primary"
+                        android:textSize="13.5sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_m2_continue_subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@string/m2_home_greeting_subtitle"
+                        android:textColor="@color/m2_text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btn_m2_continue_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/m2_bg_sound_button_teal"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="@string/m2_home_continue_btn_starter"
+                    android:textColor="@color/m2_text_on_accent"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- KHU VỰC D — DANH SÁCH 15 TRÒ CHƠI DẠNG BÌA SÁCH 3D -->
+            <FrameLayout
+                android:id="@+id/fl_m2_games_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_m2_games"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:scrollbars="none" />
+
+                <!-- Empty State khi bộ lọc không có kết quả -->
+                <LinearLayout
+                    android:id="@+id/layout_m2_empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/m2_space_xl"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:contentDescription="@string/m2_cd_empty_illustration"
+                        android:src="@drawable/m2_mascot_saobong_hint" />
+
+                    <TextView
+                        style="@style/M2TextTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/m2_space_md"
+                        android:gravity="center"
+                        android:text="@string/m2_home_empty_title" />
+
+                    <TextView
+                        style="@style/M2TextBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/m2_space_xs"
+                        android:gravity="center"
+                        android:text="@string/m2_home_empty_subtitle" />
+
+                    <Button
+                        android:id="@+id/btn_m2_empty_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/m2_touch_target_min"
+                        android:layout_marginTop="@dimen/m2_space_md"
+                        android:backgroundTint="@color/m2_brand_teal"
+                        android:text="@string/m2_home_empty_action"
+                        android:textAllCaps="false"
+                        android:textColor="@color/m2_text_on_accent"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
