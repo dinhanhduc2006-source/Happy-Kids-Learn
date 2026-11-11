@@ -26,8 +26,11 @@ import com.example.happykidlearn.member2.common.Member2ContentCatalog;
 import com.example.happykidlearn.member2.common.Member2ProgressRepository;
 import com.example.happykidlearn.member2.common.Member2SoundEffects;
 import com.example.happykidlearn.member2.common.Member2VoiceFeedback;
+import com.example.happykidlearn.member2.common.Member2VoiceManager;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +40,7 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
     private static final String STATE_IN_READER = "state_story_in_reader";
     private static final String STATE_STORY_INDEX = "state_story_index";
     private static final String STATE_PAGE_INDEX = "state_story_page_index";
+    private static final String STATE_WELCOME_PLAYED = "state_story_welcome_played";
 
     private ImageView ivMascot;
     private TextView tvBannerText;
@@ -59,11 +63,15 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
     private NarrationController narrationController;
     private StoryPageAdapter pageAdapter;
     private Member2VoiceFeedback voiceFeedback;
+    private Member2VoiceManager voiceManager;
 
     private final Set<String> completedStoryIds = new HashSet<>();
     private boolean isInReaderMode = false;
     private int currentStoryIndex = 0;
     private int currentPageIndex = 0;
+    private boolean hasPlayedWelcomeGreeting = false;
+    private boolean suppressPageSelectedAutoNarrate = false;
+    private boolean hasGuidedPageTurnInCurrentStory = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,13 +87,14 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         narrationController = new NarrationController(this);
         narrationController.setListener(this);
         voiceFeedback = new Member2VoiceFeedback(this);
+        voiceManager = new Member2VoiceManager(this);
 
         initViews();
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (isInReaderMode) {
-                    showLibraryScreen();
+                    showLibraryScreen(true);
                 } else {
                     setEnabled(false);
                     getOnBackPressedDispatcher().onBackPressed();
@@ -97,13 +106,14 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
             isInReaderMode = savedInstanceState.getBoolean(STATE_IN_READER, false);
             currentStoryIndex = savedInstanceState.getInt(STATE_STORY_INDEX, 0);
             currentPageIndex = savedInstanceState.getInt(STATE_PAGE_INDEX, 0);
+            hasPlayedWelcomeGreeting = savedInstanceState.getBoolean(STATE_WELCOME_PLAYED, false);
         }
 
         renderStoryLibraryCards();
         if (isInReaderMode) {
-            openStoryAtPage(currentStoryIndex, currentPageIndex);
+            openStoryAtPage(currentStoryIndex, currentPageIndex, false);
         } else {
-            showLibraryScreen();
+            showLibraryScreen(false);
         }
 
         loadSavedProgress();
@@ -137,9 +147,44 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         btnPrevPage = findViewById(R.id.btn_m2_story_prev_page);
         btnNextPage = findViewById(R.id.btn_m2_story_next_page);
 
-        btnBackLibrary.setOnClickListener(v -> showLibraryScreen());
+        View btnBannerVoiceReplay = findViewById(R.id.btn_m2_voice_replay);
+        TextView tvGuidanceToggle = findViewById(R.id.tv_m2_voice_guidance_toggle);
+        if (voiceManager != null) {
+            voiceManager.bindViews(ivMascot, btnBannerVoiceReplay, tvGuidanceToggle);
+        }
+        View.OnClickListener smartReplayListener = v -> {
+            Member2SoundEffects.playTap(this);
+            if (voiceManager != null) {
+                voiceManager.onUserInteraction();
+            }
+            if (soundManager != null && soundManager.isSfxMuted()) {
+                Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (isInReaderMode) {
+                if (voiceManager != null) {
+                    voiceManager.stop();
+                }
+                StoryPage page = getCurrentPage();
+                narrationController.startFromBeginning(currentPageIndex, page.getPageText());
+            } else if (voiceManager != null) {
+                voiceManager.replayCurrentInstruction();
+            }
+        };
+        if (btnBannerVoiceReplay != null) {
+            btnBannerVoiceReplay.setOnClickListener(smartReplayListener);
+        }
+        if (ivMascot != null) {
+            ivMascot.setOnClickListener(smartReplayListener);
+        }
+
+        btnBackLibrary.setOnClickListener(v -> showLibraryScreen(true));
 
         btnPlayPause.setOnClickListener(v -> {
+            if (voiceManager != null) {
+                voiceManager.onUserInteraction();
+                voiceManager.stop();
+            }
             Member2SoundEffects.playTap(this);
             if (soundManager != null && soundManager.isSfxMuted()) {
                 Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
@@ -150,6 +195,10 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         });
 
         btnReplay.setOnClickListener(v -> {
+            if (voiceManager != null) {
+                voiceManager.onUserInteraction();
+                voiceManager.stop();
+            }
             Member2SoundEffects.playTap(this);
             if (soundManager != null && soundManager.isSfxMuted()) {
                 Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
@@ -190,8 +239,18 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
                 super.onPageSelected(position);
                 // Dừng ngay phát âm của trang trước để không bao giờ phát chồng tiếng
                 narrationController.stop();
+                if (voiceManager != null) {
+                    voiceManager.stop();
+                    voiceManager.onUserInteraction();
+                }
                 currentPageIndex = position;
                 updateReaderPageControls();
+                if (!suppressPageSelectedAutoNarrate && isInReaderMode) {
+                    if (soundManager == null || !soundManager.isSfxMuted()) {
+                        StoryPage page = getCurrentPage();
+                        narrationController.startFromBeginning(currentPageIndex, page.getPageText());
+                    }
+                }
             }
         });
     }
@@ -298,15 +357,24 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
 
             card.setOnClickListener(v -> {
                 Member2SoundEffects.playOpenBook(this);
-                openStoryAtPage(storyIdx, 0);
+                openStoryAtPage(storyIdx, 0, true);
             });
             llStoryList.addView(card);
         }
     }
 
     private void showLibraryScreen() {
-        Member2SoundEffects.playTap(this);
+        showLibraryScreen(true);
+    }
+
+    private void showLibraryScreen(boolean fromUserBackAction) {
+        if (fromUserBackAction) {
+            Member2SoundEffects.playTap(this);
+        }
         narrationController.stop();
+        if (voiceManager != null) {
+            voiceManager.stop();
+        }
         isInReaderMode = false;
         layoutLibrary.setVisibility(View.VISIBLE);
         layoutReader.setVisibility(View.GONE);
@@ -317,11 +385,61 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
             tvBannerText.setText(R.string.m2_storybook_library_subtitle);
         }
         renderStoryLibraryCards();
+
+        if (voiceManager != null) {
+            View firstStoryCard = llStoryList.getChildCount() > 0 ? llStoryList.getChildAt(0) : null;
+            List<Member2VoiceManager.VoiceStep> libInstruction = Arrays.asList(
+                    new Member2VoiceManager.VoiceStep(
+                            Member2VoiceManager.STORYBOOK_GREETING_1,
+                            Member2VoiceManager.LOCALE_VI,
+                            0L,
+                            "story_greeting_1",
+                            null
+                    ),
+                    new Member2VoiceManager.VoiceStep(
+                            Member2VoiceManager.STORYBOOK_LIBRARY_GUIDE,
+                            Member2VoiceManager.LOCALE_VI,
+                            260L,
+                            "story_greeting_2",
+                            () -> Member2VoiceManager.highlightTargetView(firstStoryCard)
+                    )
+            );
+            voiceManager.setCurrentInstruction(libInstruction);
+            voiceManager.startNewTurn();
+            if (!hasPlayedWelcomeGreeting) {
+                hasPlayedWelcomeGreeting = true;
+                voiceManager.speakSequence(
+                        libInstruction,
+                        Member2VoiceManager.Priority.GREETING_AND_IDLE,
+                        false,
+                        null
+                );
+            } else if (fromUserBackAction) {
+                voiceManager.onUserInteraction();
+                voiceManager.speakSequence(
+                        Collections.singletonList(new Member2VoiceManager.VoiceStep(
+                                Member2VoiceManager.STORYBOOK_LIBRARY_GUIDE,
+                                Member2VoiceManager.LOCALE_VI,
+                                0L,
+                                "story_greeting_2",
+                                () -> Member2VoiceManager.highlightTargetView(firstStoryCard)
+                        )),
+                        Member2VoiceManager.Priority.ACTION_INSTRUCTION,
+                        false,
+                        null
+                );
+            }
+        }
     }
 
-    private void openStoryAtPage(int storyIndex, int pageIndex) {
+    private void openStoryAtPage(int storyIndex, int pageIndex, boolean autoIntroduceAndNarrate) {
         narrationController.stop();
+        if (voiceManager != null) {
+            voiceManager.stop();
+            voiceManager.onUserInteraction();
+        }
         isInReaderMode = true;
+        hasGuidedPageTurnInCurrentStory = false;
         currentStoryIndex = Math.max(0, Math.min(storyIndex, stories.size() - 1));
         StoryContent.StoryBook story = stories.get(currentStoryIndex);
         currentPageIndex = Math.max(0, Math.min(pageIndex, story.getPages().size() - 1));
@@ -333,6 +451,10 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         pageAdapter = new StoryPageAdapter(
                 story,
                 (pIdx, page) -> {
+                    if (voiceManager != null) {
+                        voiceManager.onUserInteraction();
+                        voiceManager.stop();
+                    }
                     if (soundManager != null && soundManager.isSfxMuted()) {
                         Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
                         return;
@@ -340,6 +462,10 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
                     narrationController.startFromBeginning(pIdx, page.getPageText());
                 },
                 isCorrect -> {
+                    if (voiceManager != null) {
+                        voiceManager.onUserInteraction();
+                        voiceManager.stop();
+                    }
                     if (voiceFeedback != null) {
                         if (isCorrect) {
                             voiceFeedback.speakCorrect();
@@ -349,9 +475,41 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
                     }
                 }
         );
+        suppressPageSelectedAutoNarrate = true;
         vpPages.setAdapter(pageAdapter);
         vpPages.setCurrentItem(currentPageIndex, false);
+        vpPages.post(() -> suppressPageSelectedAutoNarrate = false);
         updateReaderPageControls();
+
+        if (autoIntroduceAndNarrate && (soundManager == null || !soundManager.isSfxMuted())) {
+            final int openedStoryIdx = currentStoryIndex;
+            final int openedPageIdx = currentPageIndex;
+            if (voiceManager != null) {
+                voiceManager.speakSequence(
+                        Collections.singletonList(new Member2VoiceManager.VoiceStep(
+                                Member2VoiceManager.STORYBOOK_OPEN_STORY_GUIDE,
+                                Member2VoiceManager.LOCALE_VI,
+                                0L,
+                                "story_select_intro",
+                                () -> Member2VoiceManager.highlightTargetView(vpPages)
+                        )),
+                        Member2VoiceManager.Priority.ACTION_INSTRUCTION,
+                        false,
+                        () -> {
+                            if (isInReaderMode
+                                    && currentStoryIndex == openedStoryIdx
+                                    && currentPageIndex == openedPageIdx
+                                    && (soundManager == null || !soundManager.isSfxMuted())) {
+                                StoryPage page = getCurrentPage();
+                                narrationController.startFromBeginning(currentPageIndex, page.getPageText());
+                            }
+                        }
+                );
+            } else {
+                StoryPage page = getCurrentPage();
+                narrationController.startFromBeginning(currentPageIndex, page.getPageText());
+            }
+        }
     }
 
     private StoryPage getCurrentPage() {
@@ -390,12 +548,32 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
                 tvBannerText.setText("📖 " + story.getTitle() + " (Trang " + (currentPageIndex + 1) + "/" + totalPages + ") • Bấm loa để nghe kể chuyện!");
             }
         }
+
+        if (voiceManager != null) {
+            StoryPage page = getCurrentPage();
+            voiceManager.setCurrentInstructionVietnamese(page.getPageText());
+        }
     }
 
     private void completeCurrentStory(StoryContent.StoryBook story) {
         narrationController.stop();
+        if (voiceManager != null) {
+            voiceManager.stop();
+            voiceManager.onUserInteraction();
+        }
         Member2SoundEffects.playCelebrate(this);
-        if (voiceFeedback != null) {
+        if (voiceManager != null) {
+            voiceManager.speakFeedbackSteps(
+                    Collections.singletonList(new Member2VoiceManager.VoiceStep(
+                            Member2VoiceManager.STORYBOOK_END_STORY,
+                            Member2VoiceManager.LOCALE_VI,
+                            0L,
+                            "story_end_question",
+                            null
+                    )),
+                    null
+            );
+        } else if (voiceFeedback != null) {
             voiceFeedback.speakCompletionNow();
         }
         completedStoryIds.add(story.getId());
@@ -465,8 +643,57 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         if (pageAdapter != null) {
             pageAdapter.updateHighlight(pageIndex, -1, -1);
         }
-        if (tvBannerText != null) {
-            tvBannerText.setText("✨ Sao Bông đã đọc xong trang này! Bé lật sang trang tiếp nhé!");
+        StoryContent.StoryBook story = stories.get(currentStoryIndex);
+        boolean isLastPage = (pageIndex == story.getPages().size() - 1);
+        if (isLastPage) {
+            if (tvBannerText != null) {
+                tvBannerText.setText("🌟 Câu chuyện kết thúc rồi! Bé hãy nghe câu đố của Sao Bông nhé!");
+            }
+            if (voiceManager != null && (soundManager == null || !soundManager.isSfxMuted())) {
+                voiceManager.speakSequence(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.STORYBOOK_END_STORY,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        220L,
+                                        "story_end_question",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        story.getMiniQuestion(),
+                                        Member2VoiceManager.LOCALE_VI,
+                                        320L,
+                                        "story_quiz_" + story.getId(),
+                                        null
+                                )
+                        ),
+                        Member2VoiceManager.Priority.ACTION_INSTRUCTION,
+                        false,
+                        null
+                );
+            }
+        } else {
+            if (tvBannerText != null) {
+                tvBannerText.setText("✨ Sao Bông đã đọc xong trang này! Bé chạm mũi tên bên phải để sang trang tiếp nhé!");
+            }
+            Member2VoiceManager.highlightTargetView(btnNextPage);
+            if (!hasGuidedPageTurnInCurrentStory
+                    && voiceManager != null
+                    && (soundManager == null || !soundManager.isSfxMuted())) {
+                hasGuidedPageTurnInCurrentStory = true;
+                voiceManager.speakSequence(
+                        Collections.singletonList(new Member2VoiceManager.VoiceStep(
+                                Member2VoiceManager.STORYBOOK_NEXT_PAGE_ARROW_GUIDE,
+                                Member2VoiceManager.LOCALE_VI,
+                                320L,
+                                "story_next_page_arrow_guide",
+                                () -> Member2VoiceManager.highlightTargetView(btnNextPage)
+                        )),
+                        Member2VoiceManager.Priority.ACTION_INSTRUCTION,
+                        false,
+                        null
+                );
+            }
         }
     }
 
@@ -486,6 +713,9 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
             if (voiceFeedback != null) {
                 voiceFeedback.stop();
             }
+            if (voiceManager != null) {
+                voiceManager.stop();
+            }
         } else {
             Member2SoundEffects.applyMiniGameBgmLevel(this);
         }
@@ -500,12 +730,16 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         outState.putBoolean(STATE_IN_READER, isInReaderMode);
         outState.putInt(STATE_STORY_INDEX, currentStoryIndex);
         outState.putInt(STATE_PAGE_INDEX, currentPageIndex);
+        outState.putBoolean(STATE_WELCOME_PLAYED, hasPlayedWelcomeGreeting);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Member2SoundEffects.applyMiniGameBgmLevel(this);
+        if (voiceManager != null) {
+            voiceManager.onResume();
+        }
     }
 
     @Override
@@ -516,6 +750,9 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         if (voiceFeedback != null) {
             voiceFeedback.stop();
         }
+        if (voiceManager != null) {
+            voiceManager.onPause();
+        }
         super.onPause();
     }
 
@@ -523,6 +760,9 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
     protected void onStop() {
         if (voiceFeedback != null) {
             voiceFeedback.stop();
+        }
+        if (voiceManager != null) {
+            voiceManager.onStop();
         }
         super.onStop();
     }
@@ -534,6 +774,9 @@ public class StorybookActivity extends BaseGameActivity implements NarrationCont
         }
         if (voiceFeedback != null) {
             voiceFeedback.release();
+        }
+        if (voiceManager != null) {
+            voiceManager.release();
         }
         super.onDestroy();
     }

@@ -129,4 +129,11 @@
     <string name="m2_storybook_btn_next_page">Trang tiếp ▶</string>
     <string name="m2_storybook_btn_finish_story">Góc bài học ★</string>
     <string name="m2_storybook_moral_prefix">🌟 Bài học từ Sao Bông: %1$s</string>
+
+    <!-- Trợ lý giọng nói Sao Bông (Voice Guidance Assistant) -->
+    <string name="m2_cd_btn_voice_replay">Nghe lại hướng dẫn của Sao Bông</string>
+    <string name="m2_voice_guidance_badge_on">🎙️ HD: Bật</string>
+    <string name="m2_voice_guidance_badge_off">🎙️ HD: Tắt</string>
+    <string name="m2_toast_voice_guidance_on">Đã bật giọng nói hướng dẫn của Sao Bông</string>
+    <string name="m2_toast_voice_guidance_off">Đã tắt giọng nói hướng dẫn tự động (vẫn đọc chữ &amp; từ vựng)</string>
 </resources>

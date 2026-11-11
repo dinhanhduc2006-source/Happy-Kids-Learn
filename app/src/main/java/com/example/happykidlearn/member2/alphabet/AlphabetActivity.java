@@ -28,7 +28,9 @@ import com.example.happykidlearn.member2.common.Member2ProgressRepository;
 import com.example.happykidlearn.member2.common.Member2SoundEffects;
 import com.example.happykidlearn.member2.common.Member2SpeechHelper;
 import com.example.happykidlearn.member2.common.Member2VoiceFeedback;
+import com.example.happykidlearn.member2.common.Member2VoiceManager;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +42,7 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
     private static final String STATE_IS_CHALLENGE_MODE = "state_alpha_is_challenge_mode";
     private static final String STATE_CHALLENGE_TARGET = "state_alpha_challenge_target";
     private static final String STATE_CHALLENGE_SEED = "state_alpha_challenge_seed";
+    private static final String STATE_WELCOME_PLAYED = "state_alpha_welcome_played";
 
     private ImageView ivMascot;
     private TextView tvInstruction;
@@ -67,6 +70,7 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
     private Member2ProgressRepository progressRepository;
     private Member2SpeechHelper speechHelper;
     private Member2VoiceFeedback voiceFeedback;
+    private Member2VoiceManager voiceManager;
 
     private final Set<String> learnedUpperLetters = new HashSet<>();
     private int currentCardIndex = 0;
@@ -76,6 +80,8 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
     private List<AlphabetContent.AlphabetCardItem> currentChallengeChoices = Collections.emptyList();
     private boolean challengeAnsweredCorrectly = false;
     private boolean suppressPageTurnSound = true;
+    private boolean hasPlayedWelcomeGreeting = false;
+    private boolean announceChallengeModeIntroNext = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +96,7 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
             isChallengeMode = savedInstanceState.getBoolean(STATE_IS_CHALLENGE_MODE, false);
             challengeTargetIndex = savedInstanceState.getInt(STATE_CHALLENGE_TARGET, currentCardIndex);
             challengeSeed = savedInstanceState.getLong(STATE_CHALLENGE_SEED, 3001L);
+            hasPlayedWelcomeGreeting = savedInstanceState.getBoolean(STATE_WELCOME_PLAYED, false);
         }
 
         cards = AlphabetContent.getAllCards();
@@ -103,12 +110,14 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
             }
         });
         voiceFeedback = new Member2VoiceFeedback(this);
+        voiceManager = new Member2VoiceManager(this);
 
         initViews();
         buildLetterSelectorStrip();
         setupViewPager();
         updateModeUi(false);
         loadSavedProgress();
+        playInitialGreetingIfNeeded();
     }
 
     private void applyWindowInsets() {
@@ -144,6 +153,14 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
         tvChallengeFeedback = findViewById(R.id.tv_m2_alpha_challenge_feedback);
         btnChallengeNext = findViewById(R.id.btn_m2_alpha_challenge_next);
 
+        if (voiceManager != null) {
+            voiceManager.bindViews(
+                    ivMascot,
+                    findViewById(R.id.btn_m2_voice_replay),
+                    findViewById(R.id.tv_m2_voice_guidance_toggle)
+            );
+        }
+
         btnModeLearn.setOnClickListener(v -> {
             if (isChallengeMode) {
                 Member2SoundEffects.playTap(this);
@@ -158,6 +175,7 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
                 isChallengeMode = true;
                 challengeTargetIndex = currentCardIndex;
                 challengeSeed = 3001L + currentCardIndex * 37L;
+                announceChallengeModeIntroNext = true;
                 updateModeUi(true);
             }
         });
@@ -243,12 +261,110 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
                 AlphabetContent.AlphabetCardItem item = cards.get(position);
                 tvInstruction.setText("Chữ " + item.getUpperLetter() + " (" + item.getExampleWord()
                         + ") • Chạm chữ nghe âm hoặc bấm Lật thẻ nhé!");
+                updateLearnModeInstructionForCard(item);
+                if (!suppressPageTurnSound && !isChallengeMode && voiceManager != null) {
+                    voiceManager.onUserInteraction();
+                    String letterIntro = Member2VoiceManager.buildAlphabetLetterIntro(
+                            item.getUpperLetter(),
+                            item.getSpokenShortSound()
+                    );
+                    voiceManager.speakVietnameseGuidance(
+                            letterIntro,
+                            Member2VoiceManager.Priority.ACTION_INSTRUCTION
+                    );
+                    voiceManager.startNewTurn();
+                }
             }
         });
 
         vpCards.setCurrentItem(currentCardIndex, false);
         updateNavigationButtons(currentCardIndex);
         vpCards.post(() -> suppressPageTurnSound = false);
+    }
+
+    private void playInitialGreetingIfNeeded() {
+        AlphabetContent.AlphabetCardItem item = cards.get(currentCardIndex);
+        updateLearnModeInstructionForCard(item);
+        if (voiceManager == null) {
+            return;
+        }
+        voiceManager.startNewTurn();
+        if (hasPlayedWelcomeGreeting || isChallengeMode) {
+            return;
+        }
+        hasPlayedWelcomeGreeting = true;
+        String letterIntro = Member2VoiceManager.buildAlphabetLetterIntro(
+                item.getUpperLetter(),
+                item.getSpokenShortSound()
+        );
+        voiceManager.speakSequence(
+                Arrays.asList(
+                        new Member2VoiceManager.VoiceStep(
+                                Member2VoiceManager.ALPHABET_GREETING_1,
+                                Member2VoiceManager.LOCALE_VI,
+                                0L,
+                                "alpha_greeting_1",
+                                null
+                        ),
+                        new Member2VoiceManager.VoiceStep(
+                                Member2VoiceManager.ALPHABET_LEARN_SCREEN_GUIDE,
+                                Member2VoiceManager.LOCALE_VI,
+                                260L,
+                                "alpha_greeting_2",
+                                () -> Member2VoiceManager.highlightTargetView(llSelector)
+                        ),
+                        new Member2VoiceManager.VoiceStep(
+                                Member2VoiceManager.ALPHABET_CARD_TAP_GUIDE,
+                                Member2VoiceManager.LOCALE_VI,
+                                260L,
+                                "alpha_card_tap_guide",
+                                () -> Member2VoiceManager.highlightTargetView(vpCards)
+                        ),
+                        new Member2VoiceManager.VoiceStep(
+                                letterIntro,
+                                Member2VoiceManager.LOCALE_VI,
+                                320L,
+                                "alpha_intro_" + item.getIndex(),
+                                null
+                        )
+                ),
+                Member2VoiceManager.Priority.GREETING_AND_IDLE,
+                false,
+                null
+        );
+    }
+
+    private void updateLearnModeInstructionForCard(@NonNull AlphabetContent.AlphabetCardItem item) {
+        if (voiceManager == null) {
+            return;
+        }
+        String letterIntro = Member2VoiceManager.buildAlphabetLetterIntro(
+                item.getUpperLetter(),
+                item.getSpokenShortSound()
+        );
+        voiceManager.setCurrentInstruction(Arrays.asList(
+                new Member2VoiceManager.VoiceStep(
+                        letterIntro,
+                        Member2VoiceManager.LOCALE_VI,
+                        0L,
+                        "alpha_intro_" + item.getIndex(),
+                        () -> Member2VoiceManager.highlightTargetView(vpCards)
+                ),
+                new Member2VoiceManager.VoiceStep(
+                        Member2VoiceManager.ALPHABET_ILLUSTRATION_GUIDE,
+                        Member2VoiceManager.LOCALE_VI,
+                        260L,
+                        "alpha_illust_guide",
+                        null
+                ),
+                new Member2VoiceManager.VoiceStep(
+                        Member2VoiceManager.ALPHABET_FLASHCARD_FLIP_GUIDE,
+                        Member2VoiceManager.LOCALE_VI,
+                        280L,
+                        "alpha_flashcard_prompt",
+                        null
+                )
+        ));
     }
 
     private void updateModeUi(boolean autoSpeakChallenge) {
@@ -279,6 +395,19 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
             btnModeChallenge.setTextColor(ContextCompat.getColor(this, R.color.m2_text_primary));
             ivMascot.setImageResource(R.drawable.m2_mascot_saobong_welcome);
             tvInstruction.setText(R.string.m2_alphabet_instruction);
+            AlphabetContent.AlphabetCardItem item = cards.get(currentCardIndex);
+            updateLearnModeInstructionForCard(item);
+            if (autoSpeakChallenge && voiceManager != null) {
+                voiceManager.onUserInteraction();
+                voiceManager.speakVietnameseGuidance(
+                        Member2VoiceManager.buildAlphabetLetterIntro(
+                                item.getUpperLetter(),
+                                item.getSpokenShortSound()
+                        ),
+                        Member2VoiceManager.Priority.ACTION_INSTRUCTION
+                );
+                voiceManager.startNewTurn();
+            }
         }
     }
 
@@ -300,6 +429,25 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
         }
 
         tvChallengeFeedback.setText("🔊 Đố bé chữ nào phát âm là \"" + targetItem.getSpokenLetterName() + "\"?");
+        if (voiceManager != null) {
+            voiceManager.setCurrentInstruction(Arrays.asList(
+                    new Member2VoiceManager.VoiceStep(
+                            Member2VoiceManager.ALPHABET_CHALLENGE_PROMPT,
+                            Member2VoiceManager.LOCALE_VI,
+                            0L,
+                            "alpha_challenge_prompt",
+                            null
+                    ),
+                    new Member2VoiceManager.VoiceStep(
+                            targetItem.getSpokenLetterName(),
+                            Member2VoiceManager.LOCALE_VI,
+                            280L,
+                            "alpha_letter_" + targetItem.getIndex(),
+                            null
+                    )
+            ));
+            voiceManager.startNewTurn();
+        }
         if (autoSpeak) {
             speakCurrentChallengePrompt();
         }
@@ -309,6 +457,70 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
         AlphabetContent.AlphabetCardItem targetItem = cards.get(challengeTargetIndex);
         if (soundManager != null && soundManager.isSfxMuted()) {
             Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+            if (announceChallengeModeIntroNext) {
+                announceChallengeModeIntroNext = false;
+                voiceManager.speakSequence(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ALPHABET_CHALLENGE_INTRO,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "alpha_challenge_intro",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ALPHABET_CHALLENGE_PROMPT,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        260L,
+                                        "alpha_challenge_prompt",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        targetItem.getSpokenLetterName(),
+                                        Member2VoiceManager.LOCALE_VI,
+                                        300L,
+                                        "alpha_letter_" + targetItem.getIndex(),
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ALPHABET_REPLAY_SPEAKER_GUIDE,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        280L,
+                                        "alpha_replay_speaker_guide",
+                                        () -> Member2VoiceManager.highlightTargetView(btnChallengeReplay)
+                                )
+                        ),
+                        Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                        true,
+                        null
+                );
+            } else {
+                voiceManager.speakSequence(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ALPHABET_CHALLENGE_PROMPT,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "alpha_challenge_prompt",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        targetItem.getSpokenLetterName(),
+                                        Member2VoiceManager.LOCALE_VI,
+                                        280L,
+                                        "alpha_letter_" + targetItem.getIndex(),
+                                        null
+                                )
+                        ),
+                        Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                        true,
+                        null
+                );
+            }
             return;
         }
         speechHelper.speak(
@@ -321,6 +533,9 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
     private void onChallengeChoiceSelected(int choiceIdx) {
         if (choiceIdx < 0 || choiceIdx >= currentChallengeChoices.size()) {
             return;
+        }
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
         }
         AlphabetContent.AlphabetCardItem chosen = currentChallengeChoices.get(choiceIdx);
         AlphabetContent.AlphabetCardItem target = cards.get(challengeTargetIndex);
@@ -340,7 +555,27 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
                     target.getSpokenLetterName(),
                     target.getExampleWord()
             ));
-            if (voiceFeedback != null) {
+            if (voiceManager != null) {
+                voiceManager.speakFeedbackSteps(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ALPHABET_CHALLENGE_CORRECT,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "alpha_challenge_correct",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        target.getSpokenLetterName() + ". " + target.getExampleWord(),
+                                        Member2VoiceManager.LOCALE_VI,
+                                        260L,
+                                        "alpha_both_" + target.getIndex(),
+                                        null
+                                )
+                        ),
+                        null
+                );
+            } else if (voiceFeedback != null) {
                 voiceFeedback.speakTextThenCorrect(
                         target.getSpokenLetterName() + ". " + target.getExampleWord(),
                         Member2SpeechHelper.LOCALE_VIETNAMESE
@@ -354,7 +589,27 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
             ));
             ivMascot.setImageResource(R.drawable.m2_mascot_saobong_hint);
             tvChallengeFeedback.setText(R.string.m2_alphabet_challenge_wrong_format);
-            if (voiceFeedback != null) {
+            if (voiceManager != null) {
+                voiceManager.speakFeedbackSteps(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ALPHABET_CHALLENGE_WRONG,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "alpha_challenge_wrong",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ALPHABET_REPLAY_SPEAKER_GUIDE,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        260L,
+                                        "alpha_replay_speaker_guide",
+                                        () -> Member2VoiceManager.highlightTargetView(btnChallengeReplay)
+                                )
+                        ),
+                        null
+                );
+            } else if (voiceFeedback != null) {
                 voiceFeedback.speakWrong();
             }
             if (areAnimationsEnabled()) {
@@ -473,10 +728,15 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
 
     @Override
     public void onSpeakLetterClicked(AlphabetContent.AlphabetCardItem item) {
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+        }
         ivMascot.setImageResource(R.drawable.m2_mascot_saobong_happy);
         tvInstruction.setText("Sao Bông phát âm: \"" + item.getSpokenLetterName() + "\"");
         if (soundManager != null && soundManager.isSfxMuted()) {
             Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+        } else if (voiceManager != null) {
+            voiceManager.speakKnowledgeVietnamese(item.getSpokenLetterName());
         } else {
             speechHelper.speak(
                     item.getSpokenLetterName(),
@@ -489,10 +749,15 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
 
     @Override
     public void onSpeakWordClicked(AlphabetContent.AlphabetCardItem item) {
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+        }
         ivMascot.setImageResource(R.drawable.m2_mascot_saobong_happy);
         tvInstruction.setText("Từ ví dụ của chữ " + item.getUpperLetter() + ": \"" + item.getExampleWord() + "\"");
         if (soundManager != null && soundManager.isSfxMuted()) {
             Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+        } else if (voiceManager != null) {
+            voiceManager.speakKnowledgeVietnamese(item.getExampleWord());
         } else {
             speechHelper.speak(
                     item.getExampleWord(),
@@ -505,9 +770,14 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
 
     @Override
     public void onSpeakBothClicked(AlphabetContent.AlphabetCardItem item) {
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+        }
         ivMascot.setImageResource(R.drawable.m2_mascot_saobong_celebrate);
         if (soundManager != null && soundManager.isSfxMuted()) {
             Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+        } else if (voiceManager != null) {
+            voiceManager.speakKnowledgeVietnamese(item.getSpokenLetterName() + ". " + item.getExampleWord());
         } else {
             speechHelper.speak(
                     item.getSpokenLetterName() + ". " + item.getExampleWord(),
@@ -520,11 +790,40 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
 
     @Override
     public void onCardFlipped(AlphabetContent.AlphabetCardItem item, boolean isBackVisible) {
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+        }
         Member2SoundEffects.playOpenBook(this);
         if (isBackVisible) {
             ivMascot.setImageResource(R.drawable.m2_mascot_saobong_happy);
             tvInstruction.setText(item.getDiscoverySentence());
-            if (soundManager == null || !soundManager.isSfxMuted()) {
+            List<Member2VoiceManager.VoiceStep> flipSteps = Arrays.asList(
+                    new Member2VoiceManager.VoiceStep(
+                            Member2VoiceManager.ALPHABET_FLASHCARD_FLIP_PRAISE,
+                            Member2VoiceManager.LOCALE_VI,
+                            0L,
+                            "alpha_flip_praise",
+                            null
+                    ),
+                    new Member2VoiceManager.VoiceStep(
+                            item.getSpokenLetterName() + ". " + item.getExampleWord(),
+                            Member2VoiceManager.LOCALE_VI,
+                            260L,
+                            "alpha_both_" + item.getIndex(),
+                            null
+                    )
+            );
+            if (voiceManager != null) {
+                voiceManager.setCurrentInstruction(flipSteps);
+                if (soundManager == null || !soundManager.isSfxMuted()) {
+                    voiceManager.speakSequence(
+                            flipSteps,
+                            Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                            true,
+                            null
+                    );
+                }
+            } else if (soundManager == null || !soundManager.isSfxMuted()) {
                 speechHelper.speak(
                         item.getSpokenLetterName() + ". " + item.getExampleWord(),
                         Member2SpeechHelper.LOCALE_VIETNAMESE,
@@ -535,6 +834,13 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
         } else {
             ivMascot.setImageResource(R.drawable.m2_mascot_saobong_welcome);
             tvInstruction.setText(R.string.m2_alphabet_instruction);
+            updateLearnModeInstructionForCard(item);
+            if (voiceManager != null) {
+                voiceManager.speakVietnameseGuidance(
+                        Member2VoiceManager.ALPHABET_FLASHCARD_PROMPT,
+                        Member2VoiceManager.Priority.ACTION_INSTRUCTION
+                );
+            }
         }
     }
 
@@ -629,6 +935,9 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
             if (voiceFeedback != null) {
                 voiceFeedback.stop();
             }
+            if (voiceManager != null) {
+                voiceManager.stop();
+            }
         } else {
             Member2SoundEffects.applyMiniGameBgmLevel(this);
         }
@@ -644,12 +953,16 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
         outState.putBoolean(STATE_IS_CHALLENGE_MODE, isChallengeMode);
         outState.putInt(STATE_CHALLENGE_TARGET, challengeTargetIndex);
         outState.putLong(STATE_CHALLENGE_SEED, challengeSeed);
+        outState.putBoolean(STATE_WELCOME_PLAYED, hasPlayedWelcomeGreeting);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Member2SoundEffects.applyMiniGameBgmLevel(this);
+        if (voiceManager != null) {
+            voiceManager.onResume();
+        }
     }
 
     @Override
@@ -659,6 +972,9 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
         }
         if (voiceFeedback != null) {
             voiceFeedback.stop();
+        }
+        if (voiceManager != null) {
+            voiceManager.onStop();
         }
         super.onStop();
     }
@@ -670,6 +986,9 @@ public class AlphabetActivity extends BaseGameActivity implements AlphabetCardAd
         }
         if (voiceFeedback != null) {
             voiceFeedback.release();
+        }
+        if (voiceManager != null) {
+            voiceManager.release();
         }
         super.onDestroy();
     }

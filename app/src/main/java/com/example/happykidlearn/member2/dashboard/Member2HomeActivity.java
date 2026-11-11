@@ -36,6 +36,7 @@ import com.example.happykidlearn.member2.common.Member2ContentCatalog;
 import com.example.happykidlearn.member2.common.Member2ProgressRepository;
 import com.example.happykidlearn.member2.common.Member2SoundEffects;
 import com.example.happykidlearn.member2.common.Member2SpeechHelper;
+import com.example.happykidlearn.member2.common.Member2VoiceManager;
 import com.example.happykidlearn.models.GameModel;
 import com.example.happykidlearn.registry.GameRegistry;
 import com.example.happykidlearn.utils.ParentalGateDialog;
@@ -78,6 +79,8 @@ public class Member2HomeActivity extends AppCompatActivity {
     private Member2ProgressRepository progressRepository;
     private SoundManager soundManager;
     @Nullable
+    private Member2VoiceManager voiceManager;
+    @Nullable
     private ObjectAnimator mascotPulseAnimator;
     @Nullable
     private GameModel recommendedGame;
@@ -101,6 +104,7 @@ public class Member2HomeActivity extends AppCompatActivity {
         progressRepository = new Member2ProgressRepository(this);
         Member2SoundEffects.preloadAll(this);
         Member2SpeechHelper.warmUp(this);
+        voiceManager = new Member2VoiceManager(this);
 
         initViews();
         applyWindowInsets();
@@ -122,6 +126,9 @@ public class Member2HomeActivity extends AppCompatActivity {
     protected void onPause() {
         isResumedState = false;
         stopMascotGentleAnimation();
+        if (voiceManager != null) {
+            voiceManager.onPause();
+        }
         soundManager.pauseBgm();
         super.onPause();
     }
@@ -129,6 +136,9 @@ public class Member2HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         stopMascotGentleAnimation();
+        if (voiceManager != null) {
+            voiceManager.release();
+        }
         super.onDestroy();
     }
 
@@ -187,6 +197,11 @@ public class Member2HomeActivity extends AppCompatActivity {
                 Member2SoundEffects.playCelebrate(this);
                 if (ivMascot != null) {
                     ivMascot.setImageResource(R.drawable.m2_mascot_saobong_happy);
+                }
+                if (voiceManager != null && isSoundEnabled) {
+                    voiceManager.speakKnowledgeVietnamese(
+                            "Chào nhà thám hiểm nhỏ! Cùng Sao Bông mở những trang sách kỳ diệu hôm nay nhé!"
+                    );
                 }
             });
         }

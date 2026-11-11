@@ -92,6 +92,19 @@ public final class AlphabetContent {
         }
 
         @NonNull
+        public String getSpokenShortSound() {
+            Locale vi = Locale.forLanguageTag("vi-VN");
+            String trimmed = spokenLetterName.trim();
+            if (trimmed.toLowerCase(vi).startsWith("chữ ")) {
+                String sound = trimmed.substring(4).trim();
+                if (!sound.isEmpty()) {
+                    return sound.substring(0, 1).toUpperCase(vi) + sound.substring(1);
+                }
+            }
+            return upperLetter;
+        }
+
+        @NonNull
         public String getExampleWord() {
             return exampleWord;
         }
