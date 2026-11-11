@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Phép tính cộng trừ vui nhộn -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M8,8h14v14H8z" />
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M26,8h14v14H26z" />
+    <path
+        android:fillColor="#7C4DFF"
+        android:pathData="M8,26h32v14H8z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M14,11h2v8h-2zM11,14h8v2h-8zM29,14h8v2h-8zM18,30h12v2H18zM18,34h12v2H18z" />
+</vector>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <path android:fillColor="#D1C4E9" android:pathData="M60,12A50,50 0 1,1 60,112A50,50 0 1,1 60,12Z" />
+    <path android:fillColor="#FAF5FF" android:pathData="M60,8A50,50 0 1,1 60,108A50,50 0 1,1 60,8Z" />
+    <!-- 1 Ngôi sao/viên ngọc 2.5D lớn ở giữa -->
+    <path android:fillColor="#5E35B1" android:pathData="M60,36A24,24 0 1,1 60,84A24,24 0 1,1 60,36Z" />
+    <path android:fillColor="#7E57C2" android:pathData="M60,33A24,24 0 1,1 60,81A24,24 0 1,1 60,33Z" />
+    <path android:fillColor="#EDE7F6" android:pathData="M50,43A5,5 0 1,1 50,53A5,5 0 1,1 50,43Z" />
+</vector>

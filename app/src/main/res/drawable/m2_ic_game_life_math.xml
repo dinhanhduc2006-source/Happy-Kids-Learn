@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Giỏ siêu thị toán đời sống -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M8,20h32l-4,18H12L8,20z" />
+    <path
+        android:strokeColor="#2E7D32"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M16,20L22,10M32,20L26,10" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M17,25h3v9h-3zM22.5,25h3v9h-3zM28,25h3v9h-3z" />
+</vector>
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="140dp"
+    android:viewportWidth="140"
+    android:viewportHeight="140">
+    <!-- Bóng đổ khung tranh 2.5D -->
+    <path
+        android:fillColor="#26383047"
+        android:pathData="M70,14A58,58 0 1,1 70,130A58,58 0 1,1 70,14Z" />
+    <path
+        android:fillColor="#FFE5B4"
+        android:pathData="M70,8A58,58 0 1,1 70,124A58,58 0 1,1 70,8Z" />
+    <!-- Nền bầu trời lễ hội -->
+    <path
+        android:fillColor="#FFF3D6"
+        android:pathData="M70,14A52,52 0 1,1 70,118A52,52 0 1,1 70,14Z" />
+    <!-- Vòng sáng lấp lánh -->
+    <path
+        android:fillColor="#44FFC857"
+        android:pathData="M70,22A44,44 0 1,1 70,110A44,44 0 1,1 70,22Z" />
+    <!-- Bóng đổ ngôi sao 2.5D -->
+    <path
+        android:fillColor="#26000000"
+        android:pathData="M70,26L82,52L110,55L89,74L95,102L70,88L45,102L51,74L30,55L58,52Z" />
+    <!-- Ngôi sao/Đèn lồng ông sao vàng cam 2.5D -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M70,22L82,48L110,51L89,70L95,98L70,84L45,98L51,70L30,51L58,48Z" />
+    <!-- Viền trong đỏ san hô của đèn ông sao -->
+    <path
+        android:strokeColor="#FF7F79"
+        android:strokeWidth="3"
+        android:pathData="M70,32L79,51L100,53L84,67L88,88L70,78L52,88L56,67L40,53L61,51Z" />
+    <!-- Khuôn mặt ngôi sao rạng rỡ -->
+    <path
+        android:fillColor="#383047"
+        android:pathData="M60,56A3.8,3.8 0 1,1 60,63.6A3.8,3.8 0 1,1 60,56Z M80,56A3.8,3.8 0 1,1 80,63.6A3.8,3.8 0 1,1 80,56Z" />
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M54,64A4,2.8 0 1,1 54,69.6A4,2.8 0 1,1 54,64Z M86,64A4,2.8 0 1,1 86,69.6A4,2.8 0 1,1 86,64Z" />
+    <path
+        android:strokeColor="#383047"
+        android:strokeLineCap="round"
+        android:strokeWidth="2.8"
+        android:pathData="M64,67Q70,73 76,67" />
+</vector>

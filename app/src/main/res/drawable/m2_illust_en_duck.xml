@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Nền hồ nước trong xanh 2.5D -->
+    <path android:fillColor="#B2EBF2" android:pathData="M60,12A50,50 0 1,1 60,112A50,50 0 1,1 60,12Z" />
+    <path android:fillColor="#FFFDF7" android:pathData="M60,8A50,50 0 1,1 60,108A50,50 0 1,1 60,8Z" />
+    <!-- Mặt nước xanh ngọc phía dưới -->
+    <path android:fillColor="#4DD0E1" android:pathData="M16,78Q60,68 104,78A48,48 0 0,1 16,78Z" />
+    <!-- Thân vịt vàng 2.5D -->
+    <path android:fillColor="#FBC02D" android:pathData="M30,66C30,52 46,48 64,50C80,52 88,62 84,76C76,86 34,86 30,66Z" />
+    <path android:fillColor="#FFD54F" android:pathData="M30,63C30,49 46,45 64,47C80,49 88,59 84,73C76,83 34,83 30,63Z" />
+    <!-- Cánh vịt nổi khối -->
+    <path android:fillColor="#FFB300" android:pathData="M42,58C52,54 68,58 64,70C54,74 40,68 42,58Z" />
+    <!-- Đầu vịt tròn -->
+    <path android:fillColor="#FFD54F" android:pathData="M56,24A17,17 0 1,1 56,58A17,17 0 1,1 56,24Z" />
+    <!-- Chỏm lông nhỏ trên đầu -->
+    <path android:strokeColor="#FFB300" android:strokeWidth="3.5" android:strokeLineCap="round" android:pathData="M54,24Q50,16 58,18" />
+    <!-- Mỏ vịt cam tươi -->
+    <path android:fillColor="#FF7043" android:pathData="M70,36L88,40L70,46Z" />
+    <!-- Mắt vịt long lanh & má hồng -->
+    <path android:fillColor="#2C2538" android:pathData="M60,34A3.5,3.5 0 1,1 60,41A3.5,3.5 0 1,1 60,34Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M59,35A1.2,1.2 0 1,1 59,37.4A1.2,1.2 0 1,1 59,35Z" />
+    <path android:fillColor="#FF8A80" android:pathData="M53,43A3.5,2 0 1,1 53,47A3.5,2 0 1,1 53,43Z" />
+    <!-- Sóng nước trắng -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M34,86Q48,90 62,86Q76,82 88,86" />
+</vector>

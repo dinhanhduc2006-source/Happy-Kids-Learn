@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Đế nút 3D màu xanh ngọc đậm -->
+    <item android:top="3dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="28dp" />
+            <solid android:color="#137E7D" />
+        </shape>
+    </item>
+    <!-- Thân nút xanh ngọc tươi -->
+    <item android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="28dp" />
+            <gradient
+                android:angle="270"
+                android:startColor="#29C9C8"
+                android:endColor="#1BA6A5" />
+            <stroke
+                android:width="2dp"
+                android:color="#FFF7E8" />
+        </shape>
+    </item>
+    <!-- Đường chỉ khâu thủ công bên trong -->
+    <item
+        android:bottom="8dp"
+        android:left="5dp"
+        android:right="5dp"
+        android:top="4dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp" />
+            <solid android:color="#00000000" />
+            <stroke
+                android:width="1.5dp"
+                android:color="#B3FFF7E8"
+                android:dashGap="4dp"
+                android:dashWidth="6dp" />
+        </shape>
+    </item>
+</layer-list>
+

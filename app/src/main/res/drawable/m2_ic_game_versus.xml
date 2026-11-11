@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Cúp thi tài 2 người chơi -->
+    <path
+        android:fillColor="#FF4081"
+        android:pathData="M14,10h20v10c0,5.5 -4.5,10 -10,10s-10,-4.5 -10,-10V10zM10,12h4v6a4,4 0 0,1 -4,-4v-2zM34,12h4v2a4,4 0 0,1 -4,4v-6zM21,30h6v6h-6zM15,36h18v4H15z" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M24,14l1.5,3 3.3,0.5 -2.4,2.3 0.6,3.2L24,21.5 21,23l0.6,-3.2 -2.4,-2.3 3.3,-0.5z" />
+</vector>
+

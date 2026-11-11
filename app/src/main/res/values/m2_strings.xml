@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home Dashboard — Concept "CUỐN SÁCH KỲ DIỆU" -->
+    <string name="m2_home_app_title">Happy Kid Learn</string>
+    <string name="m2_home_brand_part1">Happy Kid</string>
+    <string name="m2_home_brand_part2">Learn</string>
+    <string name="m2_home_app_subtitle">Thế giới sách kỳ diệu của bé</string>
+    <string name="m2_home_parent_btn_label">Phụ huynh</string>
+    <string name="m2_home_greeting_title">Chào nhà thám hiểm nhỏ!</string>
+    <string name="m2_home_greeting_subtitle">Cùng Sao Bông mở những trang sách kỳ diệu hôm nay nhé!</string>
+    <string name="m2_home_summary_lessons_format">%1$d bài đã học</string>
+    <string name="m2_home_summary_stars_format">%1$d sao thưởng</string>
+    <string name="m2_home_hero_cta_explore">Khám phá ngay</string>
+    <string name="m2_home_category_all">Tất cả (%1$d)</string>
+    <string name="m2_home_category_creative_display">Sáng tạo</string>
+    <string name="m2_home_section_games_title">Có thêm nhiều bài học hấp dẫn</string>
+
+    <!-- Khu vực E — Tiếp tục khám phá -->
+    <string name="m2_home_continue_header_active">Tiếp tục khám phá</string>
+    <string name="m2_home_continue_header_starter">Khởi đầu cùng Sao Bông</string>
+    <string name="m2_home_continue_subtitle_active">%1$s • Đã học %2$d/%3$d bài (%4$d sao)</string>
+    <string name="m2_home_continue_subtitle_starter">Mở cuốn sách \"%1$s\" để nhận những ngôi sao đầu tiên nhé!</string>
+    <string name="m2_home_continue_btn_active">Học tiếp</string>
+    <string name="m2_home_continue_btn_starter">Bắt đầu</string>
+
+    <!-- Trạng thái thẻ sách trò chơi -->
+    <string name="m2_game_status_ready">Mở sách ▶</string>
+    <string name="m2_game_status_coming_soon">Sắp ra mắt</string>
+    <string name="m2_game_progress_format">%1$d/%2$d bài</string>
+    <string name="m2_game_progress_no_data">Sắp mở</string>
+    <string name="m2_game_stars_format">%1$d sao</string>
+
+    <!-- Thông báo tương tác -->
+    <string name="m2_toast_game_coming_soon">Cuốn sách \"%1$s\" sắp ra mắt, bé cùng Sao Bông đón chờ nhé!</string>
+    <string name="m2_toast_sound_on">Sao Bông đã bật âm thanh vui nhộn!</string>
+    <string name="m2_toast_sound_off">Đã tắt âm thanh</string>
+
+    <!-- Empty state -->
+    <string name="m2_home_empty_title">Chưa có cuốn sách nào trong mục này</string>
+    <string name="m2_home_empty_subtitle">Bé hãy chạm vào danh mục khác ở phía trên nhé!</string>
+    <string name="m2_home_empty_action">Xem tất cả 15 cuốn sách</string>
+
+    <!-- Accessibility Content Descriptions -->
+    <string name="m2_cd_btn_sound">Bật hoặc tắt âm thanh ứng dụng</string>
+    <string name="m2_cd_btn_parent">Mở cài đặt dành cho phụ huynh</string>
+    <string name="m2_cd_mascot">Linh vật Sao Bông đeo ba lô khám phá</string>
+    <string name="m2_cd_hero_scene">Khung cảnh cuốn sách kỳ diệu bật mở cùng linh vật Sao Bông</string>
+    <string name="m2_cd_star_icon">Biểu tượng ngôi sao thành tích</string>
+    <string name="m2_cd_game_icon_format">Bìa sách minh họa trò chơi %1$s</string>
+    <string name="m2_cd_empty_illustration">Hình minh họa danh sách trống</string>
+
+    <!-- Mini-game Alphabet (29 Chữ Cái Tiếng Việt — Khu Vườn Chữ Biết Nói) -->
+    <string name="m2_alphabet_header_title">Khu Vườn Chữ Biết Nói</string>
+    <string name="m2_alphabet_instruction">Chạm vào chữ cái để nghe âm, chạm tranh để nghe từ hoặc bấm Lật thẻ nhé!</string>
+    <string name="m2_alphabet_mode_learn">📖 Vườn Chữ (29)</string>
+    <string name="m2_alphabet_mode_challenge">🎧 Thử Thách Nghe</string>
+    <string name="m2_alphabet_card_index_format">Chữ %1$d/29</string>
+    <string name="m2_alphabet_status_learned">Đã nở hoa ★</string>
+    <string name="m2_alphabet_status_new">Hạt giống mới</string>
+    <string name="m2_alphabet_btn_flip_to_back">Lật thẻ xem câu chuyện ↻</string>
+    <string name="m2_alphabet_btn_flip_to_front">Lật lại mặt chữ ↻</string>
+    <string name="m2_alphabet_back_badge">Mặt sau khám phá từ vựng</string>
+    <string name="m2_alphabet_btn_speak_both">Đọc chữ &amp; từ</string>
+    <string name="m2_alphabet_btn_speak_letter">Nghe chữ</string>
+    <string name="m2_alphabet_btn_speak_word">Nghe từ</string>
+    <string name="m2_alphabet_btn_prev">◀ Trang trước</string>
+    <string name="m2_alphabet_btn_next">Trang tiếp ▶</string>
+    <string name="m2_alphabet_btn_finish">Hoàn thành ★</string>
+    <string name="m2_alphabet_milestone_banner_format">🌟 Chúc mừng! Bé đã làm nở hoa %1$d/29 chữ cái và nhận thêm Sao Vàng!</string>
+    <string name="m2_alphabet_challenge_title">Thử Thách Tai Thính Cùng Sao Bông</string>
+    <string name="m2_alphabet_challenge_prompt">Bé hãy bấm loa nghe âm thanh rồi chạm đúng chữ cái vừa phát nhé!</string>
+    <string name="m2_alphabet_challenge_btn_replay">🔊 Nghe lại âm chữ</string>
+    <string name="m2_alphabet_challenge_btn_next">Đố chữ tiếp theo ▶</string>
+    <string name="m2_alphabet_challenge_correct_format">Giỏi quá! Đó chính là %1$s (%2$s – %3$s)! 🌟</string>
+    <string name="m2_alphabet_challenge_wrong_format">Gần đúng rồi! Bé bấm loa nghe kỹ lại rồi chọn thử nhé!</string>
+    <string name="m2_alphabet_toast_learned_format">Giỏi quá! Bé đã học chữ %1$s (%2$d/29)</string>
+    <string name="m2_alphabet_toast_muted">Âm thanh đang tắt, bé bật loa ở góc trên để nghe nhé!</string>
+    <string name="m2_cd_alphabet_illustration_format">Hình minh họa cho từ %1$s</string>
+
+    <!-- Mini-game Spelling (Ghép Vần Tiếng Việt — Xưởng Chế Tạo Từ Ngữ) -->
+    <string name="m2_spelling_header_title">Xưởng Chế Tạo Từ Ngữ</string>
+    <string name="m2_spelling_instruction">Cùng Sao Bông chạm hoặc kéo khối gỗ vào bàn chế tạo để ghép từ đúng nhé!</string>
+    <string name="m2_spelling_exercise_index_format">Bài %1$d/%2$d</string>
+    <string name="m2_spelling_status_done">Đã chế tạo ★</string>
+    <string name="m2_spelling_status_new">Bản vẽ mới</string>
+    <string name="m2_spelling_btn_listen">🔊 Nghe từ</string>
+    <string name="m2_spelling_btn_hint">💡 Gợi ý 1 bước</string>
+    <string name="m2_spelling_btn_clear">↺ Xóa lại</string>
+    <string name="m2_spelling_btn_check">✓ Kiểm tra</string>
+    <string name="m2_spelling_btn_prev">◀ Bài trước</string>
+    <string name="m2_spelling_btn_next">Bài tiếp ▶</string>
+    <string name="m2_spelling_feedback_prompt">👆 Bé chạm hoặc kéo các khối chữ gỗ ở dưới lên bàn chế tạo nhé!</string>
+    <string name="m2_spelling_feedback_correct_format">🌟 Tuyệt vời! Bé đã chế tạo thành công từ \"%1$s\"!</string>
+    <string name="m2_spelling_feedback_wrong">Gần đúng rồi! Bé chạm vào ô trên bàn để đổi lại khối chữ nhé!</string>
+    <string name="m2_spelling_slots_label">🔨 Bàn Chế Tạo Từ Ngữ (Chạm ô để lấy chữ ra):</string>
+    <string name="m2_spelling_pool_label">🪵 Khay Khối Chữ Gỗ (Kéo thả hoặc chạm để lắp):</string>
+
+    <!-- Mini-game English for Kids (Học Viện Khám Phá Tiếng Anh) -->
+    <string name="m2_english_header_title">Học Viện Tiếng Anh</string>
+    <string name="m2_english_mode_flashcard">📖 1. Học từ</string>
+    <string name="m2_english_mode_listen">🎧 2. Nghe &amp; chọn</string>
+    <string name="m2_english_mode_quiz">🏆 3. Đố vui 5 câu</string>
+    <string name="m2_english_btn_speak">🔊 Nghe phát âm tiếng Anh (US)</string>
+    <string name="m2_english_btn_prev_word">◀ Từ trước</string>
+    <string name="m2_english_btn_next_word">Từ tiếp ▶</string>
+    <string name="m2_english_btn_start_quiz">Qua Nghe &amp; Chọn ▶</string>
+    <string name="m2_english_listen_prompt">🎧 Bé hãy bấm loa nghe từ tiếng Anh rồi chạm chọn đúng bức tranh nhé!</string>
+    <string name="m2_english_listen_mystery">🔊 Listen &amp; Pick!</string>
+    <string name="m2_english_quiz_prompt">🏆 Bé hãy chọn bức tranh đúng với từ tiếng Anh:</string>
+    <string name="m2_english_quiz_progress_format">Câu %1$d/%2$d • Đúng: %3$d ⭐</string>
+    <string name="m2_english_quiz_correct_format">🌟 Chính xác! \"%1$s\" nghĩa là \"%2$s\"!</string>
+    <string name="m2_english_quiz_wrong_format">💡 Gần đúng rồi! Bé bấm loa nghe kỹ lại rồi chọn nhé!</string>
+    <string name="m2_english_quiz_next_question">Câu tiếp theo ▶</string>
+    <string name="m2_english_quiz_finish">Nhận sao thưởng ★</string>
+
+    <!-- Mini-game Storybook (Nhà Hát Cổ Tích) -->
+    <string name="m2_storybook_header_title">Nhà Hát Cổ Tích</string>
+    <string name="m2_storybook_library_subtitle">Cùng Sao Bông mở một cuốn sách tranh để bước vào Nhà Hát Cổ Tích nhé!</string>
+    <string name="m2_storybook_status_read">Đã đọc xong ★</string>
+    <string name="m2_storybook_status_unread">Sách mới mở ✨</string>
+    <string name="m2_storybook_page_count_format">%1$d trang tranh</string>
+    <string name="m2_storybook_page_indicator_format">Trang %1$d/%2$d</string>
+    <string name="m2_storybook_btn_back_library">◀ Tủ sách</string>
+    <string name="m2_storybook_btn_play">🔊 Kể trang này</string>
+    <string name="m2_storybook_btn_pause">⏸ Tạm dừng</string>
+    <string name="m2_storybook_btn_resume">▶ Kể tiếp</string>
+    <string name="m2_storybook_btn_replay">↺ Nghe lại</string>
+    <string name="m2_storybook_btn_prev_page">◀ Trang trước</string>
+    <string name="m2_storybook_btn_next_page">Trang tiếp ▶</string>
+    <string name="m2_storybook_btn_finish_story">Góc bài học ★</string>
+    <string name="m2_storybook_moral_prefix">🌟 Bài học từ Sao Bông: %1$s</string>
+</resources>

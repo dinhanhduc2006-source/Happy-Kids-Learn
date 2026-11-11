@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/m2_alphabet_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/m2_bg_screen"
+    android:orientation="vertical"
+    tools:context=".member2.alphabet.AlphabetActivity">
+
+    <!-- Header 2.5D đồng bộ phong cách Cuốn Sách Kỳ Diệu (tương thích BaseGameActivity) -->
+    <include layout="@layout/m2_layout_game_header" />
+
+    <!-- Khu vực Linh vật Sao Bông hướng dẫn trong Khu Vườn Chữ Biết Nói -->
+    <LinearLayout
+        android:id="@+id/ll_m2_alphabet_mascot_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/m2_bg_alphabet_garden_banner"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/iv_m2_alphabet_mascot"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/m2_cd_mascot"
+            android:scaleType="fitCenter"
+            android:src="@drawable/m2_mascot_saobong_welcome" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_m2_alphabet_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/m2_alphabet_instruction"
+                android:textColor="@color/m2_text_primary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <!-- Băng-rôn thưởng ngôi sao khi bé hoàn thành một nhóm 5 chữ cái -->
+            <TextView
+                android:id="@+id/tv_m2_alphabet_milestone_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/m2_bg_star_pill"
+                android:fontFamily="sans-serif-black"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:textColor="@color/m2_text_book_title"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Thanh chuyển đổi 2 chế độ: Khám phá Vườn Chữ (29 chữ) & Thử Thách Nghe Chữ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_m2_alpha_mode_learn"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/m2_brand_teal"
+            android:text="@string/m2_alphabet_mode_learn"
+            android:textAllCaps="false"
+            android:textColor="@color/m2_text_on_accent"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_m2_alpha_mode_challenge"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/m2_chip_stroke"
+            android:text="@string/m2_alphabet_mode_challenge"
+            android:textAllCaps="false"
+            android:textColor="@color/m2_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Thanh hạt giống 29 chữ cái tiếng Việt -->
+    <HorizontalScrollView
+        android:id="@+id/hsv_m2_alphabet_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:clipToPadding="false"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/ll_m2_alphabet_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
+    </HorizontalScrollView>
+
+    <!-- ================= CHẾ ĐỘ 1: KHÁM PHÁ 29 TRANG SÁCH CHỮ CÁI ================= -->
+    <LinearLayout
+        android:id="@+id/layout_m2_alpha_learn_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_m2_alphabet_cards"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1" />
+
+        <!-- Thanh điều hướng Trang trước / Trang tiếp ở dưới cùng -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/btn_m2_alpha_prev"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/m2_chip_stroke"
+                android:text="@string/m2_alphabet_btn_prev"
+                android:textAllCaps="false"
+                android:textColor="@color/m2_text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_m2_alpha_next"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/m2_brand_teal"
+                android:text="@string/m2_alphabet_btn_next"
+                android:textAllCaps="false"
+                android:textColor="@color/m2_text_on_accent"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ================= CHẾ ĐỘ 2: THỬ THÁCH NGHE ÂM CHỌN CHỮ ĐÚNG ================= -->
+    <ScrollView
+        android:id="@+id/layout_m2_alpha_challenge"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="14dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="14dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/m2_bg_alphabet_challenge_stage"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/m2_bg_greeting_ribbon"
+                    android:fontFamily="sans-serif-black"
+                    android:paddingStart="14dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="6dp"
+                    android:text="@string/m2_alphabet_challenge_title"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_m2_alpha_challenge_prompt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="@string/m2_alphabet_challenge_prompt"
+                    android:textColor="@color/m2_text_secondary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_m2_alpha_challenge_replay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/m2_brand_gold"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/m2_alphabet_challenge_btn_replay"
+                    android:textAllCaps="false"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- 3 Thẻ chữ 2.5D lớn để bé chọn -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_m2_alpha_choice_0"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/m2_bg_card_surface"
+                        android:fontFamily="sans-serif-black"
+                        android:text="A a"
+                        android:textAllCaps="false"
+                        android:textColor="@color/m2_text_primary"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btn_m2_alpha_choice_1"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/m2_bg_card_surface"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Ă ă"
+                        android:textAllCaps="false"
+                        android:textColor="@color/m2_text_primary"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btn_m2_alpha_choice_2"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/m2_bg_card_surface"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Â â"
+                        android:textAllCaps="false"
+                        android:textColor="@color/m2_text_primary"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_m2_alpha_challenge_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/m2_bg_alphabet_illust_frame"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="🔊 Bấm nút loa màu vàng để nghe âm chữ cái nhé!"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_m2_alpha_challenge_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/m2_brand_teal"
+                    android:text="@string/m2_alphabet_challenge_btn_next"
+                    android:textAllCaps="false"
+                    android:textColor="@color/m2_text_on_accent"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Bàn tính đếm hạt -->
+    <path
+        android:fillColor="#FFA000"
+        android:pathData="M8,10h4v28H8zM36,10h4v28h-4zM12,16h24v3H12zM12,24h24v3H12zM12,32h24v3H12z" />
+    <path
+        android:fillColor="#7C4DFF"
+        android:pathData="M18,17.5a3.5,3.5 0 1,1 0,0.1zM26,17.5a3.5,3.5 0 1,1 0,0.1z" />
+    <path
+        android:fillColor="#FF4081"
+        android:pathData="M22,25.5a3.5,3.5 0 1,1 0,0.1zM30,25.5a3.5,3.5 0 1,1 0,0.1z" />
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M16,33.5a3.5,3.5 0 1,1 0,0.1zM24,33.5a3.5,3.5 0 1,1 0,0.1zM32,33.5a3.5,3.5 0 1,1 0,0.1z" />
+</vector>
+

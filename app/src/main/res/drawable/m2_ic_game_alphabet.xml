@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Khối chữ cái A -->
+    <path
+        android:fillColor="#7C4DFF"
+        android:pathData="M8,8h32a4,4 0 0,1 4,4v24a4,4 0 0,1 -4,4H8a4,4 0 0,1 -4,-4V12a4,4 0 0,1 4,-4z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,13L15,35h4.5l1.8,-5h5.4l1.8,5H33L24,13zM22.5,26.5L24,22l1.5,4.5h-3z" />
+</vector>
+

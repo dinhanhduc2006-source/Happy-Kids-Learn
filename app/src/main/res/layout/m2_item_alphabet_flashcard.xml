@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="14dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="4dp">
+
+        <!-- Trang sách 2.5D "Khu Vườn Chữ Biết Nói" (thay thế hoàn toàn thẻ trắng đơn giản) -->
+        <FrameLayout
+            android:id="@+id/card_m2_alpha_flashcard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/m2_bg_alphabet_book_card"
+            android:paddingStart="24dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="18dp">
+
+            <!-- ================= MẶT TRƯỚC: KHÁM PHÁ CHỮ CÁI & SỰ VẬT 2.5D ================= -->
+            <LinearLayout
+                android:id="@+id/ll_m2_alpha_card_front"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <!-- Hàng 1: Số thứ tự chữ x/29 + Huy hiệu Đã nở hoa + Nút Lật thẻ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_m2_alpha_card_index"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/m2_bg_star_pill"
+                        android:fontFamily="sans-serif-black"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:text="Chữ 1/29"
+                        android:textColor="@color/m2_text_book_title"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_m2_alpha_learned_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/m2_bg_badge_pill"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/m2_alphabet_status_new"
+                        android:textColor="@color/m2_badge_ready_text"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Hàng 2: Bục Chữ Cái 2.5D In Hoa & In Thường (Chạm để nghe phát âm chữ) -->
+                <LinearLayout
+                    android:id="@+id/ll_m2_alpha_letters_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/m2_bg_alphabet_letter_plaque"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_m2_alpha_upper"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:includeFontPadding="false"
+                            android:shadowColor="#33000000"
+                            android:shadowDx="0"
+                            android:shadowDy="4"
+                            android:shadowRadius="4"
+                            android:text="A"
+                            android:textColor="@color/m2_accent_blue"
+                            android:textSize="64sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_m2_alpha_lower"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="22dp"
+                            android:fontFamily="sans-serif-black"
+                            android:includeFontPadding="false"
+                            android:shadowColor="#26000000"
+                            android:shadowDx="0"
+                            android:shadowDy="3"
+                            android:shadowRadius="3"
+                            android:text="a"
+                            android:textColor="@color/m2_text_primary"
+                            android:textSize="52sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_m2_alpha_phonetic_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="🔊 Âm đọc: Chữ a (Chạm chữ để nghe)"
+                        android:textColor="@color/m2_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Hàng 3: Khung Tranh Minh Họa Sự Vật 2.5D & Từ Ví Dụ (Chạm để nghe đọc từ) -->
+                <LinearLayout
+                    android:id="@+id/ll_m2_alpha_illust_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/m2_bg_alphabet_illust_frame"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_m2_alpha_illustration"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:contentDescription="@string/m2_cd_alphabet_illustration_format"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/m2_illust_alpha_animal" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/m2_bg_cat_pill_language"
+                            android:paddingStart="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="3dp"
+                            android:text="Từ vựng ví dụ"
+                            android:textColor="@color/m2_text_book_title"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_m2_alpha_example_word"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Ao cá"
+                            android:textColor="@color/m2_text_primary"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="👆 Chạm vào hình để nghe đọc từ"
+                            android:textColor="@color/m2_text_secondary"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Nút Lật thẻ 2.5D khám phá câu chuyện mặt sau -->
+                <TextView
+                    android:id="@+id/btn_m2_alpha_flip_front"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/m2_bg_greeting_ribbon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:minHeight="40dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/m2_alphabet_btn_flip_to_back"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Hai nút lớn: Nghe chữ & Nghe từ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_m2_alpha_speak_letter"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/m2_accent_blue"
+                        android:drawableStart="@drawable/m2_ic_speaker"
+                        android:drawablePadding="6dp"
+                        android:text="@string/m2_alphabet_btn_speak_letter"
+                        android:textAllCaps="false"
+                        android:textColor="@color/m2_text_on_accent"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btn_m2_alpha_speak_word"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/m2_accent_orange"
+                        android:drawableStart="@drawable/m2_ic_speaker"
+                        android:drawablePadding="6dp"
+                        android:text="@string/m2_alphabet_btn_speak_word"
+                        android:textAllCaps="false"
+                        android:textColor="@color/m2_text_on_accent"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ================= MẶT SAU KHI LẬT THẺ: CÂU CHUYỆN TỪ VỰNG ================= -->
+            <LinearLayout
+                android:id="@+id/ll_m2_alpha_card_back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_m2_alpha_back_letter_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/m2_bg_star_pill"
+                        android:fontFamily="sans-serif-black"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="Chữ A • a"
+                        android:textColor="@color/m2_text_book_title"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/btn_m2_alpha_flip_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/m2_bg_cat_pill_logic"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:fontFamily="sans-serif-black"
+                        android:paddingStart="12dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp"
+                        android:text="@string/m2_alphabet_btn_flip_to_front"
+                        android:textColor="@color/m2_text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_m2_alpha_back_illustration"
+                    android:layout_width="124dp"
+                    android:layout_height="124dp"
+                    android:layout_marginTop="10dp"
+                    android:importantForAccessibility="no"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/m2_illust_alpha_animal" />
+
+                <TextView
+                    android:id="@+id/tv_m2_alpha_back_word"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="Ao cá"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_m2_alpha_discovery_story"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/m2_bg_alphabet_illust_frame"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:lineSpacingExtra="3dp"
+                    android:padding="12dp"
+                    android:text="Bên ao cá trong veo có đàn cá vàng bơi lội vui vẻ!"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btn_m2_alpha_speak_both"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/m2_brand_teal"
+                    android:drawableStart="@drawable/m2_ic_speaker"
+                    android:drawablePadding="8dp"
+                    android:text="@string/m2_alphabet_btn_speak_both"
+                    android:textAllCaps="false"
+                    android:textColor="@color/m2_text_on_accent"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </FrameLayout>
+    </FrameLayout>
+</ScrollView>

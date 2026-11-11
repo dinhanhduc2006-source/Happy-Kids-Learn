@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <!-- Bóng đổ mềm -->
+    <path
+        android:fillColor="#22383047"
+        android:pathData="M28,86a20,4 0,1 0,40 0a20,4 0,1 0,-40 0z" />
+    <!-- Ba lô khám phá -->
+    <path
+        android:fillColor="#21B8B7"
+        android:pathData="M18,43C18,35 23,31 30,31L36,31L36,59L27,59C21,59 18,54 18,47Z" />
+    <!-- Ngôi sao lớn -->
+    <path
+        android:fillColor="#E0941B"
+        android:pathData="M50,14L60,32L80,35L65,49L69,69L50,59L31,69L35,49L20,35L40,32Z" />
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M50,11L60,29L80,32L65,46L69,66L50,56L31,66L35,46L20,32L40,29Z" />
+    <!-- Vương miện chiến thắng nhỏ trên đỉnh ngôi sao -->
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M41,15L44,7L50,12L56,7L59,15Z" />
+    <!-- Mắt híp hạnh phúc -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#383047"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M39,39C41,35 45,35 47,39" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#383047"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M54,39C56,35 60,35 62,39" />
+    <!-- Nụ cười chiến thắng -->
+    <path
+        android:fillColor="#D94E4E"
+        android:pathData="M45,43C45,50 56,50 56,43Z" />
+    <!-- Pháo giấy ăn mừng xung quanh -->
+    <path
+        android:fillColor="#21B8B7"
+        android:pathData="M15,20m-3,0a3,3 0,1 0,6 0a3,3 0,1 0,-6 0" />
+    <path
+        android:fillColor="#A98BFA"
+        android:pathData="M81,20m-3,0a3,3 0,1 0,6 0a3,3 0,1 0,-6 0" />
+    <path
+        android:fillColor="#7BCB97"
+        android:pathData="M78,62m-2.5,0a2.5,2.5 0,1 0,5 0a2.5,2.5 0,1 0,-5 0" />
+</vector>
+

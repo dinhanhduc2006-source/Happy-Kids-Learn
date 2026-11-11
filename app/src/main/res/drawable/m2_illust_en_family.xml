@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Nền cắt giấy 2.5D ấm áp -->
+    <path android:fillColor="#D1C4E9" android:pathData="M60,12A50,50 0 1,1 60,112A50,50 0 1,1 60,12Z" />
+    <path android:fillColor="#FAF5FF" android:pathData="M60,8A50,50 0 1,1 60,108A50,50 0 1,1 60,8Z" />
+    <!-- Trái tim yêu thương phía trên -->
+    <path android:fillColor="#FF6B81" android:pathData="M60,28C56,22 48,24 48,30C48,36 60,42 60,42C60,42 72,36 72,30C72,24 64,22 60,28Z" />
+    <!-- Bố bên trái -->
+    <path android:fillColor="#21B8B7" android:pathData="M22,90C22,74 52,74 52,90Z" />
+    <path android:fillColor="#FFCCBC" android:pathData="M37,44A14,14 0 1,1 37,72A14,14 0 1,1 37,44Z" />
+    <path android:fillColor="#4E342E" android:pathData="M23,54C23,42 32,38 38,38C46,38 51,44 51,54C46,48 28,48 23,54Z" />
+    <!-- Mẹ bên phải -->
+    <path android:fillColor="#FF7F79" android:pathData="M68,90C68,74 98,74 98,90Z" />
+    <path android:fillColor="#5D4037" android:pathData="M66,58C66,40 76,38 83,38C90,38 100,40 100,62C96,68 70,68 66,58Z" />
+    <path android:fillColor="#FFCCBC" android:pathData="M83,44A14,14 0 1,1 83,72A14,14 0 1,1 83,44Z" />
+    <path android:fillColor="#5D4037" android:pathData="M69,54C71,42 78,40 84,40C90,40 96,44 97,54C90,48 76,48 69,54Z" />
+    <!-- Em bé ở giữa -->
+    <path android:fillColor="#FFC857" android:pathData="M44,96C44,82 76,82 76,96Z" />
+    <path android:fillColor="#FFE0B2" android:pathData="M60,56A13,13 0 1,1 60,82A13,13 0 1,1 60,56Z" />
+    <path android:fillColor="#5D4037" android:pathData="M48,66C48,56 55,52 60,52C65,52 72,56 72,66C66,60 54,60 48,66Z" />
+    <!-- Mắt và nụ cười cả gia đình -->
+    <path android:fillColor="#2C2538" android:pathData="M33,56A2,2 0 1,1 33,60A2,2 0 1,1 33,56Z M41,56A2,2 0 1,1 41,60A2,2 0 1,1 41,56Z M79,56A2,2 0 1,1 79,60A2,2 0 1,1 79,56Z M87,56A2,2 0 1,1 87,60A2,2 0 1,1 87,56Z M56,67A2,2 0 1,1 56,71A2,2 0 1,1 56,67Z M64,67A2,2 0 1,1 64,71A2,2 0 1,1 64,67Z" />
+    <path android:strokeColor="#D84315" android:strokeWidth="2" android:strokeLineCap="round" android:pathData="M33,64Q37,68 41,64 M79,64Q83,68 87,64 M56,74Q60,78 64,74" />
+</vector>

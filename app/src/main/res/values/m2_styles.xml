@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="M2TextTitle">
+        <item name="android:textColor">@color/m2_text_primary</item>
+        <item name="android:textSize">@dimen/m2_text_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="M2TextHero">
+        <item name="android:textColor">@color/m2_text_primary</item>
+        <item name="android:textSize">@dimen/m2_text_hero</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="M2TextCardTitle">
+        <item name="android:textColor">@color/m2_text_primary</item>
+        <item name="android:textSize">@dimen/m2_text_card_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="M2TextBody">
+        <item name="android:textColor">@color/m2_text_secondary</item>
+        <item name="android:textSize">@dimen/m2_text_body</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="M2TextCaption">
+        <item name="android:textColor">@color/m2_text_muted</item>
+        <item name="android:textSize">@dimen/m2_text_caption</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="M2ToolbarIconButton">
+        <item name="android:layout_width">@dimen/m2_touch_target_min</item>
+        <item name="android:layout_height">@dimen/m2_touch_target_min</item>
+        <item name="android:background">@drawable/m2_bg_circle_button</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+</resources>
+

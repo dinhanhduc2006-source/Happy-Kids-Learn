@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="140dp"
+    android:viewportWidth="140"
+    android:viewportHeight="140">
+    <!-- Bóng đổ 2.5D của khung tranh cắt giấy -->
+    <path
+        android:fillColor="#26383047"
+        android:pathData="M70,14A58,58 0 1,1 70,130A58,58 0 1,1 70,14Z" />
+    <!-- Vòng viền gỗ kem ấm -->
+    <path
+        android:fillColor="#FFE5B4"
+        android:pathData="M70,8A58,58 0 1,1 70,124A58,58 0 1,1 70,8Z" />
+    <!-- Mặt hồ xanh ngọc cắt giấy nhiều lớp -->
+    <path
+        android:fillColor="#B8F1F0"
+        android:pathData="M70,14A52,52 0 1,1 70,118A52,52 0 1,1 70,14Z" />
+    <path
+        android:fillColor="#6AD6D5"
+        android:pathData="M21,78Q45,68 70,78T119,78A52,52 0 0,1 21,78Z" />
+    <path
+        android:fillColor="#21B8B7"
+        android:pathData="M26,92Q50,84 70,92T114,92A52,52 0 0,1 26,92Z" />
+    <!-- Lá sen xanh 2.5D bên góc -->
+    <path
+        android:fillColor="#58B881"
+        android:pathData="M24,74C24,64 38,60 48,66L38,72L46,78C34,82 24,80 24,74Z" />
+    <!-- Bóng đổ chú cá đất nặn -->
+    <path
+        android:fillColor="#22000000"
+        android:pathData="M36,68C36,48 54,38 76,38C92,38 104,50 104,68C104,86 92,98 76,98C54,98 36,88 36,68Z" />
+    <!-- Đuôi cá xòe 2 lớp -->
+    <path
+        android:fillColor="#E85D56"
+        android:pathData="M96,64L120,42C124,52 124,76 120,86Z" />
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M98,64L114,50C116,58 116,70 114,78Z" />
+    <!-- Vây lưng & vây bụng đất nặn -->
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M62,38C68,24 84,26 88,40Z" />
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M66,90C72,102 84,100 86,88Z" />
+    <!-- Thân cá cam vàng 2.5D -->
+    <path
+        android:fillColor="#FF9642"
+        android:pathData="M34,64C34,44 52,34 74,34C90,34 102,46 102,64C102,82 90,94 74,94C52,94 34,84 34,64Z" />
+    <!-- Lớp highlight bóng đất nặn trên lưng cá -->
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M46,48C56,39 74,38 86,44C76,44 58,46 46,54Z" />
+    <!-- Vân vảy cá vàng nắng -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M72,48A10,10 0 0,1 72,64A10,10 0 0,1 72,48Z M84,56A10,10 0 0,1 84,72A10,10 0 0,1 84,56Z M72,66A10,10 0 0,1 72,82A10,10 0 0,1 72,66Z" />
+    <!-- Đôi mắt to tròn biểu cảm + má hồng -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M52,50A9,9 0 1,1 52,68A9,9 0 1,1 52,50Z" />
+    <path
+        android:fillColor="#383047"
+        android:pathData="M50,53A5.5,5.5 0 1,1 50,64A5.5,5.5 0 1,1 50,53Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M48,54A2.2,2.2 0 1,1 48,58.4A2.2,2.2 0 1,1 48,54Z" />
+    <!-- Má hồng đáng yêu -->
+    <path
+        android:fillColor="#FF6B8B"
+        android:pathData="M58,68A5,3.5 0 1,1 58,75A5,3.5 0 1,1 58,68Z" />
+    <!-- Miệng cười tươi -->
+    <path
+        android:strokeColor="#7C241E"
+        android:strokeLineCap="round"
+        android:strokeWidth="3"
+        android:pathData="M42,68Q47,74 53,69" />
+    <!-- Bong bóng nước lấp lánh -->
+    <path
+        android:fillColor="#CCFFFFFF"
+        android:pathData="M30,44A4,4 0 1,1 30,52A4,4 0 1,1 30,44Z M24,34A2.8,2.8 0 1,1 24,39.6A2.8,2.8 0 1,1 24,34Z" />
+</vector>

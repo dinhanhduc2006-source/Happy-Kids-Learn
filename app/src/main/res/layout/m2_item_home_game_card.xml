@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_m2_game_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/m2_book_cover_coral"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="5dp"
+    app:strokeColor="#4DFFFFFF"
+    app:strokeWidth="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Phần thân bìa sách 3D (Gáy sách bên trái + Minh họa 2.5D + Bảng tên khâu chỉ) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Gáy sách nổi 3D có đai vàng -->
+            <View
+                android:id="@+id/view_m2_book_spine"
+                android:layout_width="14dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/m2_bg_book_spine" />
+
+            <!-- Mặt chính bìa sách -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="6dp">
+
+                <!-- Bảng tên sách màu kem khâu chỉ nổi bật -->
+                <TextView
+                    android:id="@+id/tv_m2_card_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/m2_bg_book_title_plaque"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="6dp"
+                    android:text="Chữ Cái"
+                    android:textColor="@color/m2_text_book_title"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Khung cảnh minh họa 2.5D lớn trên bìa sách -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/fl_m2_card_icon_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="108dp"
+                    android:layout_marginTop="6dp"
+                    app:cardBackgroundColor="@color/m2_bg_cream_paper"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#40FFFFFF"
+                    app:strokeWidth="1.5dp">
+
+                    <ImageView
+                        android:id="@+id/iv_m2_card_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/m2_cd_game_icon_format"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/m2_cover_alphabet" />
+
+                    <!-- Nhãn trạng thái nổi trên góc minh họa -->
+                    <TextView
+                        android:id="@+id/tv_m2_card_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="6dp"
+                        android:background="@drawable/m2_bg_badge_pill"
+                        android:elevation="2dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="3dp"
+                        android:text="@string/m2_game_status_ready"
+                        android:textColor="@color/m2_badge_ready_text"
+                        android:textSize="10.5sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Phần trang giấy đáy sách: Tiến độ học thực tế, Danh mục & Sao -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/m2_bg_book_pages_bottom"
+            android:orientation="vertical"
+            android:paddingStart="10dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="8dp">
+
+            <!-- Dòng mô tả ngắn & Danh mục ẩn/hiện gọn gàng -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_m2_card_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:text="Ngôn ngữ"
+                    android:textColor="@color/m2_brand_teal_dark"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="•"
+                    android:textColor="@color/m2_text_muted"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_m2_card_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Học 29 chữ cái tiếng Việt"
+                    android:textColor="@color/m2_text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <!-- Thanh tiến độ mượt -->
+            <ProgressBar
+                android:id="@+id/pb_m2_card_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:layout_marginTop="5dp"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/m2_bg_progress_bar" />
+
+            <!-- Dòng tiến độ thực tế n/m bài và Số sao -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_m2_card_progress_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:text="0/29 bài"
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="11.5sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/ll_m2_card_stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_m2_card_star"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:contentDescription="@string/m2_cd_star_icon"
+                        android:src="@drawable/ic_star_filled" />
+
+                    <TextView
+                        android:id="@+id/tv_m2_card_stars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="0"
+                        android:textColor="@color/m2_text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

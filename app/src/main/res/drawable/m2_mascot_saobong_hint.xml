@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <!-- Bóng đổ mềm -->
+    <path
+        android:fillColor="#24383047"
+        android:pathData="M28,85a20,4.5 0,1 0,40 0a20,4.5 0,1 0,-40 0z" />
+    <!-- Ba lô khám phá xanh ngọc -->
+    <path
+        android:fillColor="#158F8E"
+        android:pathData="M16,43C16,35 22,30 29,30L36,30L36,62L26,62C20,62 16,56 16,49Z" />
+    <path
+        android:fillColor="#21B8B7"
+        android:pathData="M19,44C19,37 24,33 30,33L35,33L35,59L27,59C22,59 19,54 19,48Z" />
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M23,42h5v5h-5z" />
+    <!-- Lớp nền 3D ngôi sao -->
+    <path
+        android:fillColor="#E0941B"
+        android:pathData="M50,15L60,33L80,36L65,50L69,70L50,60L31,70L35,50L20,36L40,33Z" />
+    <!-- Thân chính ngôi sao -->
+    <path
+        android:fillColor="#FFC857"
+        android:pathData="M50,12L60,30L80,33L65,47L69,67L50,57L31,67L35,47L20,33L40,30Z" />
+    <!-- Bóng đèn sáng kiến gợi ý phía trên -->
+    <path
+        android:fillColor="#FFF3B0"
+        android:strokeColor="#E0941B"
+        android:strokeWidth="1.5"
+        android:pathData="M77,11C72,11 69,15 69,19C69,22 71,24 72,26L82,26C83,24 85,22 85,19C85,15 82,11 77,11Z" />
+    <path
+        android:fillColor="#7C8B99"
+        android:pathData="M73,26h8v3h-8z" />
+    <!-- Quai ba lô -->
+    <path
+        android:fillColor="#1A9E9D"
+        android:pathData="M34,31C31,40 32,50 36,57L40,55C37,48 36,40 39,32Z" />
+    <!-- Đôi mắt tò mò nhìn lên bóng đèn gợi ý -->
+    <path
+        android:fillColor="#383047"
+        android:pathData="M43,40m-4.2,0a4.2,4.6 0,1 0,8.4 0a4.2,4.6 0,1 0,-8.4 0" />
+    <path
+        android:fillColor="#383047"
+        android:pathData="M58,40m-4.2,0a4.2,4.6 0,1 0,8.4 0a4.2,4.6 0,1 0,-8.4 0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M44.2,38.2m-1.6,0a1.6,1.6 0,1 0,3.2 0a1.6,1.6 0,1 0,-3.2 0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M59.2,38.2m-1.6,0a1.6,1.6 0,1 0,3.2 0a1.6,1.6 0,1 0,-3.2 0" />
+    <!-- Má hồng & nụ cười khích lệ -->
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M36,45a3.2,2 0,1 0,6.4 0a3.2,2 0,1 0,-6.4 0" />
+    <path
+        android:fillColor="#FF7F79"
+        android:pathData="M58,45a3.2,2 0,1 0,6.4 0a3.2,2 0,1 0,-6.4 0" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#383047"
+        android:strokeWidth="2.4"
+        android:strokeLineCap="round"
+        android:pathData="M46,46C48,49 53,49 55,46" />
+</vector>
+
