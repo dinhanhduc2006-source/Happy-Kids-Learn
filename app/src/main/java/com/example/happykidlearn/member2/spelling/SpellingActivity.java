@@ -30,11 +30,14 @@ import com.example.happykidlearn.member2.common.Member2ProgressRepository;
 import com.example.happykidlearn.member2.common.Member2SoundEffects;
 import com.example.happykidlearn.member2.common.Member2SpeechHelper;
 import com.example.happykidlearn.member2.common.Member2VoiceFeedback;
+import com.example.happykidlearn.member2.common.Member2VoiceManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class SpellingActivity extends BaseGameActivity {
@@ -42,6 +45,7 @@ public class SpellingActivity extends BaseGameActivity {
     private static final String STATE_EXERCISE_INDEX = "state_spelling_exercise_index";
     private static final String STATE_POOL_SEED = "state_spelling_pool_seed";
     private static final String STATE_SLOT_TILE_INDICES = "state_spelling_slot_tile_indices";
+    private static final String STATE_WELCOME_PLAYED = "state_spelling_welcome_played";
 
     private ImageView ivMascot;
     private TextView tvMascotSpeech;
@@ -66,6 +70,7 @@ public class SpellingActivity extends BaseGameActivity {
     private Member2ProgressRepository progressRepository;
     private Member2SpeechHelper speechHelper;
     private Member2VoiceFeedback voiceFeedback;
+    private Member2VoiceManager voiceManager;
 
     private final Set<String> completedExerciseIds = new HashSet<>();
     private int currentExerciseIndex = 0;
@@ -73,6 +78,7 @@ public class SpellingActivity extends BaseGameActivity {
     private List<String> currentPoolTokens = new ArrayList<>();
     private int[] slotTileIndices = new int[0];
     private boolean isCurrentAttemptVerifiedCorrect = false;
+    private boolean hasPlayedWelcomeGreeting = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +99,7 @@ public class SpellingActivity extends BaseGameActivity {
             }
         });
         voiceFeedback = new Member2VoiceFeedback(this);
+        voiceManager = new Member2VoiceManager(this);
 
         initViews();
         buildExerciseSelectorStrip();
@@ -100,10 +107,11 @@ public class SpellingActivity extends BaseGameActivity {
         if (savedInstanceState != null) {
             currentExerciseIndex = savedInstanceState.getInt(STATE_EXERCISE_INDEX, 0);
             currentPoolSeed = savedInstanceState.getLong(STATE_POOL_SEED, 1001L + currentExerciseIndex);
+            hasPlayedWelcomeGreeting = savedInstanceState.getBoolean(STATE_WELCOME_PLAYED, false);
             int[] restoredSlots = savedInstanceState.getIntArray(STATE_SLOT_TILE_INDICES);
-            loadExercise(currentExerciseIndex, currentPoolSeed, restoredSlots);
+            loadExercise(currentExerciseIndex, currentPoolSeed, restoredSlots, false);
         } else {
-            loadExercise(0, 1001L, null);
+            loadExercise(0, 1001L, null, true);
         }
 
         loadSavedProgress();
@@ -140,17 +148,36 @@ public class SpellingActivity extends BaseGameActivity {
         btnPrev = findViewById(R.id.btn_m2_spelling_prev);
         btnNext = findViewById(R.id.btn_m2_spelling_next);
 
+        if (voiceManager != null) {
+            voiceManager.bindViews(
+                    ivMascot,
+                    findViewById(R.id.btn_m2_voice_replay),
+                    findViewById(R.id.tv_m2_voice_guidance_toggle)
+            );
+        }
+
         btnListen.setOnClickListener(v -> speakCurrentTargetWord());
         ivIllustration.setOnClickListener(v -> speakCurrentTargetWord());
         btnClear.setOnClickListener(v -> {
+            if (voiceManager != null) {
+                voiceManager.onUserInteraction();
+            }
             Member2SoundEffects.playTap(this);
             clearAllSlots();
         });
         btnHint.setOnClickListener(v -> {
+            if (voiceManager != null) {
+                voiceManager.onUserInteraction();
+            }
             Member2SoundEffects.playTap(this);
             applySmartHint();
         });
-        btnCheck.setOnClickListener(v -> checkCurrentAnswer());
+        btnCheck.setOnClickListener(v -> {
+            if (voiceManager != null) {
+                voiceManager.onUserInteraction();
+            }
+            checkCurrentAnswer();
+        });
 
         btnPrev.setOnClickListener(v -> {
             if (currentExerciseIndex > 0) {
@@ -263,6 +290,15 @@ public class SpellingActivity extends BaseGameActivity {
     }
 
     private void loadExercise(int index, long seed, @Nullable int[] restoredSlotIndices) {
+        loadExercise(index, seed, restoredSlotIndices, true);
+    }
+
+    private void loadExercise(
+            int index,
+            long seed,
+            @Nullable int[] restoredSlotIndices,
+            boolean autoSpeakQuestion
+    ) {
         if (speechHelper != null) {
             speechHelper.stop();
         }
@@ -310,6 +346,119 @@ public class SpellingActivity extends BaseGameActivity {
         updateExerciseSelectorStrip();
         updateNavigationButtons();
         renderSlotsAndPool();
+        announceExerciseOrWelcome(exercise, autoSpeakQuestion);
+    }
+
+    private void announceExerciseOrWelcome(@NonNull SpellingExercise exercise, boolean autoSpeakQuestion) {
+        if (voiceManager == null) {
+            return;
+        }
+        String questionPrompt = Member2VoiceManager.buildSpellingQuestionPrompt(exercise.getTargetWord());
+        List<Member2VoiceManager.VoiceStep> questionSteps = Arrays.asList(
+                new Member2VoiceManager.VoiceStep(
+                        questionPrompt,
+                        Member2VoiceManager.LOCALE_VI,
+                        0L,
+                        "spelling_q_" + exercise.getId(),
+                        () -> Member2VoiceManager.highlightTargetView(ivIllustration)
+                ),
+                new Member2VoiceManager.VoiceStep(
+                        exercise.getTargetWord() + "! " + exercise.getContextPhrase(),
+                        Member2VoiceManager.LOCALE_VI,
+                        280L,
+                        "spelling_word_" + exercise.getId(),
+                        null
+                )
+        );
+        List<Member2VoiceManager.VoiceStep> replayInstructionSteps = Arrays.asList(
+                new Member2VoiceManager.VoiceStep(
+                        Member2VoiceManager.SPELLING_LOOK_TOP_GUIDE,
+                        Member2VoiceManager.LOCALE_VI,
+                        0L,
+                        "spelling_look_top",
+                        () -> Member2VoiceManager.highlightTargetView(ivIllustration)
+                ),
+                new Member2VoiceManager.VoiceStep(
+                        Member2VoiceManager.SPELLING_TAP_BOTTOM_GUIDE,
+                        Member2VoiceManager.LOCALE_VI,
+                        250L,
+                        "spelling_tap_bottom",
+                        () -> Member2VoiceManager.highlightTargetView(llPoolContainer)
+                ),
+                new Member2VoiceManager.VoiceStep(
+                        questionPrompt,
+                        Member2VoiceManager.LOCALE_VI,
+                        280L,
+                        "spelling_q_" + exercise.getId(),
+                        null
+                ),
+                new Member2VoiceManager.VoiceStep(
+                        exercise.getTargetWord() + "! " + exercise.getContextPhrase(),
+                        Member2VoiceManager.LOCALE_VI,
+                        280L,
+                        "spelling_word_" + exercise.getId(),
+                        null
+                )
+        );
+        voiceManager.setCurrentInstruction(replayInstructionSteps);
+        voiceManager.startNewTurn();
+
+        if (!hasPlayedWelcomeGreeting) {
+            hasPlayedWelcomeGreeting = true;
+            voiceManager.speakSequence(
+                    Arrays.asList(
+                            new Member2VoiceManager.VoiceStep(
+                                    Member2VoiceManager.SPELLING_GREETING_1,
+                                    Member2VoiceManager.LOCALE_VI,
+                                    0L,
+                                    "spelling_greeting_1",
+                                    null
+                            ),
+                            new Member2VoiceManager.VoiceStep(
+                                    Member2VoiceManager.SPELLING_LOOK_TOP_GUIDE,
+                                    Member2VoiceManager.LOCALE_VI,
+                                    260L,
+                                    "spelling_look_top",
+                                    () -> Member2VoiceManager.highlightTargetView(ivIllustration)
+                            ),
+                            new Member2VoiceManager.VoiceStep(
+                                    Member2VoiceManager.SPELLING_TAP_BOTTOM_GUIDE,
+                                    Member2VoiceManager.LOCALE_VI,
+                                    260L,
+                                    "spelling_tap_bottom",
+                                    () -> Member2VoiceManager.highlightTargetView(llPoolContainer)
+                            ),
+                            new Member2VoiceManager.VoiceStep(
+                                    questionPrompt,
+                                    Member2VoiceManager.LOCALE_VI,
+                                    320L,
+                                    "spelling_q_" + exercise.getId(),
+                                    null
+                            ),
+                            new Member2VoiceManager.VoiceStep(
+                                    exercise.getTargetWord() + "! " + exercise.getContextPhrase(),
+                                    Member2VoiceManager.LOCALE_VI,
+                                    280L,
+                                    "spelling_word_" + exercise.getId(),
+                                    null
+                            )
+                    ),
+                    Member2VoiceManager.Priority.GREETING_AND_IDLE,
+                    false,
+                    null
+            );
+            return;
+        }
+
+        if (autoSpeakQuestion) {
+            voiceManager.onUserInteraction();
+            voiceManager.speakSequence(
+                    questionSteps,
+                    Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                    false,
+                    null
+            );
+        }
     }
 
     private void updateExerciseStatusBadge() {
@@ -484,11 +633,18 @@ public class SpellingActivity extends BaseGameActivity {
     }
 
     private void placeTileAtSlot(int poolIndex, int targetSlotIndex) {
+        placeTileAtSlot(poolIndex, targetSlotIndex, true);
+    }
+
+    private void placeTileAtSlot(int poolIndex, int targetSlotIndex, boolean speakSelectedTokenIfPartial) {
         if (poolIndex < 0 || poolIndex >= currentPoolTokens.size()) {
             return;
         }
         if (targetSlotIndex < 0 || targetSlotIndex >= slotTileIndices.length) {
             return;
+        }
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
         }
 
         isCurrentAttemptVerifiedCorrect = false;
@@ -503,10 +659,61 @@ public class SpellingActivity extends BaseGameActivity {
         slotTileIndices[targetSlotIndex] = poolIndex;
         Member2SoundEffects.playTap(this);
         renderSlotsAndPool();
+        animateSinglePlacedSlot(targetSlotIndex);
 
         // Nếu đã lắp đủ tất cả các ô trên bàn chế tạo thì tự động kiểm tra
         if (areAllSlotsFilled()) {
             checkCurrentAnswer();
+        } else if (speakSelectedTokenIfPartial && voiceManager != null) {
+            String placedToken = currentPoolTokens.get(poolIndex);
+            int filledCount = 0;
+            for (int idx : slotTileIndices) {
+                if (idx >= 0) {
+                    filledCount++;
+                }
+            }
+            if (filledCount == 1 && slotTileIndices.length > 1) {
+                voiceManager.speakSequence(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        "chữ " + placedToken,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        null,
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.SPELLING_NEXT_LETTER_SHORT_GUIDE,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        240L,
+                                        "spelling_next_letter_guide",
+                                        () -> Member2VoiceManager.highlightTargetView(llPoolContainer)
+                                )
+                        ),
+                        Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                        true,
+                        null
+                );
+            } else {
+                voiceManager.speakKnowledgeVietnamese("chữ " + placedToken);
+            }
+        }
+    }
+
+    private void animateSinglePlacedSlot(int slotIndex) {
+        if (!areAnimationsEnabled() || slotIndex < 0 || slotIndex >= llSlotsContainer.getChildCount()) {
+            return;
+        }
+        View slotView = llSlotsContainer.getChildAt(slotIndex);
+        if (slotView != null) {
+            slotView.setScaleX(0.84f);
+            slotView.setScaleY(0.84f);
+            slotView.animate()
+                    .scaleX(1.08f)
+                    .scaleY(1.08f)
+                    .setDuration(110)
+                    .withEndAction(() -> slotView.animate().scaleX(1.0f).scaleY(1.0f).setDuration(90).start())
+                    .start();
         }
     }
 
@@ -551,9 +758,6 @@ public class SpellingActivity extends BaseGameActivity {
         if (ivMascot != null) {
             ivMascot.setImageResource(R.drawable.m2_mascot_saobong_hint);
         }
-        if (tvMascotSpeech != null) {
-            tvMascotSpeech.setText("Gợi ý của Sao Bông: " + exercise.getHintText());
-        }
 
         List<String> currentTokens = getPlacedTokens();
         int helpSlot = SpellingEngine.findFirstSlotNeedingHelp(exercise, currentTokens);
@@ -562,7 +766,12 @@ public class SpellingActivity extends BaseGameActivity {
             return;
         }
 
-        String neededToken = SpellingEngine.normalizeUnicode(exercise.getTargetTokens().get(helpSlot));
+        String rawNeededToken = exercise.getTargetTokens().get(helpSlot);
+        String neededToken = SpellingEngine.normalizeUnicode(rawNeededToken);
+        String spokenHint = Member2VoiceManager.buildSpellingHintPrompt(rawNeededToken, helpSlot);
+        if (tvMascotSpeech != null) {
+            tvMascotSpeech.setText(spokenHint);
+        }
 
         // Chỉ hỗ trợ đúng 1 bước tại ô đầu tiên đang trống hoặc sai
         for (int p = 0; p < currentPoolTokens.size(); p++) {
@@ -576,11 +785,52 @@ public class SpellingActivity extends BaseGameActivity {
                     }
                 }
                 if (!usedInEarlierCorrectSlot) {
-                    placeTileAtSlot(p, helpSlot);
+                    boolean willCompleteAllSlots = countFilledSlotsAfterPlacement(p, helpSlot) == slotTileIndices.length;
+                    placeTileAtSlot(p, helpSlot, false);
+                    if (!willCompleteAllSlots && voiceManager != null) {
+                        voiceManager.speakSequence(
+                                Collections.singletonList(new Member2VoiceManager.VoiceStep(
+                                        spokenHint,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "spelling_hint_" + exercise.getId() + "_" + helpSlot,
+                                        null
+                                )),
+                                Member2VoiceManager.Priority.ACTION_INSTRUCTION,
+                                true,
+                                null
+                        );
+                    }
                     return;
                 }
             }
         }
+    }
+
+    private int countFilledSlotsAfterPlacement(int poolIndex, int targetSlotIndex) {
+        int filled = 0;
+        for (int i = 0; i < slotTileIndices.length; i++) {
+            int val = slotTileIndices[i];
+            if (i == targetSlotIndex) {
+                val = poolIndex;
+            } else if (val == poolIndex) {
+                val = -1;
+            }
+            if (val >= 0) {
+                filled++;
+            }
+        }
+        return filled;
+    }
+
+    @NonNull
+    private static String buildCelebrationWordSpeech(@NonNull SpellingExercise exercise) {
+        Locale vi = Member2VoiceManager.LOCALE_VI;
+        String upperWord = exercise.getTargetWord().toUpperCase(vi);
+        if ("mèo".equalsIgnoreCase(exercise.getTargetWord())) {
+            return "MÈO! Con mèo kêu meo meo!";
+        }
+        return upperWord + "! " + exercise.getContextPhrase() + "!";
     }
 
     private void checkCurrentAnswer() {
@@ -613,7 +863,27 @@ public class SpellingActivity extends BaseGameActivity {
             );
             renderSlotsAndPool();
             animateCorrectSlotsAndIllustration();
-            if (voiceFeedback != null) {
+            if (voiceManager != null) {
+                voiceManager.speakFeedbackSteps(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.SPELLING_CORRECT_PRAISE,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "spelling_correct_praise",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        buildCelebrationWordSpeech(exercise),
+                                        Member2VoiceManager.LOCALE_VI,
+                                        260L,
+                                        "spelling_word_celebrate_" + exercise.getId(),
+                                        null
+                                )
+                        ),
+                        null
+                );
+            } else if (voiceFeedback != null) {
                 voiceFeedback.speakTextThenCorrect(
                         exercise.getTargetWord() + ". " + exercise.getContextPhrase(),
                         Member2SpeechHelper.LOCALE_VIETNAMESE
@@ -635,7 +905,27 @@ public class SpellingActivity extends BaseGameActivity {
                     R.color.m2_text_primary
             );
             shakeSlotsGently();
-            if (voiceFeedback != null) {
+            if (voiceManager != null) {
+                voiceManager.speakFeedbackSteps(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.SPELLING_WRONG_PROMPT,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "spelling_wrong_prompt",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.SPELLING_HINT_BULB_GUIDE,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        260L,
+                                        "spelling_hint_bulb_guide",
+                                        () -> Member2VoiceManager.highlightTargetView(btnHint)
+                                )
+                        ),
+                        null
+                );
+            } else if (voiceFeedback != null) {
                 voiceFeedback.speakWrong();
             }
         }
@@ -703,6 +993,31 @@ public class SpellingActivity extends BaseGameActivity {
         SpellingExercise exercise = exercises.get(currentExerciseIndex);
         if (soundManager != null && soundManager.isSfxMuted()) {
             Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+            voiceManager.speakSequence(
+                    Arrays.asList(
+                            new Member2VoiceManager.VoiceStep(
+                                    Member2VoiceManager.buildSpellingQuestionPrompt(exercise.getTargetWord()),
+                                    Member2VoiceManager.LOCALE_VI,
+                                    0L,
+                                    "spelling_q_" + exercise.getId(),
+                                    null
+                            ),
+                            new Member2VoiceManager.VoiceStep(
+                                    exercise.getTargetWord() + "! " + exercise.getContextPhrase(),
+                                    Member2VoiceManager.LOCALE_VI,
+                                    280L,
+                                    "spelling_word_" + exercise.getId(),
+                                    null
+                            )
+                    ),
+                    Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                    true,
+                    null
+            );
             return;
         }
         speechHelper.speak(
@@ -777,6 +1092,9 @@ public class SpellingActivity extends BaseGameActivity {
             if (voiceFeedback != null) {
                 voiceFeedback.stop();
             }
+            if (voiceManager != null) {
+                voiceManager.stop();
+            }
         } else {
             Member2SoundEffects.applyMiniGameBgmLevel(this);
         }
@@ -791,12 +1109,16 @@ public class SpellingActivity extends BaseGameActivity {
         outState.putInt(STATE_EXERCISE_INDEX, currentExerciseIndex);
         outState.putLong(STATE_POOL_SEED, currentPoolSeed);
         outState.putIntArray(STATE_SLOT_TILE_INDICES, slotTileIndices);
+        outState.putBoolean(STATE_WELCOME_PLAYED, hasPlayedWelcomeGreeting);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Member2SoundEffects.applyMiniGameBgmLevel(this);
+        if (voiceManager != null) {
+            voiceManager.onResume();
+        }
     }
 
     @Override
@@ -806,6 +1128,9 @@ public class SpellingActivity extends BaseGameActivity {
         }
         if (voiceFeedback != null) {
             voiceFeedback.stop();
+        }
+        if (voiceManager != null) {
+            voiceManager.onStop();
         }
         super.onStop();
     }
@@ -817,6 +1142,9 @@ public class SpellingActivity extends BaseGameActivity {
         }
         if (voiceFeedback != null) {
             voiceFeedback.release();
+        }
+        if (voiceManager != null) {
+            voiceManager.release();
         }
         super.onDestroy();
     }

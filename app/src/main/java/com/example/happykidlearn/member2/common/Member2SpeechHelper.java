@@ -44,6 +44,16 @@ public class Member2SpeechHelper {
     public static final Locale LOCALE_VIETNAMESE_SHORT = Locale.forLanguageTag("vi");
     public static final Locale LOCALE_ENGLISH_US = Locale.US;
 
+    /** Tốc độ đọc chậm rãi, rõ ràng cho trẻ 4–8 tuổi (0.85–0.90). */
+    public static final float DEFAULT_SPEECH_RATE = 0.88f;
+    /** Cao độ giọng đọc tươi sáng, thân thiện kiểu Sao Bông (1.05–1.15). */
+    public static final float DEFAULT_PITCH = 1.10f;
+
+    /** Tốc độ đọc chậm rãi, truyền cảm dành riêng cho kể chuyện Storybook (0.75–0.80). */
+    public static final float STORY_NARRATION_SPEECH_RATE = 0.76f;
+    /** Cao độ giọng kể chuyện ấm áp, dịu dàng như kể chuyện trước giờ đi ngủ. */
+    public static final float STORY_NARRATION_PITCH = 1.06f;
+
     private static final Object LOCK = new Object();
     @Nullable
     private static TextToSpeech sharedTts;
@@ -57,6 +67,8 @@ public class Member2SpeechHelper {
     private static Locale pendingLocale;
     @Nullable
     private static String pendingUtteranceId;
+    private static float pendingSpeechRate = DEFAULT_SPEECH_RATE;
+    private static float pendingPitch = DEFAULT_PITCH;
 
     private final Context appContext;
     private final SoundManager soundManager;
@@ -92,8 +104,8 @@ public class Member2SpeechHelper {
                         sharedInitializing = false;
                         if (status == TextToSpeech.SUCCESS && sharedTts != null) {
                             configureAudioAttributes(sharedTts);
-                            sharedTts.setSpeechRate(0.92f);
-                            sharedTts.setPitch(1.04f);
+                            sharedTts.setSpeechRate(DEFAULT_SPEECH_RATE);
+                            sharedTts.setPitch(DEFAULT_PITCH);
 
                             int viStatus = safeCheckLanguage(sharedTts, LOCALE_VIETNAMESE);
                             int enStatus = safeCheckLanguage(sharedTts, LOCALE_ENGLISH_US);
@@ -109,9 +121,11 @@ public class Member2SpeechHelper {
                                 String textToSpeak = pendingText;
                                 Locale localeToSpeak = pendingLocale;
                                 String idToSpeak = pendingUtteranceId;
+                                float rateToSpeak = pendingSpeechRate;
+                                float pitchToSpeak = pendingPitch;
                                 clearPendingUtterance();
                                 Log.i(TAG, "Speaking queued pending utterance after shared TTS init: id=" + idToSpeak);
-                                speakInternal(appContext, textToSpeak, localeToSpeak, idToSpeak);
+                                speakInternal(appContext, textToSpeak, localeToSpeak, idToSpeak, rateToSpeak, pitchToSpeak);
                             }
                         } else {
                             sharedInitialized = false;
@@ -211,6 +225,16 @@ public class Member2SpeechHelper {
     }
 
     public boolean speak(@NonNull String text, @NonNull Locale locale, @NonNull String utteranceId) {
+        return speak(text, locale, utteranceId, DEFAULT_SPEECH_RATE, DEFAULT_PITCH);
+    }
+
+    public boolean speak(
+            @NonNull String text,
+            @NonNull Locale locale,
+            @NonNull String utteranceId,
+            float speechRate,
+            float pitch
+    ) {
         synchronized (LOCK) {
             activeListener = this.listener;
         }
@@ -227,6 +251,8 @@ public class Member2SpeechHelper {
                 pendingText = text;
                 pendingLocale = locale;
                 pendingUtteranceId = utteranceId;
+                pendingSpeechRate = speechRate;
+                pendingPitch = pitch;
                 return true;
             }
             int langResult = applyLocaleWithFallback(sharedTts, locale);
@@ -241,7 +267,7 @@ public class Member2SpeechHelper {
                     );
                 }
             }
-            return speakInternal(appContext, text, locale, utteranceId);
+            return speakInternal(appContext, text, locale, utteranceId, speechRate, pitch);
         }
     }
 
@@ -249,16 +275,24 @@ public class Member2SpeechHelper {
             @NonNull Context appContext,
             @NonNull String text,
             @NonNull Locale locale,
-            @NonNull String utteranceId
+            @NonNull String utteranceId,
+            float speechRate,
+            float pitch
     ) {
         if (sharedTts == null) {
             return false;
         }
         applyLocaleWithFallback(sharedTts, locale);
+        try {
+            sharedTts.setSpeechRate(speechRate);
+            sharedTts.setPitch(pitch);
+        } catch (Exception ignored) {
+        }
         Bundle params = new Bundle();
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1.0f);
         int speakRes = sharedTts.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId);
         Log.i(TAG, "TTS speak invoked: id=" + utteranceId + ", locale=" + locale
+                + ", rate=" + speechRate + ", pitch=" + pitch
                 + ", text=\"" + text + "\", result=" + (speakRes == TextToSpeech.SUCCESS ? "SUCCESS" : "ERROR(" + speakRes + ")"));
         return speakRes == TextToSpeech.SUCCESS;
     }
@@ -331,10 +365,31 @@ public class Member2SpeechHelper {
         }
     }
 
+    public static boolean isReady() {
+        synchronized (LOCK) {
+            return sharedInitialized && sharedTts != null;
+        }
+    }
+
+    public static boolean isEngineSpeaking() {
+        synchronized (LOCK) {
+            if (!sharedInitialized || sharedTts == null) {
+                return false;
+            }
+            try {
+                return sharedTts.isSpeaking();
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+
     private static void clearPendingUtterance() {
         pendingText = null;
         pendingLocale = null;
         pendingUtteranceId = null;
+        pendingSpeechRate = DEFAULT_SPEECH_RATE;
+        pendingPitch = DEFAULT_PITCH;
     }
 
     public void stop() {

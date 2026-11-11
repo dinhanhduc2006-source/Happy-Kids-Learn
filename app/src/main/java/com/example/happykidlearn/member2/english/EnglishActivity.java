@@ -25,8 +25,11 @@ import com.example.happykidlearn.member2.common.Member2ProgressRepository;
 import com.example.happykidlearn.member2.common.Member2SoundEffects;
 import com.example.happykidlearn.member2.common.Member2SpeechHelper;
 import com.example.happykidlearn.member2.common.Member2VoiceFeedback;
+import com.example.happykidlearn.member2.common.Member2VoiceManager;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +43,7 @@ public class EnglishActivity extends BaseGameActivity {
     private static final String STATE_QUIZ_INDEX = "state_en_quiz_index";
     private static final String STATE_QUIZ_SCORE = "state_en_quiz_score";
     private static final String STATE_QUIZ_SEED = "state_en_quiz_seed";
+    private static final String STATE_WELCOME_PLAYED = "state_en_welcome_played";
 
     private static final int MODE_FLASHCARD = 0;
     private static final int MODE_LISTEN = 1;
@@ -82,6 +86,7 @@ public class EnglishActivity extends BaseGameActivity {
     private Member2ProgressRepository progressRepository;
     private Member2SpeechHelper speechHelper;
     private Member2VoiceFeedback voiceFeedback;
+    private Member2VoiceManager voiceManager;
 
     private final Set<String> learnedVocabIds = new HashSet<>();
     private int currentTopicIndex = 0;
@@ -93,6 +98,7 @@ public class EnglishActivity extends BaseGameActivity {
     private int currentQuizScore = 0;
     private long currentQuizSeed = 2026L;
     private boolean currentQuestionAnswered = false;
+    private boolean hasPlayedWelcomeGreeting = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,6 +119,7 @@ public class EnglishActivity extends BaseGameActivity {
             }
         });
         voiceFeedback = new Member2VoiceFeedback(this);
+        voiceManager = new Member2VoiceManager(this);
 
         initViews();
         buildTopicChips();
@@ -124,6 +131,7 @@ public class EnglishActivity extends BaseGameActivity {
             currentQuizIndex = savedInstanceState.getInt(STATE_QUIZ_INDEX, 0);
             currentQuizScore = savedInstanceState.getInt(STATE_QUIZ_SCORE, 0);
             currentQuizSeed = savedInstanceState.getLong(STATE_QUIZ_SEED, 2026L);
+            hasPlayedWelcomeGreeting = savedInstanceState.getBoolean(STATE_WELCOME_PLAYED, false);
         }
 
         updateTopicSelectionUi();
@@ -132,7 +140,7 @@ public class EnglishActivity extends BaseGameActivity {
             currentQuizQuestions = EnglishQuizEngine.generateQuizForTopic(topic.getId(), currentQuizSeed);
             switchToInteractiveStageMode(currentMode, false);
         } else {
-            switchToFlashcardMode();
+            switchToFlashcardMode(savedInstanceState == null);
         }
 
         loadSavedProgress();
@@ -194,9 +202,17 @@ public class EnglishActivity extends BaseGameActivity {
         tvQuizFeedback = findViewById(R.id.tv_m2_en_quiz_feedback);
         btnQuizNext = findViewById(R.id.btn_m2_en_quiz_next);
 
+        if (voiceManager != null) {
+            voiceManager.bindViews(
+                    ivMascot,
+                    findViewById(R.id.btn_m2_voice_replay),
+                    findViewById(R.id.tv_m2_voice_guidance_toggle)
+            );
+        }
+
         btnModeFlashcard.setOnClickListener(v -> {
             Member2SoundEffects.playTap(this);
-            switchToFlashcardMode();
+            switchToFlashcardMode(true);
         });
         btnModeListen.setOnClickListener(v -> {
             Member2SoundEffects.playTap(this);
@@ -211,7 +227,7 @@ public class EnglishActivity extends BaseGameActivity {
             Member2SoundEffects.playTap(this);
             EnglishContent.VocabItem item = getCurrentFlashcardItem();
             animateViewPop(ivCardIllust);
-            speakEnglishWord(item.getEnglishWord(), item.getId());
+            speakBilingualFlashcardNow(item);
             markVocabLearned(item);
         });
 
@@ -219,7 +235,7 @@ public class EnglishActivity extends BaseGameActivity {
             Member2SoundEffects.playTap(this);
             EnglishContent.VocabItem item = getCurrentFlashcardItem();
             animateViewPop(ivCardIllust);
-            speakEnglishWord(item.getEnglishWord(), item.getId());
+            speakBilingualFlashcardNow(item);
             markVocabLearned(item);
         });
 
@@ -227,7 +243,7 @@ public class EnglishActivity extends BaseGameActivity {
             if (currentCardIndex > 0) {
                 Member2SoundEffects.playOpenBook(this);
                 currentCardIndex--;
-                renderCurrentFlashcard();
+                renderCurrentFlashcard(true);
             }
         });
 
@@ -238,7 +254,7 @@ public class EnglishActivity extends BaseGameActivity {
             EnglishContent.Topic topic = topics.get(currentTopicIndex);
             if (currentCardIndex < topic.getItems().size() - 1) {
                 currentCardIndex++;
-                renderCurrentFlashcard();
+                renderCurrentFlashcard(true);
             } else {
                 startNewStageSession(MODE_LISTEN);
             }
@@ -248,7 +264,7 @@ public class EnglishActivity extends BaseGameActivity {
             Member2SoundEffects.playTap(this);
             if (!currentQuizQuestions.isEmpty() && currentQuizIndex < currentQuizQuestions.size()) {
                 EnglishContent.VocabItem target = currentQuizQuestions.get(currentQuizIndex).getTargetItem();
-                speakEnglishWord(target.getEnglishWord(), "quiz_" + target.getId());
+                speakBilingualQuizPromptNow(target);
             }
         });
 
@@ -298,7 +314,7 @@ public class EnglishActivity extends BaseGameActivity {
                 if (currentMode == MODE_LISTEN || currentMode == MODE_QUIZ) {
                     startNewStageSession(currentMode);
                 } else {
-                    renderCurrentFlashcard();
+                    renderCurrentFlashcard(true);
                 }
             });
 
@@ -338,12 +354,12 @@ public class EnglishActivity extends BaseGameActivity {
         btn.setTextColor(textColor);
     }
 
-    private void switchToFlashcardMode() {
+    private void switchToFlashcardMode(boolean autoSpeakCard) {
         currentMode = MODE_FLASHCARD;
         layoutFlashcardContainer.setVisibility(View.VISIBLE);
         layoutQuizContainer.setVisibility(View.GONE);
         updateModeButtonsUi();
-        renderCurrentFlashcard();
+        renderCurrentFlashcard(autoSpeakCard);
     }
 
     private void startNewStageSession(int mode) {
@@ -371,6 +387,10 @@ public class EnglishActivity extends BaseGameActivity {
     }
 
     private void renderCurrentFlashcard() {
+        renderCurrentFlashcard(false);
+    }
+
+    private void renderCurrentFlashcard(boolean autoSpeakCard) {
         EnglishContent.Topic topic = topics.get(currentTopicIndex);
         List<EnglishContent.VocabItem> items = topic.getItems();
         EnglishContent.VocabItem item = getCurrentFlashcardItem();
@@ -415,6 +435,113 @@ public class EnglishActivity extends BaseGameActivity {
         } else {
             btnNextWord.setText(R.string.m2_english_btn_next_word);
         }
+
+        if (voiceManager != null) {
+            String topicGuide = Member2VoiceManager.buildEnglishTopicActionGuide(topic.getId());
+            List<Member2VoiceManager.VoiceStep> rawCardSteps = Member2VoiceManager.buildEnglishFlashcardSteps(item);
+            List<Member2VoiceManager.VoiceStep> cardSteps = new ArrayList<>(rawCardSteps.size());
+            for (int i = 0; i < rawCardSteps.size(); i++) {
+                Member2VoiceManager.VoiceStep s = rawCardSteps.get(i);
+                cardSteps.add(new Member2VoiceManager.VoiceStep(
+                        s.getText(),
+                        s.getLocale(),
+                        s.getPreDelayMs(),
+                        s.getVoiceKey(),
+                        i == 0 ? () -> Member2VoiceManager.highlightTargetView(ivCardIllust) : s.getOnStepStart()
+                ));
+            }
+            List<Member2VoiceManager.VoiceStep> replaySteps = new ArrayList<>();
+            replaySteps.add(new Member2VoiceManager.VoiceStep(
+                    topicGuide,
+                    Member2VoiceManager.LOCALE_VI,
+                    0L,
+                    "en_topic_guide_" + topic.getId(),
+                    () -> Member2VoiceManager.highlightTargetView(ivCardIllust)
+            ));
+            for (int i = 0; i < cardSteps.size(); i++) {
+                Member2VoiceManager.VoiceStep s = cardSteps.get(i);
+                replaySteps.add(new Member2VoiceManager.VoiceStep(
+                        s.getText(),
+                        s.getLocale(),
+                        i == 0 ? 300L : s.getPreDelayMs(),
+                        s.getVoiceKey(),
+                        s.getOnStepStart()
+                ));
+            }
+            voiceManager.setCurrentInstruction(replaySteps);
+            voiceManager.startNewTurn();
+            if (!hasPlayedWelcomeGreeting) {
+                hasPlayedWelcomeGreeting = true;
+                List<Member2VoiceManager.VoiceStep> welcomeAndCard = new ArrayList<>();
+                welcomeAndCard.add(new Member2VoiceManager.VoiceStep(
+                        Member2VoiceManager.ENGLISH_GREETING_1,
+                        Member2VoiceManager.LOCALE_VI,
+                        0L,
+                        "en_greeting_1",
+                        null
+                ));
+                welcomeAndCard.add(new Member2VoiceManager.VoiceStep(
+                        topicGuide,
+                        Member2VoiceManager.LOCALE_VI,
+                        260L,
+                        "en_topic_guide_" + topic.getId(),
+                        () -> Member2VoiceManager.highlightTargetView(ivCardIllust)
+                ));
+                for (int i = 0; i < cardSteps.size(); i++) {
+                    Member2VoiceManager.VoiceStep s = cardSteps.get(i);
+                    welcomeAndCard.add(new Member2VoiceManager.VoiceStep(
+                            s.getText(),
+                            s.getLocale(),
+                            i == 0 ? 320L : s.getPreDelayMs(),
+                            s.getVoiceKey(),
+                            s.getOnStepStart()
+                    ));
+                }
+                voiceManager.speakSequence(
+                        welcomeAndCard,
+                        Member2VoiceManager.Priority.GREETING_AND_IDLE,
+                        false,
+                        null
+                );
+            } else if (autoSpeakCard) {
+                voiceManager.onUserInteraction();
+                if (currentCardIndex == 0) {
+                    voiceManager.speakSequence(
+                            replaySteps,
+                            Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                            false,
+                            null
+                    );
+                } else {
+                    voiceManager.speakSequence(
+                            cardSteps,
+                            Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                            false,
+                            null
+                    );
+                }
+            }
+        }
+    }
+
+    private void speakBilingualFlashcardNow(@NonNull EnglishContent.VocabItem item) {
+        if (soundManager != null && soundManager.isSfxMuted()) {
+            Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+            List<Member2VoiceManager.VoiceStep> steps = Member2VoiceManager.buildEnglishFlashcardSteps(item);
+            voiceManager.setCurrentInstruction(steps);
+            voiceManager.speakSequence(
+                    steps,
+                    Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                    true,
+                    null
+            );
+            return;
+        }
+        speakEnglishWord(item.getEnglishWord(), item.getId());
     }
 
     private void renderCurrentQuizQuestion(boolean autoSpeak) {
@@ -478,14 +605,72 @@ public class EnglishActivity extends BaseGameActivity {
             }
         }
 
-        if (autoSpeak) {
-            speakEnglishWord(target.getEnglishWord(), "stage_q_" + target.getId());
+        if (voiceManager != null) {
+            List<Member2VoiceManager.VoiceStep> quizSteps = Arrays.asList(
+                    new Member2VoiceManager.VoiceStep(
+                            Member2VoiceManager.ENGLISH_QUIZ_PROMPT,
+                            Member2VoiceManager.LOCALE_VI,
+                            0L,
+                            "en_quiz_prompt",
+                            null
+                    ),
+                    new Member2VoiceManager.VoiceStep(
+                            target.getEnglishWord() + "!",
+                            Member2VoiceManager.LOCALE_EN,
+                            300L,
+                            "en_word_" + target.getId(),
+                            null
+                    )
+            );
+            voiceManager.setCurrentInstruction(quizSteps);
+            voiceManager.startNewTurn();
         }
+
+        if (autoSpeak) {
+            speakBilingualQuizPromptNow(target);
+        }
+    }
+
+    private void speakBilingualQuizPromptNow(@NonNull EnglishContent.VocabItem target) {
+        if (soundManager != null && soundManager.isSfxMuted()) {
+            Toast.makeText(this, R.string.m2_alphabet_toast_muted, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
+            List<Member2VoiceManager.VoiceStep> quizSteps = Arrays.asList(
+                    new Member2VoiceManager.VoiceStep(
+                            Member2VoiceManager.ENGLISH_QUIZ_PROMPT,
+                            Member2VoiceManager.LOCALE_VI,
+                            0L,
+                            "en_quiz_prompt",
+                            null
+                    ),
+                    new Member2VoiceManager.VoiceStep(
+                            target.getEnglishWord() + "!",
+                            Member2VoiceManager.LOCALE_EN,
+                            300L,
+                            "en_word_" + target.getId(),
+                            null
+                    )
+            );
+            voiceManager.speakSequence(
+                    quizSteps,
+                    Member2VoiceManager.Priority.KNOWLEDGE_AND_QUESTION,
+                    true,
+                    null
+            );
+            return;
+        }
+        speakEnglishWord(target.getEnglishWord(), "stage_q_" + target.getId());
     }
 
     private void onQuizOptionClicked(int selectedIdx) {
         if (currentQuestionAnswered || currentQuizQuestions.isEmpty()) {
             return;
+        }
+        if (voiceManager != null) {
+            voiceManager.onUserInteraction();
         }
         EnglishQuestion question = currentQuizQuestions.get(currentQuizIndex);
         EnglishContent.VocabItem target = question.getTargetItem();
@@ -523,7 +708,34 @@ public class EnglishActivity extends BaseGameActivity {
             tvQuizFeedback.setBackgroundTintList(ColorStateList.valueOf(
                     ContextCompat.getColor(this, R.color.m2_badge_ready_bg)));
 
-            if (voiceFeedback != null) {
+            if (voiceManager != null) {
+                voiceManager.speakFeedbackSteps(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ENGLISH_CORRECT_EN,
+                                        Member2VoiceManager.LOCALE_EN,
+                                        0L,
+                                        "en_correct_wonderful",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ENGLISH_CORRECT_VI,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        240L,
+                                        "en_correct_vi",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        target.getEnglishWord() + "!",
+                                        Member2VoiceManager.LOCALE_EN,
+                                        280L,
+                                        "en_word_" + target.getId(),
+                                        null
+                                )
+                        ),
+                        null
+                );
+            } else if (voiceFeedback != null) {
                 voiceFeedback.speakTextThenCorrect(
                         target.getEnglishWord(),
                         Member2SpeechHelper.LOCALE_ENGLISH_US);
@@ -550,7 +762,27 @@ public class EnglishActivity extends BaseGameActivity {
             tvQuizFeedback.setTextColor(ContextCompat.getColor(this, R.color.m2_text_primary));
             tvQuizFeedback.setBackgroundTintList(ColorStateList.valueOf(
                     ContextCompat.getColor(this, R.color.m2_accent_pink_light)));
-            if (voiceFeedback != null) {
+            if (voiceManager != null) {
+                voiceManager.speakFeedbackSteps(
+                        Arrays.asList(
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ENGLISH_WRONG_VI,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        0L,
+                                        "en_wrong_vi",
+                                        null
+                                ),
+                                new Member2VoiceManager.VoiceStep(
+                                        Member2VoiceManager.ENGLISH_REPLAY_SPEAKER_GUIDE,
+                                        Member2VoiceManager.LOCALE_VI,
+                                        260L,
+                                        "en_replay_speaker_guide",
+                                        () -> Member2VoiceManager.highlightTargetView(btnQuizSpeak)
+                                )
+                        ),
+                        null
+                );
+            } else if (voiceFeedback != null) {
                 voiceFeedback.speakWrong();
             }
         }
@@ -571,7 +803,7 @@ public class EnglishActivity extends BaseGameActivity {
                         currentTopicIndex++;
                         currentCardIndex = 0;
                         updateTopicSelectionUi();
-                        switchToFlashcardMode();
+                        switchToFlashcardMode(true);
                     } else {
                         finish();
                     }
@@ -589,7 +821,7 @@ public class EnglishActivity extends BaseGameActivity {
                     learnedVocabIds.addAll(completedSet);
                     setGameProgress(learnedVocabIds.size(), totalVocab);
                     if (currentMode == MODE_FLASHCARD) {
-                        renderCurrentFlashcard();
+                        renderCurrentFlashcard(false);
                     }
                 });
     }
@@ -599,7 +831,7 @@ public class EnglishActivity extends BaseGameActivity {
         learnedVocabIds.add(item.getId());
         setGameProgress(learnedVocabIds.size(), totalVocab);
         if (currentMode == MODE_FLASHCARD) {
-            renderCurrentFlashcard();
+            renderCurrentFlashcard(false);
         }
 
         progressRepository.markItemCompleted(
@@ -656,6 +888,9 @@ public class EnglishActivity extends BaseGameActivity {
             if (voiceFeedback != null) {
                 voiceFeedback.stop();
             }
+            if (voiceManager != null) {
+                voiceManager.stop();
+            }
         } else {
             Member2SoundEffects.applyMiniGameBgmLevel(this);
         }
@@ -673,12 +908,16 @@ public class EnglishActivity extends BaseGameActivity {
         outState.putInt(STATE_QUIZ_INDEX, currentQuizIndex);
         outState.putInt(STATE_QUIZ_SCORE, currentQuizScore);
         outState.putLong(STATE_QUIZ_SEED, currentQuizSeed);
+        outState.putBoolean(STATE_WELCOME_PLAYED, hasPlayedWelcomeGreeting);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Member2SoundEffects.applyMiniGameBgmLevel(this);
+        if (voiceManager != null) {
+            voiceManager.onResume();
+        }
     }
 
     @Override
@@ -688,6 +927,9 @@ public class EnglishActivity extends BaseGameActivity {
         }
         if (voiceFeedback != null) {
             voiceFeedback.stop();
+        }
+        if (voiceManager != null) {
+            voiceManager.onStop();
         }
         super.onStop();
     }
@@ -699,6 +941,9 @@ public class EnglishActivity extends BaseGameActivity {
         }
         if (voiceFeedback != null) {
             voiceFeedback.release();
+        }
+        if (voiceManager != null) {
+            voiceManager.release();
         }
         super.onDestroy();
     }
