@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyKidLearn">
         <activity
-            android:name=".MainActivity"
+            android:name=".member2.dashboard.Member2HomeActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -22,9 +22,29 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".activities.ParentalSettingsActivity"
             android:exported="false"
             android:label="Cài Đặt Phụ Huynh" />
+        <activity
+            android:name=".member2.alphabet.AlphabetActivity"
+            android:exported="false"
+            android:label="Chữ Cái Tiếng Việt" />
+        <activity
+            android:name=".member2.spelling.SpellingActivity"
+            android:exported="false"
+            android:label="Ghép Vần Tiếng Việt" />
+        <activity
+            android:name=".member2.english.EnglishActivity"
+            android:exported="false"
+            android:label="Tiếng Anh Cho Bé" />
+        <activity
+            android:name=".member2.storybook.StorybookActivity"
+            android:exported="false"
+            android:label="Đọc Truyện Cho Bé" />
     </application>
 
 </manifest>
