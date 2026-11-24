@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Thân xe ô tô -->
+    <path
+        android:fillColor="#0288D1"
+        android:pathData="M18.92,6.01C18.72,5.42 18.16,5 17.5,5H6.5C5.84,5 5.28,5.42 5.08,6.01L3,12V20C3,20.55 3.45,21 4,21H5C5.55,21 6,20.55 6,20V19H18V20C18,20.55 18.45,21 19,21H20C20.55,21 21,20.55 21,20V12L18.92,6.01Z" />
+    <!-- Kính xe -->
+    <path
+        android:fillColor="#E0F7FA"
+        android:pathData="M6.85,7H17.14L18.22,10H5.78L6.85,7Z" />
+    <!-- Bánh xe -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M6.5,16A1.5,1.5 0 1,1 6.5,16.01M17.5,16A1.5,1.5 0 1,1 17.5,16.01" />
+</vector>

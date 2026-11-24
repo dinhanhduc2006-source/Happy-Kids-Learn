@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Hộp sữa -->
+    <path
+        android:fillColor="#4FC3F7"
+        android:pathData="M6,2L18,2L20,6L20,22L4,22L4,6L6,2Z" />
+    <path
+        android:fillColor="#E1F5FE"
+        android:pathData="M6,6L18,6L18,14L6,14Z" />
+    <!-- Nhãn bò sữa -->
+    <path
+        android:fillColor="#0288D1"
+        android:pathData="M9,9C9,7.9 10.34,7 12,7C13.66,7 15,7.9 15,9C15,10.1 13.66,11 12,11C10.34,11 9,10.1 9,9Z" />
+</vector>

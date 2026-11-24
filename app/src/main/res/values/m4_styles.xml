@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Member 4 Question Card Style (Đồng bộ phong cách Cuốn Sách Kỳ Diệu) -->
+    <style name="m4_style_question_card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/m2_bg_alphabet_garden_banner</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/m4_card_padding</item>
+    </style>
+
+    <!-- Member 4 Question Title Text Style -->
+    <style name="m4_style_question_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/m2_text_primary</item>
+        <item name="android:textSize">@dimen/m4_text_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Member 4 Question Subtitle / Feedback Text Style -->
+    <style name="m4_style_question_subtitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textColor">@color/m2_brand_teal_dark</item>
+        <item name="android:textSize">@dimen/m4_text_subtitle</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Member 4 Unified Option Button Style -->
+    <style name="m4_style_option_button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/m4_option_button_height</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_margin">@dimen/m4_option_button_margin</item>
+        <item name="android:background">@drawable/m4_bg_option_button</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/m4_text_option</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+</resources>

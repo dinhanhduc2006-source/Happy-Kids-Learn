@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Robot ngộ nghĩnh -->
+    <!-- Ăng-ten -->
+    <path
+        android:fillColor="#0288D1"
+        android:pathData="M11,2H13V5H11V2ZM12,1A1,1 0 1,1 12,1.01" />
+    <!-- Đầu robot -->
+    <path
+        android:fillColor="#29B6F6"
+        android:pathData="M5,6H19V14H5V6Z" />
+    <!-- Mắt robot -->
+    <path
+        android:fillColor="#FFF59D"
+        android:pathData="M8,9A1.5,1.5 0 1,1 8,9.01M16,9A1.5,1.5 0 1,1 16,9.01" />
+    <!-- Miệng robot -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M9,12H15V13H9V12Z" />
+    <!-- Thân robot -->
+    <path
+        android:fillColor="#0288D1"
+        android:pathData="M7,15H17V22H7V15Z" />
+</vector>

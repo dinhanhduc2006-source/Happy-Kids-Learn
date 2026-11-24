@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Ổ bánh mì -->
+    <path
+        android:fillColor="#D77D31"
+        android:pathData="M3,12C3,8.69 5.69,6 9,6H15C18.31,6 21,8.69 21,12V15C21,16.66 19.66,18 18,18H6C4.34,18 3,16.66 3,15V12Z" />
+    <!-- Vết cắt bánh mì -->
+    <path
+        android:fillColor="#FFE0B2"
+        android:pathData="M7,9L9,15M11,9L13,15M15,9L17,15"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFE0B2" />
+</vector>

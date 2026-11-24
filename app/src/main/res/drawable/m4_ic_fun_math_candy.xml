@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Viên kẹo tròn -->
+    <path
+        android:fillColor="#EC407A"
+        android:pathData="M12,6C8.69,6 6,8.69 6,12C6,15.31 8.69,18 12,18C15.31,18 18,15.31 18,12C18,8.69 15.31,6 12,6Z" />
+    <!-- Vỏ kẹo 2 bên -->
+    <path
+        android:fillColor="#F48FB1"
+        android:pathData="M6,12L2,8V16L6,12Z" />
+    <path
+        android:fillColor="#F48FB1"
+        android:pathData="M18,12L22,8V16L18,12Z" />
+    <!-- Sọc trang trí -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,8.5L14,15.5H12L8,8.5H10Z" />
+</vector>

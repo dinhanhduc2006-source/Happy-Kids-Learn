@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/m2_bg_screen"
+    android:orientation="vertical">
+
+    <!-- Header 2.5D đồng bộ phong cách Cuốn Sách Kỳ Diệu -->
+    <include layout="@layout/m2_layout_game_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/m4_screen_padding">
+
+            <!-- Thẻ hướng dẫn & Tiến độ tìm cặp -->
+            <LinearLayout style="@style/m4_style_question_card">
+
+                <TextView
+                    android:id="@+id/tv_question_title"
+                    style="@style/m4_style_question_title"
+                    android:text="🧠 Bé hãy lật tìm các cặp hình giống nhau!" />
+
+                <TextView
+                    android:id="@+id/tv_matched_pairs"
+                    style="@style/m4_style_question_subtitle"
+                    android:text="Cặp tìm được: 0 / 3" />
+            </LinearLayout>
+
+            <!-- Lưới chứa các thẻ bài 2x3, 3x4 hoặc 4x4 -->
+            <GridLayout
+                android:id="@+id/gl_cards_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:columnCount="3"
+                android:gravity="center" />
+
+            <!-- Nút chơi lại level -->
+            <Button
+                android:id="@+id/btn_restart_level"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:backgroundTint="@color/m2_accent_orange"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="🔄 Xáo thẻ lại"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

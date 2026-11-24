@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Member 4 Common Layout Dimensions (Đồng bộ với Happy Kid Learn M2) -->
+    <dimen name="m4_screen_padding">16dp</dimen>
+    <dimen name="m4_block_spacing">16dp</dimen>
+    <dimen name="m4_card_padding">16dp</dimen>
+    <dimen name="m4_card_corner_radius">20dp</dimen>
+
+    <!-- Typography Dimensions -->
+    <dimen name="m4_text_title">18sp</dimen>
+    <dimen name="m4_text_subtitle">16sp</dimen>
+    <dimen name="m4_text_option">26sp</dimen>
+
+    <!-- Option Button Dimensions -->
+    <dimen name="m4_option_button_height">68dp</dimen>
+    <dimen name="m4_option_button_margin">8dp</dimen>
+    <dimen name="m4_option_icon_size">54dp</dimen>
+</resources>

@@ -208,6 +208,14 @@ public final class Member2ContentCatalog {
                 return TOTAL_STORYBOOK_ITEMS;
             case GAME_ID_ENGLISH:
                 return TOTAL_ENGLISH_ITEMS;
+            case "counting":
+            case "fun_math":
+            case "life_math":
+            case "logic":
+                return 5;
+            case "memory":
+            case "coding":
+                return 3;
             default:
                 return 0;
         }
