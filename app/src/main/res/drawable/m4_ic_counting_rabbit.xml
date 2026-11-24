@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Tai thỏ trái và phải -->
+    <path
+        android:fillColor="#FFB74D"
+        android:pathData="M8,1C7,1 6,4 7,9L9,10C9,7 9,1 8,1Z" />
+    <path
+        android:fillColor="#FFB74D"
+        android:pathData="M16,1C17,1 18,4 17,9L15,10C15,7 15,1 16,1Z" />
+    <path
+        android:fillColor="#F8BBD0"
+        android:pathData="M8,3C7.5,3 7,5 7.5,8L8.5,8.5C8.5,6.5 8.5,3 8,3Z" />
+    <path
+        android:fillColor="#F8BBD0"
+        android:pathData="M16,3C16.5,3 17,5 16.5,8L15.5,8.5C15.5,6.5 15.5,3 16,3Z" />
+    <!-- Đầu thỏ -->
+    <path
+        android:fillColor="#FFE0B2"
+        android:pathData="M12,8C7.5,8 5,11 5,15C5,19.5 8,22 12,22C16,22 19,19.5 19,15C19,11 16.5,8 12,8Z" />
+    <!-- Mắt, mũi -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M9,13A1,1 0 1,1 9,13.01M15,13A1,1 0 1,1 15,13.01" />
+    <path
+        android:fillColor="#E91E63"
+        android:pathData="M12,15.5L11,14.5H13L12,15.5Z" />
+    <!-- Má hồng -->
+    <path
+        android:fillColor="#FF80AB"
+        android:pathData="M7.5,15.5A1.5,1.5 0 1,1 7.5,15.51M16.5,15.5A1.5,1.5 0 1,1 16.5,15.51" />
+</vector>

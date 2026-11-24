@@ -76,6 +76,32 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         }
     }
 
+    protected void saveGameProgress(String gameId, int completedLevels, int totalLevels, int starsEarned) {
+        java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                com.example.happykidlearn.db.AppDatabase db = com.example.happykidlearn.db.AppDatabase.getInstance(this);
+                com.example.happykidlearn.db.GameProgress current = db.gameProgressDao().getProgressByGameId(gameId);
+
+                int prevCompleted = current != null ? current.getCompletedLevels() : 0;
+                int prevStars = current != null ? current.getStarsEarned() : 0;
+
+                int newCompleted = Math.max(prevCompleted, completedLevels);
+                int newStars = Math.max(prevStars, starsEarned);
+
+                com.example.happykidlearn.db.GameProgress updated = new com.example.happykidlearn.db.GameProgress(
+                        gameId,
+                        newCompleted,
+                        totalLevels,
+                        newStars,
+                        true
+                );
+                db.gameProgressDao().insertOrUpdate(updated);
+            } catch (Exception e) {
+                android.util.Log.e("BaseGameActivity", "Lỗi lưu tiến độ game " + gameId, e);
+            }
+        });
+    }
+
     protected void toggleSound() {
         isSoundMuted = !isSoundMuted;
         if (btnHeaderSound != null) {

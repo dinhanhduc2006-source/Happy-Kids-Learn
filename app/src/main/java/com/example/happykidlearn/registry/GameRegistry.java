@@ -30,13 +30,13 @@ public class GameRegistry {
         games.add(new GameModel("storybook", "Đọc Truyện", "Ngôn ngữ", "Sách tranh đọc truyện theo giọng đọc", R.drawable.ic_launcher_foreground, R.color.accent_pink, MainActivity.class));
         games.add(new GameModel("english", "Tiếng Anh", "Ngôn ngữ", "Từ vựng tiếng Anh cơ bản", R.drawable.ic_launcher_foreground, R.color.purple_700, MainActivity.class));
 
-        games.add(new GameModel("counting", "Số Đếm", "Toán học", "Học đếm từ 1 đến 20 trực quan", R.drawable.ic_launcher_foreground, R.color.accent_yellow, MainActivity.class));
-        games.add(new GameModel("fun_math", "Toán Vui", "Toán học", "Phép tính cộng trừ bằng hình ảnh", R.drawable.ic_launcher_foreground, R.color.accent_orange, MainActivity.class));
-        games.add(new GameModel("life_math", "Toán Đời Sống", "Toán học", "Mô phỏng đi siêu thị và chia phần", R.drawable.ic_launcher_foreground, R.color.accent_green, MainActivity.class));
+        games.add(new GameModel("counting", "Số Đếm", "Toán học", "Học đếm từ 1 đến 20 trực quan", R.drawable.ic_launcher_foreground, R.color.accent_yellow, com.example.happykidlearn.member4.counting.CountingActivity.class));
+        games.add(new GameModel("fun_math", "Toán Vui", "Toán học", "Phép tính cộng trừ bằng hình ảnh", R.drawable.ic_launcher_foreground, R.color.accent_orange, com.example.happykidlearn.member4.funmath.FunMathActivity.class));
+        games.add(new GameModel("life_math", "Toán Đời Sống", "Toán học", "Mô phỏng đi siêu thị và chia phần", R.drawable.ic_launcher_foreground, R.color.accent_green, com.example.happykidlearn.member4.lifemath.LifeMathActivity.class));
 
-        games.add(new GameModel("memory", "Trí Nhớ", "Tư duy", "Lật hình tìm cặp giống nhau", R.drawable.ic_launcher_foreground, R.color.purple_500, MainActivity.class));
-        games.add(new GameModel("logic", "Tư Duy", "Tư duy", "Giải câu đố tìm quy luật hình", R.drawable.ic_launcher_foreground, R.color.accent_pink, MainActivity.class));
-        games.add(new GameModel("coding", "Lập Trình", "Tư duy", "Hướng dẫn robot di chuyển bằng khối lệnh", R.drawable.ic_launcher_foreground, R.color.purple_700, MainActivity.class));
+        games.add(new GameModel("memory", "Trí Nhớ", "Tư duy", "Lật hình tìm cặp giống nhau", R.drawable.ic_launcher_foreground, R.color.purple_500, com.example.happykidlearn.member4.memory.MemoryActivity.class));
+        games.add(new GameModel("logic", "Tư Duy", "Tư duy", "Giải câu đố tìm quy luật hình", R.drawable.ic_launcher_foreground, R.color.accent_pink, com.example.happykidlearn.member4.logic.LogicActivity.class));
+        games.add(new GameModel("coding", "Lập Trình", "Tư duy", "Hướng dẫn robot di chuyển bằng khối lệnh", R.drawable.ic_launcher_foreground, R.color.purple_700, com.example.happykidlearn.member4.coding.CodingActivity.class));
         games.add(new GameModel("reflexes", "Phản Xạ Nhanh", "Tư duy", "Bấm nổ bong bóng và hứng quà", R.drawable.ic_launcher_foreground, R.color.accent_orange, MainActivity.class));
 
         games.add(new GameModel("music", "Âm Nhạc", "Nghệ thuật", "Đàn Xylophone 7 nốt sinh động", R.drawable.ic_launcher_foreground, R.color.accent_yellow, MainActivity.class));

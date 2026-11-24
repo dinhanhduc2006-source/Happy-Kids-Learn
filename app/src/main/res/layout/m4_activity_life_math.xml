@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/m2_bg_screen"
+    android:orientation="vertical">
+
+    <!-- Header 2.5D đồng bộ phong cách Cuốn Sách Kỳ Diệu -->
+    <include layout="@layout/m2_layout_game_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/m4_screen_padding">
+
+            <!-- Thẻ hướng dẫn nhiệm vụ đi siêu thị -->
+            <LinearLayout style="@style/m4_style_question_card">
+
+                <TextView
+                    android:id="@+id/tv_question_title"
+                    style="@style/m4_style_question_title"
+                    android:text="🛒 Bé hãy chọn đúng 4 hộp sữa bỏ vào giỏ hàng!" />
+            </LinearLayout>
+
+            <!-- Khu vực Giỏ hàng Siêu thị -->
+            <LinearLayout
+                android:id="@+id/ll_cart_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/m4_bg_life_shopping_cart"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:contentDescription="Giỏ hàng"
+                        android:src="@drawable/m4_ic_life_shopping_cart" />
+
+                    <TextView
+                        android:id="@+id/tv_cart_count"
+                        style="@style/m4_style_question_title"
+                        android:layout_marginStart="8dp"
+                        android:text="Giỏ hàng: 0 / 4 món"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- Lưới hiển thị các món đồ đã bỏ vào giỏ -->
+                <GridLayout
+                    android:id="@+id/gl_cart_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:columnCount="5"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <!-- Khu vực Kệ hàng -->
+            <TextView
+                style="@style/m4_style_question_title"
+                android:layout_marginBottom="8dp"
+                android:text="Chạm vào đồ vật trên kệ để bỏ vào giỏ:" />
+
+            <GridLayout
+                android:id="@+id/gl_shelf_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/m4_bg_life_shelf"
+                android:columnCount="4"
+                android:padding="8dp" />
+
+            <!-- Nút điều khiển: Đặt lại & Xác nhận -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_reset_cart"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/m2_accent_orange"
+                    android:text="🔄 Đặt lại"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_submit_cart"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/m2_accent_green"
+                    android:text="✅ Hoàn thành"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

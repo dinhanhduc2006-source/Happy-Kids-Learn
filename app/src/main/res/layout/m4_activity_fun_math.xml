@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/m2_bg_screen"
+    android:orientation="vertical">
+
+    <!-- Header 2.5D đồng bộ phong cách Cuốn Sách Kỳ Diệu -->
+    <include layout="@layout/m2_layout_game_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/m4_screen_padding">
+
+            <!-- Thẻ hướng dẫn câu hỏi -->
+            <LinearLayout style="@style/m4_style_question_card">
+
+                <TextView
+                    android:id="@+id/tv_question_title"
+                    style="@style/m4_style_question_title"
+                    android:text="Bé hãy tính kết quả phép toán:" />
+
+                <TextView
+                    android:id="@+id/tv_formula_text"
+                    style="@style/m4_style_question_subtitle"
+                    android:textColor="@color/m2_text_book_title"
+                    android:textSize="24sp"
+                    android:text="3 + 2 = ?" />
+            </LinearLayout>
+
+            <!-- Card minh họa phép tính trực quan căn giữa không bị tràn -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/m4_bg_fun_math_card"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <!-- Nhóm 1: Biểu tượng đồ vật thứ 1 -->
+                <GridLayout
+                    android:id="@+id/gl_group1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:gravity="center" />
+
+                <!-- Dấu phép tính (+ hoặc -) -->
+                <TextView
+                    android:id="@+id/tv_operator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:text="+"
+                    android:textColor="@color/m2_accent_orange"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <!-- Nhóm 2: Biểu tượng đồ vật thứ 2 -->
+                <GridLayout
+                    android:id="@+id/gl_group2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:gravity="center" />
+
+                <!-- Dấu = -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:text="="
+                    android:textColor="@color/m2_text_primary"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <!-- Dấu ? kết quả -->
+                <TextView
+                    android:id="@+id/tv_result_placeholder"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/m4_bg_counting_number_badge"
+                    android:gravity="center"
+                    android:text="\?"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Tiêu đề chọn đáp án -->
+            <TextView
+                style="@style/m4_style_question_title"
+                android:layout_marginBottom="12dp"
+                android:text="Bấm chọn kết quả đúng bên dưới:" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alignmentMode="alignBounds"
+                android:columnCount="2">
+
+                <Button
+                    android:id="@+id/btn_option_1"
+                    style="@style/m4_style_option_button"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/btn_option_2"
+                    style="@style/m4_style_option_button"
+                    android:text="5" />
+
+                <Button
+                    android:id="@+id/btn_option_3"
+                    style="@style/m4_style_option_button"
+                    android:text="6" />
+
+                <Button
+                    android:id="@+id/btn_option_4"
+                    style="@style/m4_style_option_button"
+                    android:text="7" />
+
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

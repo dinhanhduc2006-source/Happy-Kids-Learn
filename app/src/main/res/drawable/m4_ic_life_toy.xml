@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Gấu bông -->
+    <!-- Tai gấu -->
+    <path
+        android:fillColor="#8D6E63"
+        android:pathData="M4,4A3,3 0 1,1 4,4.01M20,4A3,3 0 1,1 20,4.01" />
+    <!-- Đầu gấu -->
+    <path
+        android:fillColor="#A1887F"
+        android:pathData="M12,4C7.58,4 4,7.58 4,12C4,16.42 7.58,20 12,20C16.42,20 20,16.42 20,12C20,7.58 16.42,4 12,4Z" />
+    <!-- Mõm gấu -->
+    <path
+        android:fillColor="#D7CCC8"
+        android:pathData="M12,11C10.34,11 9,12.34 9,14C9,15.66 10.34,17 12,17C13.66,17 15,15.66 15,14C15,12.34 13.66,11 12,11Z" />
+    <!-- Mũi gấu -->
+    <path
+        android:fillColor="#3E2723"
+        android:pathData="M12,12A1,1 0 1,1 12,12.01" />
+</vector>

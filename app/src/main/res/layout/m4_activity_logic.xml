@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/m2_bg_screen"
+    android:orientation="vertical">
+
+    <!-- Header 2.5D đồng bộ phong cách Cuốn Sách Kỳ Diệu -->
+    <include layout="@layout/m2_layout_game_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/m4_screen_padding">
+
+            <!-- Thẻ câu hỏi suy luận -->
+            <LinearLayout style="@style/m4_style_question_card">
+
+                <TextView
+                    android:id="@+id/tv_question_title"
+                    style="@style/m4_style_question_title"
+                    android:text="🧩 Bé hãy quan sát quy luật và tìm đáp án đúng!" />
+            </LinearLayout>
+
+            <!-- Card hiển thị bài toán logic căn giữa -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/m4_bg_logic_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_puzzle_prompt"
+                    style="@style/m4_style_question_subtitle"
+                    android:text="Quy luật chuỗi hình:" />
+
+                <!-- Container 1: Chuỗi hình quy luật -->
+                <LinearLayout
+                    android:id="@+id/ll_sequence_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
+
+                <!-- Container 2: Hình bóng đen (Shadow Matching) -->
+                <ImageView
+                    android:id="@+id/img_shadow_puzzle"
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:layout_marginTop="12dp"
+                    android:contentDescription="Bóng đen câu hỏi"
+                    android:src="@drawable/m4_ic_logic_cat_shadow"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- Tiêu đề chọn đáp án -->
+            <TextView
+                style="@style/m4_style_question_title"
+                android:layout_marginBottom="12dp"
+                android:text="Chạm chọn hình phù hợp:" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alignmentMode="alignBounds"
+                android:columnCount="2">
+
+                <!-- Nút đáp án 1 (Tím chuẩn, Icon 56dp) -->
+                <FrameLayout
+                    android:id="@+id/fl_option_1"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/m4_option_button_margin"
+                    android:background="@drawable/m4_bg_option_button"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/img_option_1"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Đáp án 1"
+                        android:src="@drawable/m4_ic_logic_triangle" />
+
+                    <TextView
+                        android:id="@+id/tv_option_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <!-- Nút đáp án 2 -->
+                <FrameLayout
+                    android:id="@+id/fl_option_2"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/m4_option_button_margin"
+                    android:background="@drawable/m4_bg_option_button"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/img_option_2"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Đáp án 2"
+                        android:src="@drawable/m4_ic_logic_square" />
+
+                    <TextView
+                        android:id="@+id/tv_option_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <!-- Nút đáp án 3 -->
+                <FrameLayout
+                    android:id="@+id/fl_option_3"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/m4_option_button_margin"
+                    android:background="@drawable/m4_bg_option_button"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/img_option_3"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Đáp án 3"
+                        android:src="@drawable/m4_ic_logic_circle" />
+
+                    <TextView
+                        android:id="@+id/tv_option_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <!-- Nút đáp án 4 -->
+                <FrameLayout
+                    android:id="@+id/fl_option_4"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/m4_option_button_margin"
+                    android:background="@drawable/m4_bg_option_button"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/img_option_4"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Đáp án 4"
+                        android:src="@drawable/m4_ic_logic_plane" />
+
+                    <TextView
+                        android:id="@+id/tv_option_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -45,6 +45,30 @@
             android:name=".member2.storybook.StorybookActivity"
             android:exported="false"
             android:label="Đọc Truyện Cho Bé" />
+        <activity
+            android:name=".member4.counting.CountingActivity"
+            android:exported="false"
+            android:label="Số Đếm Cho Bé" />
+        <activity
+            android:name=".member4.funmath.FunMathActivity"
+            android:exported="false"
+            android:label="Toán Vui Cho Bé" />
+        <activity
+            android:name=".member4.lifemath.LifeMathActivity"
+            android:exported="false"
+            android:label="Toán Đời Sống Cho Bé" />
+        <activity
+            android:name=".member4.memory.MemoryActivity"
+            android:exported="false"
+            android:label="Trí Nhớ Cho Bé" />
+        <activity
+            android:name=".member4.logic.LogicActivity"
+            android:exported="false"
+            android:label="Tư Duy Logic Cho Bé" />
+        <activity
+            android:name=".member4.coding.CodingActivity"
+            android:exported="false"
+            android:label="Lập Trình Cho Bé" />
     </application>
 
 </manifest>

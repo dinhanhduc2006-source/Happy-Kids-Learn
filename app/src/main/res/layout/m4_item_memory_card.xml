@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_card_root"
+    android:layout_width="68dp"
+    android:layout_height="76dp"
+    android:layout_margin="6dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Mặt úp của thẻ (Card Back) -->
+    <FrameLayout
+        android:id="@+id/fl_card_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/m4_bg_memory_card_back"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\?"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- Mặt ngửa của thẻ (Card Front) -->
+    <FrameLayout
+        android:id="@+id/fl_card_front"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/m4_bg_memory_card_front"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_card_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:contentDescription="Hình ảnh thẻ bài"
+            android:src="@drawable/m4_ic_memory_cat" />
+    </FrameLayout>
+
+</FrameLayout>
