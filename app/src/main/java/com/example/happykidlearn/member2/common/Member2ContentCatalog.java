@@ -220,12 +220,6 @@ public final class Member2ContentCatalog {
                 return 10; // "A", "B", "C", "D", "E", "G", "H", "I", "K", "L"
             case "coloring":
                 return 3; // 3 bức tranh
-            case "music":
-                return 7; // 7 nốt nhạc
-            case "reflexes":
-                return 20; // MAX_SCORE_GOAL
-            case "versus":
-                return 25; // MAX_SCORE
             default:
                 return 0;
         }
