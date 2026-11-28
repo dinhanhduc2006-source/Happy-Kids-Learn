@@ -8,61 +8,7 @@
     android:background="@color/m3_bg_cream">
 
     <!-- HEADER -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/accent_pink"
-        android:padding="8dp">
-
-        <ImageButton
-            android:id="@+id/btn_header_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_launcher_foreground"
-            android:contentDescription="@string/m3_btn_clear"/>
-
-        <TextView
-            android:id="@+id/tv_header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/btn_header_back"
-            android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <ProgressBar
-                android:id="@+id/pb_header_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:max="100" />
-            <TextView
-                android:id="@+id/tv_header_progress_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btn_header_sound"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_launcher_foreground"
-            android:contentDescription="@string/m3_btn_undo"/>
-    </RelativeLayout>
+    <include layout="@layout/m2_layout_game_header" />
 
     <!-- VERSUS BATTLE AREA -->
     <androidx.constraintlayout.widget.ConstraintLayout
