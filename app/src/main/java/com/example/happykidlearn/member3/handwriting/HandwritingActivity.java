@@ -5,19 +5,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.happykidlearn.R;
 import com.example.happykidlearn.base.BaseGameActivity;
+
+import java.util.Locale;
 
 public class HandwritingActivity extends BaseGameActivity {
 
@@ -39,17 +41,21 @@ public class HandwritingActivity extends BaseGameActivity {
     private View layoutBoardContainer;
     private TextView tvEncourageToast;
 
+    private TextToSpeech tts;
+    private boolean isTtsReady = false;
+
+    // 10 Lesson CHỮ THƯỜNG viết bằng 1 nét
     private final Lesson[] lessons = {
-            new Lesson("A", "🍎", "Quả táo"),
-            new Lesson("B", "⚽", "Quả bóng"),
-            new Lesson("C", "🐟", "Con cá"),
-            new Lesson("D", "🍉", "Dưa hấu"),
-            new Lesson("E", "🐘", "Con voi"),
-            new Lesson("G", "🐥", "Con gà"),
-            new Lesson("H", "🐯", "Con hổ"),
-            new Lesson("I", "🍦", "Kem ốc quế"),
-            new Lesson("K", "🍬", "Kẹo ngọt"),
-            new Lesson("L", "🎈", "Bóng bay")
+            new Lesson("o", "🐝", "Con ong"),
+            new Lesson("c", "🐟", "Con cá"),
+            new Lesson("e", "👶", "Em bé"),
+            new Lesson("l", "🍃", "Chiếc lá"),
+            new Lesson("s", "🦁", "Sư tử"),
+            new Lesson("n", "🍄", "Cây nấm"),
+            new Lesson("m", "🐱", "Con mèo"),
+            new Lesson("v", "🦆", "Con vịt"),
+            new Lesson("r", "🐢", "Con rùa"),
+            new Lesson("u", "🐷", "Ủn ỉn")
     };
 
     private final boolean[] lessonCompleted = new boolean[10];
@@ -69,17 +75,50 @@ public class HandwritingActivity extends BaseGameActivity {
         layoutBoardContainer = findViewById(R.id.layout_m3_board_container);
         tvEncourageToast = findViewById(R.id.tv_m3_encourage_toast);
 
+        initTts();
         setupControls();
         loadLesson(currentIndex);
+    }
+
+    private void initTts() {
+        try {
+            tts = new TextToSpeech(this, status -> {
+                if (status == TextToSpeech.SUCCESS && tts != null) {
+                    int result = tts.setLanguage(new Locale("vi", "VN"));
+                    if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
+                        isTtsReady = true;
+                        speakCurrentLesson();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void speakCurrentLesson() {
+        if (soundManager != null && soundManager.isSfxMuted()) return;
+        if (isTtsReady && tts != null) {
+            Lesson lesson = lessons[currentIndex];
+            String speech = "Chữ " + lesson.letter + ", " + lesson.label;
+            tts.speak(speech, TextToSpeech.QUEUE_FLUSH, null, "HandwritingTTS");
+        }
+    }
+
+    private void speakText(String text) {
+        if (soundManager != null && soundManager.isSfxMuted()) return;
+        if (isTtsReady && tts != null) {
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "HandwritingTTS");
+        }
     }
 
     private void setupControls() {
         ImageButton btnPrev = findViewById(R.id.btn_m3_prev);
         ImageButton btnNext = findViewById(R.id.btn_m3_next);
-        Button btnFinish = findViewById(R.id.btn_m3_finish_letter);
+        ImageButton btnSpeak = findViewById(R.id.btn_m3_speak);
 
-        Button btnUndo = findViewById(R.id.btn_m3_undo);
         Button btnClear = findViewById(R.id.btn_m3_clear);
+        Button btnFinish = findViewById(R.id.btn_m3_finish_letter);
 
         btnPrev.setOnClickListener(v -> {
             playSoundTap();
@@ -97,9 +136,9 @@ public class HandwritingActivity extends BaseGameActivity {
             }
         });
 
-        btnUndo.setOnClickListener(v -> {
+        btnSpeak.setOnClickListener(v -> {
             playSoundTap();
-            boardView.undo();
+            speakCurrentLesson();
         });
 
         btnClear.setOnClickListener(v -> {
@@ -108,6 +147,8 @@ public class HandwritingActivity extends BaseGameActivity {
         });
 
         btnFinish.setOnClickListener(v -> checkAndFinishLesson());
+
+        boardView.setOnStrokeFinishListener(this::playSoundTap);
 
         setupColorPalette();
     }
@@ -157,7 +198,7 @@ public class HandwritingActivity extends BaseGameActivity {
             TextView tvTile = new TextView(this);
             String titleText = lesson.letter + (lessonCompleted[i] ? " ✓" : "");
             tvTile.setText(titleText);
-            tvTile.setTextSize(16f);
+            tvTile.setTextSize(18f);
             tvTile.setTypeface(null, android.graphics.Typeface.BOLD);
             tvTile.setGravity(Gravity.CENTER);
 
@@ -192,16 +233,20 @@ public class HandwritingActivity extends BaseGameActivity {
         boardView.setGuideText(lesson.letter);
 
         if (tvBanner != null) {
-            tvBanner.setText(String.format("✏️ Bé tô nét chữ %s — %s %s", lesson.letter, lesson.emoji, lesson.label));
+            tvBanner.setText(String.format("✏️ Bé tô 1 nét chữ %s — %s %s", lesson.letter, lesson.emoji, lesson.label));
         }
 
         setupLessonSelector();
         setGameProgress(countCompleted(), lessons.length);
+        speakCurrentLesson();
     }
 
     private void checkAndFinishLesson() {
         if (boardView.isEmpty()) {
-            showEncouragement("Bé hãy tập viết nét chữ trước nhé!");
+            if (soundManager != null) {
+                soundManager.playSfx(R.raw.m2_sfx_gentle_try);
+            }
+            showEncouragement("Bé hãy tô liền 1 nét cho kín chữ nhé!");
             shakeBoard();
             return;
         }
@@ -209,13 +254,17 @@ public class HandwritingActivity extends BaseGameActivity {
         float coverage = boardView.calculateCoveragePercentage();
 
         if (coverage < 40f) {
-            showEncouragement("Bé hãy tô thêm cho kín nét chữ nhé!");
+            if (soundManager != null) {
+                soundManager.playSfx(R.raw.m2_sfx_gentle_try);
+            }
+            showEncouragement("Bé hãy tô liền 1 nét cho kín chữ nhé!");
             shakeBoard();
         } else {
             // Tô ĐÚNG (Coverage >= 40%)
             if (soundManager != null) {
                 soundManager.playSfx(R.raw.m2_sfx_correct);
             }
+            speakText("Giỏi quá!");
 
             lessonCompleted[currentIndex] = true;
             int completedCount = countCompleted();
@@ -231,7 +280,6 @@ public class HandwritingActivity extends BaseGameActivity {
                 if (completedCount >= lessons.length) {
                     showVictoryDialog(3, this::finish, this::resetGame);
                 } else {
-                    // Chuyển sang bài tiếp theo chưa hoàn thành
                     int nextUncompleted = findNextUncompletedIndex();
                     if (nextUncompleted != -1) {
                         currentIndex = nextUncompleted;
@@ -240,7 +288,7 @@ public class HandwritingActivity extends BaseGameActivity {
                     }
                     loadLesson(currentIndex);
                 }
-            }, 900);
+            }, 1000);
         }
     }
 
@@ -286,9 +334,7 @@ public class HandwritingActivity extends BaseGameActivity {
     }
 
     private void resetGame() {
-        for (int i = 0; i < lessonCompleted.length; i++) {
-            lessonCompleted[i] = false;
-        }
+        java.util.Arrays.fill(lessonCompleted, false);
         currentIndex = 0;
         loadLesson(currentIndex);
     }
@@ -296,6 +342,14 @@ public class HandwritingActivity extends BaseGameActivity {
     @Override
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
+        if (tts != null) {
+            try {
+                tts.stop();
+                tts.shutdown();
+            } catch (Exception ignored) {
+            }
+            tts = null;
+        }
         super.onDestroy();
     }
 }

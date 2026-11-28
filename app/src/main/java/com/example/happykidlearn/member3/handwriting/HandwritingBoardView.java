@@ -18,36 +18,29 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HandwritingBoardView extends View {
 
-    private static class Stroke {
-        Path path;
-        Paint paint;
-
-        Stroke(Path path, Paint paint) {
-            this.path = path;
-            this.paint = paint;
-        }
+    public interface OnStrokeFinishListener {
+        void onStrokeFinish();
     }
 
-    private final List<Stroke> strokes = new ArrayList<>();
     private Path currentPath;
     private Paint currentPaint;
 
     private Paint gridPaint;
     private Paint guidePaint;
+    private Paint startDotOuterPaint;
+    private Paint startDotInnerPaint;
 
-    private String guideText = "A";
+    private String guideText = "o";
     private int currentColor = Color.BLACK;
     private float strokeWidthPx;
-    private boolean isEraserMode = false;
 
     private float lastX, lastY;
     private static final float TOUCH_TOLERANCE = 4f;
     private boolean isMoved = false;
+
+    private OnStrokeFinishListener strokeFinishListener;
 
     public HandwritingBoardView(Context context) {
         super(context);
@@ -66,24 +59,35 @@ public class HandwritingBoardView extends View {
 
     private void init() {
         float density = getResources().getDisplayMetrics().density;
-        strokeWidthPx = 24f * density; // Nét bút dày 24dp cho bé dễ tô
+        strokeWidthPx = 24f * density;
 
-        // Paint kẻ dòng ô ly mờ kiểu vở tập viết
+        // Dòng kẻ mờ vở ô ly
         gridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         gridPaint.setColor(Color.parseColor("#CBD5E1"));
         gridPaint.setStyle(Paint.Style.STROKE);
         gridPaint.setStrokeWidth(1.5f * density);
         gridPaint.setPathEffect(new DashPathEffect(new float[]{8f * density, 6f * density}, 0));
 
-        // Paint chữ mẫu nét đứt mờ
+        // Chữ mẫu nét đứt mờ
         guidePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         guidePaint.setColor(Color.parseColor("#94A3B8"));
         guidePaint.setStyle(Paint.Style.STROKE);
         guidePaint.setStrokeWidth(12f * density);
         guidePaint.setStrokeCap(Paint.Cap.ROUND);
         guidePaint.setStrokeJoin(Paint.Join.ROUND);
-        guidePaint.setPathEffect(new DashPathEffect(new float[]{20f * density, 16f * density}, 0));
+        guidePaint.setPathEffect(new DashPathEffect(new float[]{18f * density, 14f * density}, 0));
         guidePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+
+        // Chấm tròn điểm đặt bút màu cam san hô
+        startDotOuterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        startDotOuterPaint.setColor(Color.parseColor("#F28B50"));
+        startDotOuterPaint.setStyle(Paint.Style.FILL);
+
+        startDotInnerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        startDotInnerPaint.setColor(Color.WHITE);
+        startDotInnerPaint.setStyle(Paint.Style.FILL);
+
+        setupNewPaint();
     }
 
     private void setupNewPaint() {
@@ -93,14 +97,11 @@ public class HandwritingBoardView extends View {
         currentPaint.setStrokeJoin(Paint.Join.ROUND);
         currentPaint.setStrokeCap(Paint.Cap.ROUND);
         currentPaint.setStrokeWidth(strokeWidthPx);
+        currentPaint.setColor(currentColor);
+    }
 
-        if (isEraserMode) {
-            currentPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            currentPaint.setColor(Color.TRANSPARENT);
-        } else {
-            currentPaint.setXfermode(null);
-            currentPaint.setColor(currentColor);
-        }
+    public void setOnStrokeFinishListener(OnStrokeFinishListener listener) {
+        this.strokeFinishListener = listener;
     }
 
     @Override
@@ -112,37 +113,64 @@ public class HandwritingBoardView extends View {
 
         if (width == 0 || height == 0) return;
 
-        // 1. Vẽ các đường kẻ ngang ô ly mờ kiểu vở học sinh
+        // 1. Vẽ dòng kẻ ngang ô ly mờ
         float lineSpacing = height / 5f;
         for (int i = 1; i < 5; i++) {
             float y = lineSpacing * i;
             canvas.drawLine(20, y, width - 20, y, gridPaint);
         }
 
-        // 2. Vẽ chữ mẫu nét đứt căn chính giữa
+        // 2. Vẽ chữ mẫu nét đứt thường cỡ lớn chính giữa
+        float textX = 0, textY = 0;
+        Rect bounds = new Rect();
+
         if (guideText != null && !guideText.isEmpty()) {
-            guidePaint.setTextSize(height * 0.60f);
-            Rect bounds = new Rect();
+            guidePaint.setTextSize(height * 0.55f);
             guidePaint.getTextBounds(guideText, 0, guideText.length(), bounds);
 
-            float textX = (width - bounds.width()) / 2f - bounds.left;
-            float textY = (height + bounds.height()) / 2f - bounds.bottom;
+            textX = (width - bounds.width()) / 2f - bounds.left;
+            textY = (height + bounds.height()) / 2f - bounds.bottom;
 
             canvas.drawText(guideText, textX, textY, guidePaint);
         }
 
-        // 3. Vẽ các nét tô của trẻ em
-        int saveCount = canvas.saveLayer(0, 0, width, height, null);
+        // 3. Vẽ điểm đặt bút gợi ý (Chấm cam san hô)
+        if (bounds.width() > 0 && bounds.height() > 0) {
+            float[] startRel = getStartPointRelativeOffset(guideText);
+            float dotX = textX + bounds.left + bounds.width() * startRel[0];
+            float dotY = textY + bounds.top + bounds.height() * startRel[1];
 
-        for (Stroke stroke : strokes) {
-            canvas.drawPath(stroke.path, stroke.paint);
+            float density = getResources().getDisplayMetrics().density;
+            canvas.drawCircle(dotX, dotY, 10f * density, startDotOuterPaint);
+            canvas.drawCircle(dotX, dotY, 4f * density, startDotInnerPaint);
         }
 
+        // 4. Vẽ duy nhất 1 nét liền mạch của trẻ em
         if (currentPath != null) {
             canvas.drawPath(currentPath, currentPaint);
         }
+    }
 
-        canvas.restoreToCount(saveCount);
+    private float[] getStartPointRelativeOffset(String letter) {
+        if (letter == null) return new float[]{0.5f, 0.2f};
+        switch (letter.toLowerCase()) {
+            case "o":
+            case "c":
+                return new float[]{0.70f, 0.25f}; // Góc trên bên phải
+            case "e":
+                return new float[]{0.30f, 0.50f}; // Giữa bên trái
+            case "l":
+                return new float[]{0.45f, 0.10f}; // Đỉnh trên
+            case "s":
+                return new float[]{0.60f, 0.20f};
+            case "n":
+            case "m":
+            case "v":
+            case "r":
+            case "u":
+            default:
+                return new float[]{0.25f, 0.25f}; // Góc trên bên trái
+        }
     }
 
     @Override
@@ -152,6 +180,7 @@ public class HandwritingBoardView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                // RÀNG BUỘC 1 NÉT: Xóa sạch nét cũ khi chạm ngón tay mới
                 currentPath = new Path();
                 setupNewPaint();
                 currentPath.moveTo(x, y);
@@ -162,26 +191,32 @@ public class HandwritingBoardView extends View {
                 return true;
 
             case MotionEvent.ACTION_MOVE:
-                float dx = Math.abs(x - lastX);
-                float dy = Math.abs(y - lastY);
-                if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-                    currentPath.quadTo(lastX, lastY, (x + lastX) / 2, (y + lastY) / 2);
-                    lastX = x;
-                    lastY = y;
-                    isMoved = true;
+                if (currentPath != null) {
+                    float dx = Math.abs(x - lastX);
+                    float dy = Math.abs(y - lastY);
+                    if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
+                        currentPath.quadTo(lastX, lastY, (x + lastX) / 2, (y + lastY) / 2);
+                        lastX = x;
+                        lastY = y;
+                        isMoved = true;
+                    }
+                    invalidate();
                 }
-                invalidate();
                 return true;
 
             case MotionEvent.ACTION_UP:
-                if (!isMoved) {
-                    currentPath.lineTo(x, y + 0.1f);
-                } else {
-                    currentPath.lineTo(lastX, lastY);
+                if (currentPath != null) {
+                    if (!isMoved) {
+                        currentPath.lineTo(x, y + 0.1f);
+                    } else {
+                        currentPath.lineTo(lastX, lastY);
+                    }
+                    invalidate();
+
+                    if (strokeFinishListener != null) {
+                        strokeFinishListener.onStrokeFinish();
+                    }
                 }
-                strokes.add(new Stroke(currentPath, currentPaint));
-                currentPath = null;
-                invalidate();
                 return true;
         }
         return super.onTouchEvent(event);
@@ -190,45 +225,28 @@ public class HandwritingBoardView extends View {
     // ================= PUBLIC API ================= //
 
     public void setGuideText(String text) {
-        this.guideText = text;
+        this.guideText = text != null ? text.toLowerCase() : "o";
         clearCanvas();
     }
 
     public void setStrokeColor(int color) {
         this.currentColor = color;
-        this.isEraserMode = false;
-    }
-
-    public void setStrokeWidthDp(float widthDp) {
-        this.strokeWidthPx = widthDp * getResources().getDisplayMetrics().density;
-    }
-
-    public void setEraserMode(boolean enabled) {
-        this.isEraserMode = enabled;
-    }
-
-    public void undo() {
-        if (!strokes.isEmpty()) {
-            strokes.remove(strokes.size() - 1);
-            invalidate();
-        }
     }
 
     public void clearCanvas() {
-        strokes.clear();
         currentPath = null;
         invalidate();
     }
 
     public boolean isEmpty() {
-        return strokes.isEmpty();
+        return currentPath == null;
     }
 
     /**
      * Tính toán phần trăm diện tích chữ mẫu được trẻ tô kín (Bitmap 128x128 trong bộ nhớ)
      */
     public float calculateCoveragePercentage() {
-        if (strokes.isEmpty() || guideText == null || guideText.isEmpty() || getWidth() == 0 || getHeight() == 0) {
+        if (currentPath == null || guideText == null || guideText.isEmpty() || getWidth() == 0 || getHeight() == 0) {
             return 0f;
         }
 
@@ -258,18 +276,16 @@ public class HandwritingBoardView extends View {
         float textY = (size + bounds.height()) / 2f - bounds.bottom;
         guideCanvas.drawText(guideText, textX, textY, gPaint);
 
-        // 2. Dựng nét vẽ của trẻ em trong Bitmap nhỏ
+        // 2. Dựng 1 nét vẽ của trẻ em trong Bitmap nhỏ
         Matrix matrix = new Matrix();
         matrix.setScale(scaleX, scaleY);
 
-        for (Stroke stroke : strokes) {
-            Path scaledPath = new Path(stroke.path);
-            scaledPath.transform(matrix);
+        Path scaledPath = new Path(currentPath);
+        scaledPath.transform(matrix);
 
-            Paint sPaint = new Paint(stroke.paint);
-            sPaint.setStrokeWidth(stroke.paint.getStrokeWidth() * scaleY);
-            userCanvas.drawPath(scaledPath, sPaint);
-        }
+        Paint sPaint = new Paint(currentPaint);
+        sPaint.setStrokeWidth(currentPaint.getStrokeWidth() * scaleY);
+        userCanvas.drawPath(scaledPath, sPaint);
 
         // 3. Đếm số điểm ảnh trùng khớp
         int[] guidePixels = new int[size * size];
