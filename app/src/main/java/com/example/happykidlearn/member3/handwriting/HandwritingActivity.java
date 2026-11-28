@@ -115,7 +115,7 @@ public class HandwritingActivity extends BaseGameActivity {
     private void setupControls() {
         ImageButton btnPrev = findViewById(R.id.btn_m3_prev);
         ImageButton btnNext = findViewById(R.id.btn_m3_next);
-        ImageButton btnSpeak = findViewById(R.id.btn_m3_speak);
+        View btnSpeak = findViewById(R.id.btn_m3_speak);
 
         Button btnClear = findViewById(R.id.btn_m3_clear);
         Button btnFinish = findViewById(R.id.btn_m3_finish_letter);

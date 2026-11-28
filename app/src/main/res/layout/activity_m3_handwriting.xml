@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -26,21 +27,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingStart="8dp"
+            android:paddingHorizontal="8dp"
             android:text="✏️ Bé tô 1 nét chữ o — 🐝 Con ong"
             android:textColor="@color/m3_text_main"
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <ImageButton
+        <TextView
             android:id="@+id/btn_m3_speak"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:background="@drawable/m3_bg_item_tile"
-            android:contentDescription="Phát âm"
-            android:padding="8dp"
-            android:scaleType="centerInside"
-            android:src="@android:drawable/ic_lock_silent_mode_off" />
+            android:text="🔊"
+            android:textSize="20sp"
+            android:textColor="@color/m3_text_main"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Phát âm" />
     </LinearLayout>
 
     <!-- HÀNG CHỌN BÀI HỌC (Horizontal Lesson Selector - CHỮ THƯỜNG) -->
@@ -126,52 +130,58 @@
         android:elevation="2dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="6dp">
+        android:padding="8dp">
 
         <View
             android:id="@+id/color_red"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_margin="3dp"
-            android:background="@color/m3_color_red" />
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/m3_color_dot"
+            android:backgroundTint="@color/m3_color_red" />
 
         <View
             android:id="@+id/color_orange"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_margin="3dp"
-            android:background="@color/m3_color_orange" />
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/m3_color_dot"
+            android:backgroundTint="@color/m3_color_orange" />
 
         <View
             android:id="@+id/color_green"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_margin="3dp"
-            android:background="@color/m3_color_green" />
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/m3_color_dot"
+            android:backgroundTint="@color/m3_color_green" />
 
         <View
             android:id="@+id/color_blue"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_margin="3dp"
-            android:background="@color/m3_color_blue" />
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/m3_color_dot"
+            android:backgroundTint="@color/m3_color_blue" />
 
         <View
             android:id="@+id/color_purple"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_margin="3dp"
-            android:background="@color/m3_color_purple" />
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/m3_color_dot"
+            android:backgroundTint="@color/m3_color_purple" />
 
         <View
             android:id="@+id/color_black"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_margin="3dp"
-            android:background="@color/m3_color_black" />
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/m3_color_dot"
+            android:backgroundTint="@color/m3_color_black" />
     </LinearLayout>
 
-    <!-- ĐÁY MÀN HÌNH (Viết lại & Hoàn thành) -->
+    <!-- ĐÁY MÀN HÌNH (Viết lại & Hoàn thành - dùng AppCompatButton để giữ đúng màu background) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -180,25 +190,27 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_m3_clear"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/m3_btn_pill_orange"
+            app:backgroundTint="@null"
             android:text="🔄 Viết lại"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_m3_finish_letter"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@drawable/m3_btn_pill_green"
+            app:backgroundTint="@null"
             android:text="✅ Hoàn thành"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
