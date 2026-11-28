@@ -8,105 +8,199 @@
     <!-- HEADER -->
     <include layout="@layout/m2_layout_game_header" />
 
-    <!-- XYLOPHONE BOARD -->
+    <!-- CONTROL BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/m3_bg_board_white"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp">
+
+        <!-- Mode selector pills -->
+        <Button
+            android:id="@+id/btn_m3_mode_free"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:background="@drawable/m3_btn_pill_green"
+            android:text="🎹 Tự do"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="0dp"/>
+
+        <Button
+            android:id="@+id/btn_m3_mode_light"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/m3_bg_item_tile"
+            android:text="✨ Chơi theo đèn"
+            android:textColor="@color/m3_text_main"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="0dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- Song controls (visible in Follow the Light mode) -->
+        <LinearLayout
+            android:id="@+id/layout_m3_song_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_m3_select_song"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:background="@drawable/m3_bg_item_tile"
+                android:text="⭐ Ngôi sao lấp lánh"
+                android:textColor="@color/m3_text_main"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="0dp"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btn_m3_play_melody"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:background="@drawable/m3_btn_pill_orange"
+                android:text="▶️ Nghe mẫu"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="0dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- XYLOPHONE BOARD AREA -->
     <FrameLayout
         android:id="@+id/layout_m3_xylo_board"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/m3_bg_board_white">
 
         <!-- Wooden racks -->
-        <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="60dp" android:layout_marginHorizontal="24dp" android:background="@drawable/m3_bg_wood_rack" />
-        <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_gravity="bottom" android:layout_marginBottom="60dp" android:layout_marginHorizontal="24dp" android:background="@drawable/m3_bg_wood_rack" />
+        <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="50dp" android:layout_marginHorizontal="24dp" android:background="@drawable/m3_bg_wood_rack" />
+        <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_gravity="bottom" android:layout_marginBottom="40dp" android:layout_marginHorizontal="24dp" android:background="@drawable/m3_bg_wood_rack" />
 
-        <!-- XYLOPHONE KEYS -->
+        <!-- Congratulation Banner (Shown on song completion) -->
+        <TextView
+            android:id="@+id/tv_m3_xylo_congrats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/m3_bg_banner_mint"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp"
+            android:text="🎉 Bé đánh hay quá!"
+            android:textColor="@color/m3_text_main"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:elevation="6dp" />
+
+        <!-- XYLOPHONE KEYS CONTAINER -->
         <LinearLayout
+            android:id="@+id/layout_m3_keys_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="bottom|center_horizontal"
-            android:padding="24dp"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="16dp"
+            android:paddingTop="12dp"
             android:clipChildren="false">
 
-            <!-- Đô -->
-            <FrameLayout android:id="@+id/m3_key_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp">
+            <!-- Key 0 (C / Đô / 1) -->
+            <FrameLayout android:id="@+id/m3_key_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginHorizontal="4dp">
                 <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/m3_bg_xylophone_key" android:backgroundTint="@color/m3_color_red" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="12dp" android:background="@drawable/m3_rivet" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
-                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Đô" android:gravity="bottom|center_horizontal" android:paddingBottom="40dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                <TextView android:id="@+id/tv_light_0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="4dp" android:text="★" android:textColor="#FFD700" android:textSize="20sp" android:textStyle="bold" android:visibility="invisible"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="26dp" android:text="1" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold"/>
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="48dp" android:background="@drawable/m3_rivet" />
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Đô" android:gravity="bottom|center_horizontal" android:paddingBottom="28dp" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
             </FrameLayout>
 
-            <!-- Rê -->
-            <FrameLayout android:id="@+id/m3_key_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:layout_marginTop="20dp">
+            <!-- Key 1 (D / Rê / 2) -->
+            <FrameLayout android:id="@+id/m3_key_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:layout_marginTop="10dp">
                 <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/m3_bg_xylophone_key" android:backgroundTint="@color/m3_color_orange" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="12dp" android:background="@drawable/m3_rivet" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
-                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Rê" android:gravity="bottom|center_horizontal" android:paddingBottom="40dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                <TextView android:id="@+id/tv_light_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="4dp" android:text="★" android:textColor="#FFD700" android:textSize="20sp" android:textStyle="bold" android:visibility="invisible"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="26dp" android:text="2" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold"/>
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="48dp" android:background="@drawable/m3_rivet" />
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Rê" android:gravity="bottom|center_horizontal" android:paddingBottom="28dp" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
             </FrameLayout>
 
-            <!-- Mi -->
-            <FrameLayout android:id="@+id/m3_key_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:layout_marginTop="40dp">
+            <!-- Key 2 (E / Mi / 3) -->
+            <FrameLayout android:id="@+id/m3_key_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:layout_marginTop="20dp">
                 <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/m3_bg_xylophone_key" android:backgroundTint="@color/m3_color_yellow" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="12dp" android:background="@drawable/m3_rivet" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
-                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Mi" android:gravity="bottom|center_horizontal" android:paddingBottom="40dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                <TextView android:id="@+id/tv_light_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="4dp" android:text="★" android:textColor="#FFD700" android:textSize="20sp" android:textStyle="bold" android:visibility="invisible"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="26dp" android:text="3" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold"/>
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="48dp" android:background="@drawable/m3_rivet" />
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Mi" android:gravity="bottom|center_horizontal" android:paddingBottom="28dp" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
             </FrameLayout>
 
-            <!-- Pha -->
-            <FrameLayout android:id="@+id/m3_key_3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:layout_marginTop="60dp">
+            <!-- Key 3 (F / Pha / 4) -->
+            <FrameLayout android:id="@+id/m3_key_3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:layout_marginTop="30dp">
                 <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/m3_bg_xylophone_key" android:backgroundTint="@color/m3_color_green" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="12dp" android:background="@drawable/m3_rivet" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
-                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Pha" android:gravity="bottom|center_horizontal" android:paddingBottom="40dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                <TextView android:id="@+id/tv_light_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="4dp" android:text="★" android:textColor="#FFD700" android:textSize="20sp" android:textStyle="bold" android:visibility="invisible"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="26dp" android:text="4" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold"/>
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="48dp" android:background="@drawable/m3_rivet" />
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Pha" android:gravity="bottom|center_horizontal" android:paddingBottom="28dp" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
             </FrameLayout>
 
-            <!-- Sol -->
-            <FrameLayout android:id="@+id/m3_key_4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:layout_marginTop="80dp">
+            <!-- Key 4 (G / Sol / 5) -->
+            <FrameLayout android:id="@+id/m3_key_4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:layout_marginTop="40dp">
                 <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/m3_bg_xylophone_key" android:backgroundTint="@color/m3_color_blue" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="12dp" android:background="@drawable/m3_rivet" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
-                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Sol" android:gravity="bottom|center_horizontal" android:paddingBottom="40dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                <TextView android:id="@+id/tv_light_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="4dp" android:text="★" android:textColor="#FFD700" android:textSize="20sp" android:textStyle="bold" android:visibility="invisible"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="26dp" android:text="5" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold"/>
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="48dp" android:background="@drawable/m3_rivet" />
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Sol" android:gravity="bottom|center_horizontal" android:paddingBottom="28dp" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
             </FrameLayout>
 
-            <!-- La -->
-            <FrameLayout android:id="@+id/m3_key_5" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:layout_marginTop="100dp">
+            <!-- Key 5 (A / La / 6) -->
+            <FrameLayout android:id="@+id/m3_key_5" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:layout_marginTop="50dp">
                 <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/m3_bg_xylophone_key" android:backgroundTint="@color/m3_color_purple" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="12dp" android:background="@drawable/m3_rivet" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
-                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="La" android:gravity="bottom|center_horizontal" android:paddingBottom="40dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                <TextView android:id="@+id/tv_light_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="4dp" android:text="★" android:textColor="#FFD700" android:textSize="20sp" android:textStyle="bold" android:visibility="invisible"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="26dp" android:text="6" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold"/>
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="48dp" android:background="@drawable/m3_rivet" />
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="La" android:gravity="bottom|center_horizontal" android:paddingBottom="28dp" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
             </FrameLayout>
 
-            <!-- Si -->
-            <FrameLayout android:id="@+id/m3_key_6" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="4dp" android:layout_marginTop="120dp">
+            <!-- Key 6 (B / Si / 7) -->
+            <FrameLayout android:id="@+id/m3_key_6" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_marginHorizontal="4dp" android:layout_marginTop="60dp">
                 <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/m3_bg_xylophone_key" android:backgroundTint="@color/m3_color_pink" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="12dp" android:background="@drawable/m3_rivet" />
-                <View android:layout_width="12dp" android:layout_height="12dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
-                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Si" android:gravity="bottom|center_horizontal" android:paddingBottom="40dp" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                <TextView android:id="@+id/tv_light_6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="4dp" android:text="★" android:textColor="#FFD700" android:textSize="20sp" android:textStyle="bold" android:visibility="invisible"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="26dp" android:text="7" android:textColor="#FFFFFF" android:textSize="16sp" android:textStyle="bold"/>
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|center_horizontal" android:layout_marginTop="48dp" android:background="@drawable/m3_rivet" />
+                <View android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="bottom|center_horizontal" android:layout_marginBottom="12dp" android:background="@drawable/m3_rivet" />
+                <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Si" android:gravity="bottom|center_horizontal" android:paddingBottom="28dp" android:textSize="20sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
             </FrameLayout>
 
         </LinearLayout>
     </FrameLayout>
-
-    <!-- FOOTER CONTROLS -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="8dp"
-        android:paddingBottom="16dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_m3_play_melody"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/m3_btn_pill_orange"
-            android:text="@string/m3_btn_play_melody"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="32dp"/>
-    </LinearLayout>
 </LinearLayout>
