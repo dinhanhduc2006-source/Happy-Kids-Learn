@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@color/m3_bg_cream">
 
-    <!-- HEADER -->
+    <!-- HEADER (Kèm thanh tiến độ & Ngôi sao học tập) -->
     <include layout="@layout/m2_layout_game_header" />
 
     <!-- BANNER HƯỚNG DẪN -->
@@ -13,51 +13,55 @@
         android:id="@+id/tv_m3_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp"
         android:background="@drawable/m3_bg_banner_mint"
-        android:padding="16dp"
-        android:text="@string/m3_banner_handwriting"
+        android:padding="12dp"
+        android:text="✏️ Bé tô nét chữ A — 🍎 Quả táo"
         android:textColor="@color/m3_text_main"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         android:gravity="center" />
 
+    <!-- HÀNG CHỌN BÀI HỌC (Horizontal Lesson Selector) -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="6dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:id="@+id/layout_m3_lesson_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical" />
+    </HorizontalScrollView>
+
     <!-- KHU VỰC BẢNG VIẾT -->
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/layout_m3_board_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginHorizontal="16dp">
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/m3_bg_board_white">
 
-        <FrameLayout
+        <!-- Bảng vẽ dòng kẻ ô ly & chữ mẫu -->
+        <com.example.happykidlearn.member3.handwriting.HandwritingBoardView
+            android:id="@+id/view_m3_handwriting_board"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/m3_bg_notebook_lines">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/tv_m3_letter_guide"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="A"
-                android:textSize="200sp"
-                android:textStyle="bold"
-                android:textColor="#2B2D42"
-                android:alpha="0.15" />
-
-            <com.example.happykidlearn.member3.view.BaseCanvasView
-                android:id="@+id/view_m3_canvas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-
-        <!-- Nút chuyển chữ -->
+        <!-- Nút chuyển bài Trước / Sau nổi 2 bên -->
         <ImageButton
             android:id="@+id/btn_m3_prev"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical|start"
             android:layout_marginStart="8dp"
             android:background="@drawable/m3_bg_item_tile"
             android:src="@android:drawable/ic_media_previous"
@@ -66,71 +70,81 @@
 
         <ImageButton
             android:id="@+id/btn_m3_next"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="8dp"
             android:background="@drawable/m3_bg_item_tile"
             android:src="@android:drawable/ic_media_next"
             android:contentDescription="Tiếp theo"
             android:elevation="4dp" />
-    </RelativeLayout>
 
-    <!-- THANH CÔNG CỤ -->
+        <!-- Banner thông báo khích lệ nổi -->
+        <TextView
+            android:id="@+id/tv_m3_encourage_toast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/m3_bg_card_amber"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:text="Bé hãy tô thêm cho kín nét chữ nhé!"
+            android:textColor="@color/m3_text_main"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:elevation="8dp" />
+    </FrameLayout>
+
+    <!-- THANH CHỌN MÀU SÁP & NÚT HOÀN TÁC -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/m3_bg_board_white"
-        android:padding="8dp"
+        android:padding="6dp"
         android:elevation="2dp">
 
-        <View android:id="@+id/color_red" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_red" android:layout_margin="4dp"/>
-        <View android:id="@+id/color_orange" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_orange" android:layout_margin="4dp"/>
-        <View android:id="@+id/color_yellow" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_yellow" android:layout_margin="4dp"/>
-        <View android:id="@+id/color_green" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_green" android:layout_margin="4dp"/>
-        <View android:id="@+id/color_blue" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_blue" android:layout_margin="4dp"/>
-        <View android:id="@+id/color_purple" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_purple" android:layout_margin="4dp"/>
+        <View android:id="@+id/color_red" android:layout_width="38dp" android:layout_height="38dp" android:background="@color/m3_color_red" android:layout_margin="3dp"/>
+        <View android:id="@+id/color_orange" android:layout_width="38dp" android:layout_height="38dp" android:background="@color/m3_color_orange" android:layout_margin="3dp"/>
+        <View android:id="@+id/color_green" android:layout_width="38dp" android:layout_height="38dp" android:background="@color/m3_color_green" android:layout_margin="3dp"/>
+        <View android:id="@+id/color_blue" android:layout_width="38dp" android:layout_height="38dp" android:background="@color/m3_color_blue" android:layout_margin="3dp"/>
+        <View android:id="@+id/color_purple" android:layout_width="38dp" android:layout_height="38dp" android:background="@color/m3_color_purple" android:layout_margin="3dp"/>
+        <View android:id="@+id/color_black" android:layout_width="38dp" android:layout_height="38dp" android:background="@color/m3_color_black" android:layout_margin="3dp"/>
 
-        <View android:layout_width="1dp" android:layout_height="30dp" android:background="@color/m3_board_border" android:layout_marginHorizontal="8dp" />
-
-        <Button
-            android:id="@+id/btn_m3_eraser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/m3_bg_item_tile"
-            android:text="@string/m3_btn_eraser"
-            android:textColor="@color/m3_text_main" />
+        <View android:layout_width="1dp" android:layout_height="28dp" android:background="@color/m3_board_border" android:layout_marginHorizontal="8dp" />
 
         <Button
             android:id="@+id/btn_m3_undo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:background="@drawable/m3_bg_item_tile"
-            android:text="@string/m3_btn_undo"
+            android:text="↩"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:textColor="@color/m3_text_main" />
     </LinearLayout>
 
-    <!-- ĐÁY MÀN HÌNH -->
+    <!-- ĐÁY MÀN HÌNH (Viết lại & Hoàn thành) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
 
         <Button
             android:id="@+id/btn_m3_clear"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="52dp"
             android:layout_weight="1"
             android:background="@drawable/m3_btn_pill_orange"
-            android:text="🔄 Xóa hết"
+            android:text="🔄 Viết lại"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -139,7 +153,7 @@
         <Button
             android:id="@+id/btn_m3_finish_letter"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="52dp"
             android:layout_weight="1"
             android:background="@drawable/m3_btn_pill_green"
             android:text="✅ Hoàn thành"
