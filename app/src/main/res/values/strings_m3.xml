@@ -19,4 +19,7 @@
     <string name="m3_lbl_start_versus">BẮT ĐẦU</string>
     <string name="m3_msg_win">Chiến thắng! 🎉</string>
     <string name="m3_msg_lose">Cố gắng nhé! 💪</string>
+    <string name="m3_banner_handwriting">✏️ Bé hãy dùng ngón tay tô theo nét chữ %s nhé!</string>
+    <string name="m3_banner_coloring">🎨 Chọn màu sáp và tô bức tranh thật đẹp nhé!</string>
+    <string name="m3_btn_refresh">Làm mới</string>
 </resources>

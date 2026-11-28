@@ -21,6 +21,8 @@ public class HandwritingActivity extends BaseGameActivity {
     private int currentIndex = 0;
     private int completedCount = 0;
 
+    private TextView tvBanner;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,7 @@ public class HandwritingActivity extends BaseGameActivity {
 
         canvasView = findViewById(R.id.view_m3_canvas);
         tvLetterGuide = findViewById(R.id.tv_m3_letter_guide);
+        tvBanner = findViewById(R.id.tv_m3_banner);
 
         setupControls();
         loadLetter(currentIndex);
@@ -120,7 +123,11 @@ public class HandwritingActivity extends BaseGameActivity {
     }
 
     private void loadLetter(int index) {
-        tvLetterGuide.setText(letters[index]);
+        String letter = letters[index];
+        tvLetterGuide.setText(letter);
+        if (tvBanner != null) {
+            tvBanner.setText(String.format(getString(R.string.m3_banner_handwriting), letter));
+        }
         canvasView.clearCanvas();
         setGameProgress(completedCount, letters.length);
     }

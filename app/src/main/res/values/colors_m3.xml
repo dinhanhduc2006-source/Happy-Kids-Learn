@@ -11,4 +11,18 @@
     <color name="m3_color_brown">#A2845E</color>
     <color name="m3_color_black">#000000</color>
     <color name="m3_color_white">#FFFFFF</color>
+
+    <!-- Pastel UI Theme -->
+    <color name="m3_bg_cream">#FFF9EC</color>
+    <color name="m3_board_white">#FFFFFF</color>
+    <color name="m3_board_border">#E2E8F0</color>
+    <color name="m3_banner_mint_bg">#E8F8F0</color>
+    <color name="m3_banner_mint_border">#52B788</color>
+    <color name="m3_card_amber_bg">#FFF8DC</color>
+    <color name="m3_card_amber_border">#FFA000</color>
+    <color name="m3_btn_green">#52B788</color>
+    <color name="m3_btn_green_pressed">#3FA172</color>
+    <color name="m3_btn_orange">#F28B50</color>
+    <color name="m3_btn_orange_pressed">#DF773B</color>
+    <color name="m3_text_main">#2B2D42</color>
 </resources>

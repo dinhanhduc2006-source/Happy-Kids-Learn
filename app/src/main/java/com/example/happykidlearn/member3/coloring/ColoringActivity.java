@@ -32,6 +32,8 @@ public class ColoringActivity extends BaseGameActivity {
             R.drawable.m3_coloring_flower
     };
 
+    private ImageView[] imgThumbs = new ImageView[3];
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,23 +45,29 @@ public class ColoringActivity extends BaseGameActivity {
         freehandCanvas = findViewById(R.id.view_m3_freehand_canvas);
         imgOutline = findViewById(R.id.img_m3_coloring_outline);
         viewWhiteBg = findViewById(R.id.view_m3_white_bg);
+        
+        imgThumbs[0] = findViewById(R.id.img_thumb_0);
+        imgThumbs[1] = findViewById(R.id.img_thumb_1);
+        imgThumbs[2] = findViewById(R.id.img_thumb_2);
 
         setupControls();
         loadPicture(currentPictureIndex);
     }
 
     private void setupControls() {
-        Button btnChangePic = findViewById(R.id.btn_m3_change_pic);
         btnSwitchMode = findViewById(R.id.btn_m3_switch_mode);
         Button btnFinishPic = findViewById(R.id.btn_m3_finish_pic);
         Button btnClear = findViewById(R.id.btn_m3_clear);
         btnEraser = findViewById(R.id.btn_m3_eraser);
 
-        btnChangePic.setOnClickListener(v -> {
-            playSoundTap();
-            currentPictureIndex = (currentPictureIndex + 1) % pictures.length;
-            loadPicture(currentPictureIndex);
-        });
+        for (int i = 0; i < 3; i++) {
+            final int index = i;
+            imgThumbs[i].setOnClickListener(v -> {
+                playSoundTap();
+                currentPictureIndex = index;
+                loadPicture(currentPictureIndex);
+            });
+        }
 
         btnSwitchMode.setOnClickListener(v -> {
             playSoundTap();
@@ -175,6 +183,15 @@ public class ColoringActivity extends BaseGameActivity {
 
     private void loadPicture(int index) {
         int resId = pictures[index];
+
+        // Update thumbnails UI
+        for (int i = 0; i < 3; i++) {
+            if (i == index) {
+                imgThumbs[i].setBackgroundResource(R.drawable.m3_bg_item_tile_selected);
+            } else {
+                imgThumbs[i].setBackgroundResource(R.drawable.m3_bg_item_tile);
+            }
+        }
 
         // Load cho chế độ Đổ màu
         floodFillView.setDrawableRes(resId);

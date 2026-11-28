@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F8FF">
+    android:background="@color/m3_bg_cream">
 
     <!-- HEADER (Must match BaseGameActivity IDs) -->
     <RelativeLayout
@@ -18,7 +18,8 @@
             android:layout_height="48dp"
             android:layout_alignParentStart="true"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Quay lại" />
 
         <TextView
             android:id="@+id/tv_header_title"
@@ -57,82 +58,148 @@
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Âm thanh" />
     </RelativeLayout>
 
-    <!-- CONTROLS: Prev/Next & Finish -->
-    <LinearLayout
+    <!-- BANNER HƯỚNG DẪN -->
+    <TextView
+        android:id="@+id/tv_m3_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="8dp">
-        <Button
-            android:id="@+id/btn_m3_prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trước" />
-        <Button
-            android:id="@+id/btn_m3_finish_letter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:text="Hoàn thành" />
-        <Button
-            android:id="@+id/btn_m3_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiếp theo" />
-    </LinearLayout>
+        android:layout_margin="16dp"
+        android:background="@drawable/m3_bg_banner_mint"
+        android:padding="16dp"
+        android:text="@string/m3_banner_handwriting"
+        android:textColor="@color/m3_text_main"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center" />
 
-    <!-- CANVAS AREA -->
-    <FrameLayout
+    <!-- KHU VỰC BẢNG VIẾT -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_margin="16dp"
-        android:background="#FFFFFF">
+        android:layout_marginHorizontal="16dp">
 
-        <TextView
-            android:id="@+id/tv_m3_letter_guide"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="A"
-            android:textSize="200sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:alpha="0.22" />
+            android:background="@drawable/m3_bg_notebook_lines">
 
-        <com.example.happykidlearn.member3.view.BaseCanvasView
-            android:id="@+id/view_m3_canvas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+            <TextView
+                android:id="@+id/tv_m3_letter_guide"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="A"
+                android:textSize="200sp"
+                android:textStyle="bold"
+                android:textColor="#2B2D42"
+                android:alpha="0.15" />
 
-    <!-- TOOLS & COLORS -->
+            <com.example.happykidlearn.member3.view.BaseCanvasView
+                android:id="@+id/view_m3_canvas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <!-- Nút chuyển chữ -->
+        <ImageButton
+            android:id="@+id/btn_m3_prev"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/m3_bg_item_tile"
+            android:src="@android:drawable/ic_media_previous"
+            android:contentDescription="Trước"
+            android:elevation="4dp" />
+
+        <ImageButton
+            android:id="@+id/btn_m3_next"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/m3_bg_item_tile"
+            android:src="@android:drawable/ic_media_next"
+            android:contentDescription="Tiếp theo"
+            android:elevation="4dp" />
+    </RelativeLayout>
+
+    <!-- THANH CÔNG CỤ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="8dp">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/m3_bg_board_white"
+        android:padding="8dp"
+        android:elevation="2dp">
+
         <View android:id="@+id/color_red" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_red" android:layout_margin="4dp"/>
         <View android:id="@+id/color_orange" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_orange" android:layout_margin="4dp"/>
         <View android:id="@+id/color_yellow" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_yellow" android:layout_margin="4dp"/>
         <View android:id="@+id/color_green" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_green" android:layout_margin="4dp"/>
         <View android:id="@+id/color_blue" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_blue" android:layout_margin="4dp"/>
         <View android:id="@+id/color_purple" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_purple" android:layout_margin="4dp"/>
+
+        <View android:layout_width="1dp" android:layout_height="30dp" android:background="@color/m3_board_border" android:layout_marginHorizontal="8dp" />
+
+        <Button
+            android:id="@+id/btn_m3_eraser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/m3_bg_item_tile"
+            android:text="@string/m3_btn_eraser"
+            android:textColor="@color/m3_text_main" />
+
+        <Button
+            android:id="@+id/btn_m3_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/m3_bg_item_tile"
+            android:text="@string/m3_btn_undo"
+            android:textColor="@color/m3_text_main" />
     </LinearLayout>
 
+    <!-- ĐÁY MÀN HÌNH -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingBottom="16dp">
-        <Button android:id="@+id/btn_m3_eraser" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_eraser" />
-        <Button android:id="@+id/btn_m3_undo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_undo" android:layout_marginHorizontal="8dp"/>
-        <Button android:id="@+id/btn_m3_clear" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_clear" />
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btn_m3_clear"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/m3_btn_pill_orange"
+            android:text="🔄 Xóa hết"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btn_m3_finish_letter"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/m3_btn_pill_green"
+            android:text="✅ Hoàn thành"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 </LinearLayout>

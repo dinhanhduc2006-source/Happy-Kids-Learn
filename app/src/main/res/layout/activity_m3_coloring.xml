@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F8FF">
+    android:background="@color/m3_bg_cream">
 
-    <!-- HEADER (Must match BaseGameActivity IDs) -->
+    <!-- HEADER -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -18,7 +18,8 @@
             android:layout_height="48dp"
             android:layout_alignParentStart="true"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Quay lại" />
 
         <TextView
             android:id="@+id/tv_header_title"
@@ -57,32 +58,74 @@
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Âm thanh"/>
     </RelativeLayout>
 
-    <!-- CONTROLS: Change Picture & Finish -->
+    <!-- BANNER HƯỚNG DẪN -->
+    <TextView
+        android:id="@+id/tv_m3_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/m3_bg_banner_mint"
+        android:padding="16dp"
+        android:text="@string/m3_banner_coloring"
+        android:textColor="@color/m3_text_main"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+    <!-- CHỌN TRANH VÀ CHẾ ĐỘ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="8dp">
-        <Button
-            android:id="@+id/btn_m3_change_pic"
-            android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp">
+
+        <!-- Thumbnails -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Đổi tranh" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_thumb_0"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:background="@drawable/m3_bg_item_tile_selected"
+                android:src="@drawable/m3_coloring_house" />
+
+            <ImageView
+                android:id="@+id/img_thumb_1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:background="@drawable/m3_bg_item_tile"
+                android:src="@drawable/m3_coloring_fish" />
+
+            <ImageView
+                android:id="@+id/img_thumb_2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="8dp"
+                android:background="@drawable/m3_bg_item_tile"
+                android:src="@drawable/m3_coloring_flower" />
+        </LinearLayout>
+
+        <!-- Switch mode -->
         <Button
             android:id="@+id/btn_m3_switch_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:text="Chế độ: Đổ màu" />
-        <Button
-            android:id="@+id/btn_m3_finish_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hoàn thành" />
+            android:background="@drawable/m3_btn_pill_green"
+            android:text="Chế độ: Đổ màu"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <!-- DRAWING AREA -->
@@ -91,15 +134,13 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_margin="16dp"
-        android:background="#FFFFFF">
+        android:background="@drawable/m3_bg_board_white">
 
-        <!-- Layer 1: Flood Fill Mode -->
         <com.example.happykidlearn.member3.view.FloodFillView
             android:id="@+id/view_m3_flood_fill"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <!-- Layer 2 & 3: Freehand Mode -->
         <View
             android:id="@+id/view_m3_white_bg"
             android:layout_width="match_parent"
@@ -113,7 +154,6 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <!-- Lớp viền đè lên nét vẽ tự do (Chống lem) -->
         <ImageView
             android:id="@+id/img_m3_coloring_outline"
             android:layout_width="match_parent"
@@ -124,13 +164,18 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <!-- TOOLS & COLORS -->
+    <!-- BẢNG MÀU -->
     <LinearLayout
+        android:id="@+id/layout_m3_colors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="8dp">
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/m3_bg_board_white"
+        android:padding="8dp"
+        android:elevation="2dp">
+
         <View android:id="@+id/color_red" android:layout_width="36dp" android:layout_height="36dp" android:background="@color/m3_color_red" android:layout_margin="2dp"/>
         <View android:id="@+id/color_orange" android:layout_width="36dp" android:layout_height="36dp" android:background="@color/m3_color_orange" android:layout_margin="2dp"/>
         <View android:id="@+id/color_yellow" android:layout_width="36dp" android:layout_height="36dp" android:background="@color/m3_color_yellow" android:layout_margin="2dp"/>
@@ -141,13 +186,38 @@
         <View android:id="@+id/color_brown" android:layout_width="36dp" android:layout_height="36dp" android:background="@color/m3_color_brown" android:layout_margin="2dp"/>
     </LinearLayout>
 
+    <Button android:id="@+id/btn_m3_eraser" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_eraser" android:visibility="gone" android:layout_gravity="center" android:layout_marginTop="8dp" android:background="@drawable/m3_bg_item_tile" android:textColor="@color/m3_text_main" />
+
+    <!-- ĐÁY MÀN HÌNH -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingBottom="16dp">
-        <Button android:id="@+id/btn_m3_eraser" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_eraser" android:visibility="gone" />
-        <Button android:id="@+id/btn_m3_clear" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_clear" android:layout_marginHorizontal="8dp" />
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btn_m3_clear"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/m3_btn_pill_orange"
+            android:text="🔄 Làm mới"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btn_m3_finish_pic"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/m3_btn_pill_green"
+            android:text="✅ Hoàn thành"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 </LinearLayout>
