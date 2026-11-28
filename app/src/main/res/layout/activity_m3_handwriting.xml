@@ -49,6 +49,7 @@
 
     <!-- HÀNG CHỌN BÀI HỌC (Horizontal Lesson Selector - CHỮ THƯỜNG) -->
     <HorizontalScrollView
+        android:id="@+id/scroll_m3_lessons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"

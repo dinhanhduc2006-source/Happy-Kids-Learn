@@ -1,7 +1,6 @@
 package com.example.happykidlearn.member3.handwriting;
 
 import android.animation.ObjectAnimator;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,6 +8,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,27 +38,47 @@ public class HandwritingActivity extends BaseGameActivity {
     private HandwritingBoardView boardView;
     private TextView tvBanner;
     private LinearLayout layoutLessonContainer;
+    private HorizontalScrollView scrollLessons;
     private View layoutBoardContainer;
     private TextView tvEncourageToast;
 
     private TextToSpeech tts;
     private boolean isTtsReady = false;
 
-    // 10 Lesson CHỮ THƯỜNG viết bằng 1 nét
+    // 29 Lesson CHỮ THƯỜNG Tiếng Việt
     private final Lesson[] lessons = {
-            new Lesson("o", "🐝", "Con ong"),
+            new Lesson("a", "👕", "Cái áo"),
+            new Lesson("ă", "🌙", "Mặt trăng"),
+            new Lesson("â", "🐻", "Con gấu"),
+            new Lesson("b", "⚽", "Quả bóng"),
             new Lesson("c", "🐟", "Con cá"),
+            new Lesson("d", "🐐", "Con dê"),
+            new Lesson("đ", "🚦", "Đèn đỏ"),
             new Lesson("e", "👶", "Em bé"),
+            new Lesson("ê", "🐸", "Con ếch"),
+            new Lesson("g", "🐔", "Con gà"),
+            new Lesson("h", "🌸", "Bông hoa"),
+            new Lesson("i", "🔮", "Viên bi"),
+            new Lesson("k", "🍦", "Cây kem"),
             new Lesson("l", "🍃", "Chiếc lá"),
-            new Lesson("s", "🦁", "Sư tử"),
-            new Lesson("n", "🍄", "Cây nấm"),
             new Lesson("m", "🐱", "Con mèo"),
-            new Lesson("v", "🦆", "Con vịt"),
+            new Lesson("n", "🍄", "Cây nấm"),
+            new Lesson("o", "🐝", "Con ong"),
+            new Lesson("ô", "☂️", "Cái ô"),
+            new Lesson("ơ", "🎀", "Cái nơ"),
+            new Lesson("p", "🔦", "Đèn pin"),
+            new Lesson("q", "🎁", "Hộp quà"),
             new Lesson("r", "🐢", "Con rùa"),
-            new Lesson("u", "🐷", "Ủn ỉn")
+            new Lesson("s", "🦁", "Sư tử"),
+            new Lesson("t", "🍎", "Quả táo"),
+            new Lesson("u", "🎡", "Đu quay"),
+            new Lesson("ư", "✉️", "Bức thư"),
+            new Lesson("v", "🦆", "Con vịt"),
+            new Lesson("x", "🚲", "Xe đạp"),
+            new Lesson("y", "🩺", "Y tá")
     };
 
-    private final boolean[] lessonCompleted = new boolean[10];
+    private final boolean[] lessonCompleted = new boolean[29];
     private int currentIndex = 0;
     private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -72,6 +92,7 @@ public class HandwritingActivity extends BaseGameActivity {
         boardView = findViewById(R.id.view_m3_handwriting_board);
         tvBanner = findViewById(R.id.tv_m3_banner);
         layoutLessonContainer = findViewById(R.id.layout_m3_lesson_container);
+        scrollLessons = findViewById(R.id.scroll_m3_lessons);
         layoutBoardContainer = findViewById(R.id.layout_m3_board_container);
         tvEncourageToast = findViewById(R.id.tv_m3_encourage_toast);
 
@@ -226,6 +247,17 @@ public class HandwritingActivity extends BaseGameActivity {
 
             layoutLessonContainer.addView(tvTile);
         }
+
+        // Tự động cuộn mượt (smoothScrollTo) để thẻ chữ đang chọn nằm ở giữa
+        if (scrollLessons != null) {
+            scrollLessons.post(() -> {
+                View tile = layoutLessonContainer.getChildAt(currentIndex);
+                if (tile != null) {
+                    int scrollX = tile.getLeft() - (scrollLessons.getWidth() / 2) + (tile.getWidth() / 2);
+                    scrollLessons.smoothScrollTo(Math.max(0, scrollX), 0);
+                }
+            });
+        }
     }
 
     private void loadLesson(int index) {
@@ -233,7 +265,7 @@ public class HandwritingActivity extends BaseGameActivity {
         boardView.setGuideText(lesson.letter);
 
         if (tvBanner != null) {
-            tvBanner.setText(String.format("✏️ Bé tô 1 nét chữ %s — %s %s", lesson.letter, lesson.emoji, lesson.label));
+            tvBanner.setText(String.format("✏️ Bé tô chữ %s — %s %s", lesson.letter, lesson.emoji, lesson.label));
         }
 
         setupLessonSelector();
@@ -246,21 +278,21 @@ public class HandwritingActivity extends BaseGameActivity {
             if (soundManager != null) {
                 soundManager.playSfx(R.raw.m2_sfx_gentle_try);
             }
-            showEncouragement("Bé hãy tô liền 1 nét cho kín chữ nhé!");
+            showEncouragement("Bé hãy tô nét chữ trước nhé!");
             shakeBoard();
             return;
         }
 
         float coverage = boardView.calculateCoveragePercentage();
 
-        if (coverage < 40f) {
+        if (coverage < 42f) {
             if (soundManager != null) {
                 soundManager.playSfx(R.raw.m2_sfx_gentle_try);
             }
-            showEncouragement("Bé hãy tô liền 1 nét cho kín chữ nhé!");
+            showEncouragement("Bé hãy tô liền nét cho kín chữ nhé!");
             shakeBoard();
         } else {
-            // Tô ĐÚNG (Coverage >= 40%)
+            // Tô ĐÚNG (Coverage >= 42%)
             if (soundManager != null) {
                 soundManager.playSfx(R.raw.m2_sfx_correct);
             }
@@ -268,7 +300,7 @@ public class HandwritingActivity extends BaseGameActivity {
 
             lessonCompleted[currentIndex] = true;
             int completedCount = countCompleted();
-            int stars = (completedCount >= lessons.length) ? 3 : (completedCount >= 5 ? 2 : 1);
+            int stars = (completedCount >= lessons.length) ? 3 : (completedCount >= 15 ? 2 : 1);
 
             setGameProgress(completedCount, lessons.length);
             saveGameProgress("handwriting", completedCount, lessons.length, stars);
