@@ -93,7 +93,7 @@ public class XylophoneActivity extends BaseGameActivity {
         setContentView(R.layout.activity_m3_xylophone);
 
         setupHeader(getString(R.string.m3_game_music_title));
-        soundEngine = new XylophoneSoundEngine();
+        soundEngine = new XylophoneSoundEngine(this);
 
         // Ẩn thanh tiến trình trên Header cho chế độ chơi tự do
         if (pbHeaderProgress != null) {
