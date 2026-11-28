@@ -92,7 +92,9 @@ public class XylophoneActivity extends BaseGameActivity {
 
     private void animateAndPlayNote(int noteIndex) {
         // Phát tiếng
-        soundEngine.playNote(noteIndex);
+        if (soundManager != null && !soundManager.isSfxMuted()) {
+            soundEngine.playNote(noteIndex);
+        }
 
         // Cập nhật tiến trình game
         playedNotes.add(noteIndex);
