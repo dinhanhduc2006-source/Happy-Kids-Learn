@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Member 3: Additional Strings for Update 2 -->
+    <string name="m3_btn_play_melody">🎵 Nghe giai điệu mẫu</string>
+    <string name="m3_btn_stop_melody">⏹️ Dừng nghe</string>
+    <string name="m3_lbl_notes_discovered">%1$d / 7 nốt</string>
+    <string name="m3_lbl_score_with_icon">⭐ Điểm: %1$d</string>
+    <string name="m3_lbl_time_with_icon">⏱️ Thời gian: %1$ds</string>
+    <string name="m3_lbl_quick_game_desc">🫧 Chạm thật nhanh để làm vỡ bong bóng nhé!</string>
+    <string name="m3_btn_versus_tap">👆 BẤM NHANH!</string>
+    <string name="m3_lbl_vs">VS</string>
+</resources>

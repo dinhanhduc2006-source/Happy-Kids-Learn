@@ -18,12 +18,11 @@ public class QuickGameActivity extends BaseGameActivity {
     private TextView tvScore;
     private TextView tvTimer;
     private View layoutStartOverlay;
-    private Button btnStartGame;
 
     private CountDownTimer countDownTimer;
     private int score = 0;
     private final int MAX_SCORE_GOAL = 20;
-    private final long GAME_DURATION_MS = 30000; // 30 giây
+    private final long GAME_DURATION_MS = 30000;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,10 +35,10 @@ public class QuickGameActivity extends BaseGameActivity {
         tvScore = findViewById(R.id.tv_m3_score);
         tvTimer = findViewById(R.id.tv_m3_timer);
         layoutStartOverlay = findViewById(R.id.layout_m3_start_overlay);
-        btnStartGame = findViewById(R.id.btn_m3_start_game);
+        Button btnStartGame = findViewById(R.id.btn_m3_start_game);
 
         updateScoreText();
-        tvTimer.setText(getString(R.string.m3_lbl_time, 30));
+        tvTimer.setText(String.format(getString(R.string.m3_lbl_time_with_icon), 30));
         setGameProgress(0, MAX_SCORE_GOAL);
 
         btnStartGame.setOnClickListener(v -> {
@@ -62,12 +61,12 @@ public class QuickGameActivity extends BaseGameActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 long sec = millisUntilFinished / 1000;
-                tvTimer.setText(getString(R.string.m3_lbl_time, sec));
+                tvTimer.setText(String.format(getString(R.string.m3_lbl_time_with_icon), sec));
             }
 
             @Override
             public void onFinish() {
-                tvTimer.setText(getString(R.string.m3_lbl_time, 0));
+                tvTimer.setText(String.format(getString(R.string.m3_lbl_time_with_icon), 0));
                 endGame();
             }
         }.start();
@@ -88,7 +87,7 @@ public class QuickGameActivity extends BaseGameActivity {
     }
 
     private void updateScoreText() {
-        tvScore.setText(getString(R.string.m3_lbl_score, score));
+        tvScore.setText(String.format(getString(R.string.m3_lbl_score_with_icon), score));
     }
 
     private void endGame() {
@@ -112,7 +111,7 @@ public class QuickGameActivity extends BaseGameActivity {
 
     private void restartGame() {
         layoutStartOverlay.setVisibility(View.VISIBLE);
-        tvTimer.setText(getString(R.string.m3_lbl_time, 30));
+        tvTimer.setText(String.format(getString(R.string.m3_lbl_time_with_icon), 30));
     }
 
     @Override

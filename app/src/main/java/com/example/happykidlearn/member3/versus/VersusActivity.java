@@ -29,8 +29,11 @@ public class VersusActivity extends BaseGameActivity {
     private TextView tvP1Result, tvP2Result;
     private ProgressBar pbP1, pbP2;
     private Button btnStart;
+    private Button btnP1Tap, btnP2Tap;
+    private TextView tvVsBadge, tvCountdown;
 
     private final Handler delayHandler = new Handler(Looper.getMainLooper());
+    private int countdown = 3;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -39,8 +42,6 @@ public class VersusActivity extends BaseGameActivity {
         setContentView(R.layout.activity_m3_versus);
 
         setupHeader(getString(R.string.m3_game_versus_title));
-
-        // Luôn hiển thị tiến độ 0/25 ở Header ban đầu
         setGameProgress(0, MAX_SCORE);
 
         layoutP1 = findViewById(R.id.layout_m3_p1);
@@ -56,16 +57,25 @@ public class VersusActivity extends BaseGameActivity {
         pbP2 = findViewById(R.id.pb_m3_p2);
 
         btnStart = findViewById(R.id.btn_m3_start_versus);
+        btnP1Tap = findViewById(R.id.btn_m3_p1_tap);
+        btnP2Tap = findViewById(R.id.btn_m3_p2_tap);
+
+        tvVsBadge = findViewById(R.id.tv_m3_vs_badge);
+        tvCountdown = findViewById(R.id.tv_m3_countdown);
 
         btnStart.setOnClickListener(v -> {
             if (soundManager != null) soundManager.playSfx(R.raw.m2_sfx_tap);
-            startGame();
+            startCountdown();
         });
 
-        // Player 1 (Top) Touch Listener
+        // Vô hiệu hóa nút Bấm Nhanh khi chưa chơi
+        btnP1Tap.setClickable(false);
+        btnP2Tap.setClickable(false);
+
+        // Player 1 (Top) Touch Listener - chạm vào bất kỳ đâu trên phần thẻ của P1
         layoutP1.setOnTouchListener((v, event) -> {
             if (isPlaying && event.getAction() == MotionEvent.ACTION_DOWN) {
-                handleTap(1, v);
+                handleTap(1, btnP1Tap); // Hiệu ứng nảy vào nút chứ không phải toàn màn hình
                 return true;
             }
             return false;
@@ -74,35 +84,56 @@ public class VersusActivity extends BaseGameActivity {
         // Player 2 (Bottom) Touch Listener
         layoutP2.setOnTouchListener((v, event) -> {
             if (isPlaying && event.getAction() == MotionEvent.ACTION_DOWN) {
-                handleTap(2, v);
+                handleTap(2, btnP2Tap);
                 return true;
             }
             return false;
         });
     }
 
-    private void startGame() {
+    private void startCountdown() {
+        btnStart.setVisibility(View.GONE);
+        tvVsBadge.setVisibility(View.GONE);
+        tvCountdown.setVisibility(View.VISIBLE);
+
         p1Score = 0;
         p2Score = 0;
-        isPlaying = true;
-
         updateUI();
         tvP1Result.setVisibility(View.GONE);
         tvP2Result.setVisibility(View.GONE);
-        btnStart.setVisibility(View.GONE);
+
+        countdown = 3;
+        runCountdownTick();
     }
 
-    private void handleTap(int playerIndex, View layoutView) {
+    private void runCountdownTick() {
+        if (countdown > 0) {
+            if (soundManager != null) soundManager.playSfx(R.raw.m2_sfx_tap);
+            tvCountdown.setText(String.valueOf(countdown));
+            countdown--;
+            delayHandler.postDelayed(this::runCountdownTick, 800);
+        } else if (countdown == 0) {
+            if (soundManager != null) soundManager.playSfx(R.raw.m2_sfx_correct);
+            tvCountdown.setText("BẮT ĐẦU!");
+            countdown--;
+            delayHandler.postDelayed(this::runCountdownTick, 800);
+        } else {
+            tvCountdown.setVisibility(View.GONE);
+            tvVsBadge.setVisibility(View.VISIBLE);
+            isPlaying = true;
+        }
+    }
+
+    private void handleTap(int playerIndex, View btnView) {
         if (soundManager != null) {
             soundManager.playSfx(R.raw.m2_sfx_tap);
         }
 
-        // Bounce effect cho cảm giác nảy
-        layoutView.animate()
-                .scaleX(0.97f).scaleY(0.97f)
+        btnView.animate()
+                .scaleX(0.9f).scaleY(0.9f)
                 .setDuration(40)
                 .withEndAction(() -> {
-                    layoutView.animate()
+                    btnView.animate()
                             .scaleX(1.0f).scaleY(1.0f)
                             .setDuration(100)
                             .setInterpolator(new OvershootInterpolator())
@@ -123,8 +154,8 @@ public class VersusActivity extends BaseGameActivity {
     }
 
     private void updateUI() {
-        tvP1Score.setText(p1Score + " / " + MAX_SCORE);
-        tvP2Score.setText(p2Score + " / " + MAX_SCORE);
+        tvP1Score.setText(String.format("%d / %d", p1Score, MAX_SCORE));
+        tvP2Score.setText(String.format("%d / %d", p2Score, MAX_SCORE));
 
         pbP1.setProgress(p1Score);
         pbP2.setProgress(p2Score);
@@ -153,10 +184,9 @@ public class VersusActivity extends BaseGameActivity {
 
         saveGameProgress("versus", MAX_SCORE, MAX_SCORE, 3);
 
-        // Trì hoãn 800ms để 2 người chơi xem Banner kết quả, sau đó mới hiện Dialog
         delayHandler.postDelayed(() -> {
             showVictoryDialog(3, this::finish, this::resetMatch);
-        }, 800);
+        }, 1000);
     }
 
     private void resetMatch() {
@@ -166,11 +196,12 @@ public class VersusActivity extends BaseGameActivity {
         tvP1Result.setVisibility(View.GONE);
         tvP2Result.setVisibility(View.GONE);
         btnStart.setVisibility(View.VISIBLE);
+        tvVsBadge.setVisibility(View.VISIBLE);
+        tvCountdown.setVisibility(View.GONE);
     }
 
     @Override
     protected void onDestroy() {
-        // Hủy bỏ callback chờ dialog để tránh rò rỉ nếu người dùng bấm Back sớm
         delayHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }

@@ -59,8 +59,11 @@ public class BubbleGameView extends View {
         float radius;
         int alpha;
         Paint paint;
+        Paint textPaint;
+        Particle[] particles;
+        float textYOffset = 0;
 
-        PopEffect(float x, float y, float maxRadius, int color) {
+        PopEffect(float x, float y, float maxRadius, int color, float density) {
             this.x = x;
             this.y = y;
             this.radius = maxRadius / 2;
@@ -70,6 +73,36 @@ public class BubbleGameView extends View {
             paint.setColor(color);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(6f);
+
+            textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            textPaint.setColor(color);
+            textPaint.setTextSize(36f * density);
+            textPaint.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+            textPaint.setTextAlign(Paint.Align.CENTER);
+
+            particles = new Particle[6];
+            Random rnd = new Random();
+            for(int i = 0; i < particles.length; i++) {
+                particles[i] = new Particle(x, y, color, density, rnd);
+            }
+        }
+    }
+
+    private static class Particle {
+        float x, y, vx, vy;
+        int color;
+        Particle(float startX, float startY, int color, float density, Random random) {
+            this.x = startX; 
+            this.y = startY; 
+            this.color = color;
+            double angle = random.nextDouble() * 2 * Math.PI;
+            float speed = (3f + random.nextFloat() * 4f) * density;
+            vx = (float) (Math.cos(angle) * speed);
+            vy = (float) (Math.sin(angle) * speed);
+        }
+        void update() {
+            x += vx;
+            y += vy;
         }
     }
 
@@ -155,6 +188,15 @@ public class BubbleGameView extends View {
         for (PopEffect p : popEffects) {
             p.paint.setAlpha(p.alpha);
             canvas.drawCircle(p.x, p.y, p.radius, p.paint);
+            
+            p.textPaint.setAlpha(p.alpha);
+            canvas.drawText("+1", p.x, p.y + p.textYOffset, p.textPaint);
+            
+            for (Particle pt : p.particles) {
+                p.paint.setStyle(Paint.Style.FILL);
+                canvas.drawCircle(pt.x, pt.y, 4f * density, p.paint);
+                p.paint.setStyle(Paint.Style.STROKE); // reset
+            }
         }
 
         if (isPlaying || !popEffects.isEmpty()) {
@@ -192,6 +234,10 @@ public class BubbleGameView extends View {
             PopEffect p = popIter.next();
             p.radius += 2f * density;
             p.alpha -= 15;
+            p.textYOffset -= 1.5f * density;
+            for (Particle pt : p.particles) {
+                pt.update();
+            }
             if (p.alpha <= 0) {
                 popIter.remove();
             }
@@ -226,7 +272,7 @@ public class BubbleGameView extends View {
 
                 if (distSq <= hitRadius * hitRadius) {
                     // Trúng bong bóng!
-                    popEffects.add(new PopEffect(b.x, b.y, b.radius, b.color));
+                    popEffects.add(new PopEffect(b.x, b.y, b.radius, b.color, density));
                     bubbles.remove(i);
 
                     if (popListener != null) {
