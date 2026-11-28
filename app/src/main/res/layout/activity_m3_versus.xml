@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:splitMotionEvents="true"
+    android:background="#F0F8FF">
+
+    <!-- HEADER (Must match BaseGameActivity IDs) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/accent_pink"
+        android:padding="8dp">
+
+        <ImageButton
+            android:id="@+id/btn_header_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/tv_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/btn_header_back"
+            android:layout_marginStart="8dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ProgressBar
+                android:id="@+id/pb_header_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:max="100" />
+            <TextView
+                android:id="@+id/tv_header_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_header_sound"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_launcher_foreground" />
+    </RelativeLayout>
+
+    <!-- VERSUS BATTLE AREA -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:splitMotionEvents="true">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <!-- PLAYER 1 AREA (Top, Rotated 180) -->
+        <RelativeLayout
+            android:id="@+id/layout_m3_p1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:rotation="180"
+            android:background="@color/m3_color_blue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_m3_p1_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/m3_lbl_player_1"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/tv_m3_p1_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 / 25"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="8dp"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_m3_p1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="20dp"
+                    android:max="25"
+                    android:progress="0"
+                    android:progressTint="#FFFFFF"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- CENTER DIVIDER -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="#222222"
+            app:layout_constraintTop_toTopOf="@id/guideline_center"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center"/>
+
+        <!-- PLAYER 2 AREA (Bottom, Normal orientation) -->
+        <RelativeLayout
+            android:id="@+id/layout_m3_p2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/m3_color_green"
+            app:layout_constraintTop_toBottomOf="@id/guideline_center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_m3_p2_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/m3_lbl_player_2"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/tv_m3_p2_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 / 25"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="8dp"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_m3_p2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="20dp"
+                    android:max="25"
+                    android:progress="0"
+                    android:progressTint="#FFFFFF"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- START BUTTON (Center Overlay) -->
+        <Button
+            android:id="@+id/btn_m3_start_versus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/m3_lbl_start_versus"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="48dp"
+            android:paddingVertical="16dp"
+            android:backgroundTint="@color/accent_orange"
+            android:textColor="#FFFFFF"
+            android:elevation="8dp"
+            app:layout_constraintTop_toTopOf="@id/guideline_center"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

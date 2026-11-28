@@ -14,4 +14,9 @@
     <string name="m3_lbl_score">Điểm: %d</string>
     <string name="m3_lbl_time">Thời gian: %d s</string>
     <string name="m3_btn_start_quick_game">Bắt Đầu Chơi</string>
+    <string name="m3_lbl_player_1">Người chơi 1 (Bố/Mẹ)</string>
+    <string name="m3_lbl_player_2">Người chơi 2 (Bé)</string>
+    <string name="m3_lbl_start_versus">BẮT ĐẦU</string>
+    <string name="m3_msg_win">Chiến thắng! 🎉</string>
+    <string name="m3_msg_lose">Cố gắng nhé! 💪</string>
 </resources>
