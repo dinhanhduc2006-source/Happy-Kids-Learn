@@ -86,6 +86,11 @@
             android:exported="false"
             android:screenOrientation="landscape"
             android:label="@string/m3_game_music_title" />
+        <activity
+            android:name=".member3.reflexes.QuickGameActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/m3_game_reflexes_title" />
     </application>
 
 </manifest>

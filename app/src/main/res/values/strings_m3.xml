@@ -11,4 +11,7 @@
     <string name="m3_btn_clear">Xóa hết</string>
     <string name="m3_btn_undo">Hoàn tác</string>
     <string name="m3_btn_eraser">Tẩy</string>
+    <string name="m3_lbl_score">Điểm: %d</string>
+    <string name="m3_lbl_time">Thời gian: %d s</string>
+    <string name="m3_btn_start_quick_game">Bắt Đầu Chơi</string>
 </resources>
