@@ -25,4 +25,7 @@
     <string name="m3_lbl_time_out">Hết giờ rồi!</string>
     <string name="m3_lbl_final_score">Điểm của bé: %d</string>
     <string name="m3_btn_play_again">Chơi tiếp</string>
+    <string name="m3_msg_p1_win">🏆 Bố / Mẹ chiến thắng!</string>
+    <string name="m3_msg_p2_win">🏆 Bé chiến thắng!</string>
+    <string name="m3_btn_replay_versus">Chơi lại</string>
 </resources>

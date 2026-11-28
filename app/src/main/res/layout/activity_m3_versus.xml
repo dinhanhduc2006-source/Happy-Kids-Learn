@@ -222,5 +222,58 @@
                 android:paddingVertical="8dp"/>
         </FrameLayout>
 
+        <!-- VERSUS RESULT OVERLAY -->
+        <RelativeLayout
+            android:id="@+id/layout_m3_versus_result_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#B3FFFFFF"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            android:elevation="12dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/m3_bg_board_white"
+                android:orientation="vertical"
+                android:padding="32dp"
+                android:gravity="center"
+                android:elevation="8dp">
+
+                <TextView
+                    android:id="@+id/tv_m3_versus_winnerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/m3_bg_banner_mint"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="16dp"
+                    android:text="@string/m3_msg_p1_win"
+                    android:textColor="@color/m3_text_main"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginBottom="24dp"/>
+
+                <Button
+                    android:id="@+id/btn_m3_versus_replay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/m3_btn_pill_green"
+                    android:text="@string/m3_btn_replay_versus"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="48dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="#FFFFFF"/>
+            </LinearLayout>
+        </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

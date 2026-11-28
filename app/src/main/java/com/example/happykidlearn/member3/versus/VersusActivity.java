@@ -26,11 +26,13 @@ public class VersusActivity extends BaseGameActivity {
 
     private View layoutP1, layoutP2;
     private TextView tvP1Score, tvP2Score;
-    private TextView tvP1Result, tvP2Result;
     private ProgressBar pbP1, pbP2;
     private Button btnStart;
     private Button btnP1Tap, btnP2Tap;
     private TextView tvVsBadge, tvCountdown;
+
+    private View layoutResultOverlay;
+    private TextView tvWinnerText;
 
     private final Handler delayHandler = new Handler(Looper.getMainLooper());
     private int countdown = 3;
@@ -57,9 +59,6 @@ public class VersusActivity extends BaseGameActivity {
         tvP1Score = findViewById(R.id.tv_m3_p1_score);
         tvP2Score = findViewById(R.id.tv_m3_p2_score);
 
-        tvP1Result = findViewById(R.id.tv_m3_p1_result);
-        tvP2Result = findViewById(R.id.tv_m3_p2_result);
-
         pbP1 = findViewById(R.id.pb_m3_p1);
         pbP2 = findViewById(R.id.pb_m3_p2);
 
@@ -70,8 +69,18 @@ public class VersusActivity extends BaseGameActivity {
         tvVsBadge = findViewById(R.id.tv_m3_vs_badge);
         tvCountdown = findViewById(R.id.tv_m3_countdown);
 
+        layoutResultOverlay = findViewById(R.id.layout_m3_versus_result_overlay);
+        tvWinnerText = findViewById(R.id.tv_m3_versus_winnerText);
+        Button btnReplayVersus = findViewById(R.id.btn_m3_versus_replay);
+
         btnStart.setOnClickListener(v -> {
             if (soundManager != null) soundManager.playSfx(R.raw.m2_sfx_tap);
+            startCountdown();
+        });
+
+        btnReplayVersus.setOnClickListener(v -> {
+            if (soundManager != null) soundManager.playSfx(R.raw.m2_sfx_tap);
+            layoutResultOverlay.setVisibility(View.GONE);
             startCountdown();
         });
 
@@ -102,12 +111,11 @@ public class VersusActivity extends BaseGameActivity {
         btnStart.setVisibility(View.GONE);
         tvVsBadge.setVisibility(View.GONE);
         tvCountdown.setVisibility(View.VISIBLE);
+        layoutResultOverlay.setVisibility(View.GONE);
 
         p1Score = 0;
         p2Score = 0;
         updateUI();
-        tvP1Result.setVisibility(View.GONE);
-        tvP2Result.setVisibility(View.GONE);
 
         countdown = 3;
         runCountdownTick();
@@ -170,38 +178,19 @@ public class VersusActivity extends BaseGameActivity {
 
     private void finishMatch(int winnerIndex) {
         isPlaying = false;
-
-        tvP1Result.setVisibility(View.VISIBLE);
-        tvP2Result.setVisibility(View.VISIBLE);
+        delayHandler.removeCallbacksAndMessages(null);
 
         if (winnerIndex == 1) {
-            tvP1Result.setText(getString(R.string.m3_msg_win));
-            tvP2Result.setText(getString(R.string.m3_msg_lose));
+            tvWinnerText.setText(R.string.m3_msg_p1_win);
         } else {
-            tvP1Result.setText(getString(R.string.m3_msg_lose));
-            tvP2Result.setText(getString(R.string.m3_msg_win));
+            tvWinnerText.setText(R.string.m3_msg_p2_win);
         }
 
         if (soundManager != null) {
             soundManager.playSfx(R.raw.m2_sfx_celebrate);
         }
 
-        saveGameProgress("versus", MAX_SCORE, MAX_SCORE, 3);
-
-        delayHandler.postDelayed(() -> {
-            showVictoryDialog(3, this::finish, this::resetMatch);
-        }, 1000);
-    }
-
-    private void resetMatch() {
-        p1Score = 0;
-        p2Score = 0;
-        updateUI();
-        tvP1Result.setVisibility(View.GONE);
-        tvP2Result.setVisibility(View.GONE);
-        btnStart.setVisibility(View.VISIBLE);
-        tvVsBadge.setVisibility(View.VISIBLE);
-        tvCountdown.setVisibility(View.GONE);
+        layoutResultOverlay.setVisibility(View.VISIBLE);
     }
 
     @Override
