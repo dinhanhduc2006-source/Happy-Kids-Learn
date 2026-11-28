@@ -39,8 +39,8 @@ public class HandwritingActivity extends BaseGameActivity {
     }
 
     private void setupControls() {
-        Button btnPrev = findViewById(R.id.btn_m3_prev);
-        Button btnNext = findViewById(R.id.btn_m3_next);
+        android.widget.ImageButton btnPrev = findViewById(R.id.btn_m3_prev);
+        android.widget.ImageButton btnNext = findViewById(R.id.btn_m3_next);
         Button btnFinish = findViewById(R.id.btn_m3_finish_letter);
 
         Button btnEraser = findViewById(R.id.btn_m3_eraser);

@@ -22,4 +22,7 @@
     <string name="m3_banner_handwriting">✏️ Bé hãy dùng ngón tay tô theo nét chữ %s nhé!</string>
     <string name="m3_banner_coloring">🎨 Chọn màu sáp và tô bức tranh thật đẹp nhé!</string>
     <string name="m3_btn_refresh">Làm mới</string>
+    <string name="m3_lbl_time_out">Hết giờ rồi!</string>
+    <string name="m3_lbl_final_score">Điểm của bé: %d</string>
+    <string name="m3_btn_play_again">Chơi tiếp</string>
 </resources>

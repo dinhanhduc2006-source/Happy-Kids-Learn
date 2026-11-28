@@ -18,10 +18,12 @@ public class QuickGameActivity extends BaseGameActivity {
     private TextView tvScore;
     private TextView tvTimer;
     private View layoutStartOverlay;
+    private TextView tvOverlayTitle;
+    private TextView tvOverlayScore;
+    private Button btnStartGame;
 
     private CountDownTimer countDownTimer;
     private int score = 0;
-    private final int MAX_SCORE_GOAL = 20;
     private final long GAME_DURATION_MS = 30000;
 
     @Override
@@ -35,7 +37,9 @@ public class QuickGameActivity extends BaseGameActivity {
         tvScore = findViewById(R.id.tv_m3_score);
         tvTimer = findViewById(R.id.tv_m3_timer);
         layoutStartOverlay = findViewById(R.id.layout_m3_start_overlay);
-        Button btnStartGame = findViewById(R.id.btn_m3_start_game);
+        tvOverlayTitle = findViewById(R.id.tv_m3_overlay_title);
+        tvOverlayScore = findViewById(R.id.tv_m3_overlay_score);
+        btnStartGame = findViewById(R.id.btn_m3_start_game);
 
         updateScoreText();
         tvTimer.setText(String.format(getString(R.string.m3_lbl_time_with_icon), 30));
@@ -98,25 +102,17 @@ public class QuickGameActivity extends BaseGameActivity {
     private void endGame() {
         bubbleGameView.pauseGame();
 
-        int stars = 1;
-        if (score >= 20) {
-            stars = 3;
-        } else if (score >= 10) {
-            stars = 2;
-        }
-
-        saveGameProgress("reflexes", Math.min(score, MAX_SCORE_GOAL), MAX_SCORE_GOAL, stars);
-
         if (soundManager != null) {
             soundManager.playSfx(R.raw.m2_sfx_celebrate);
         }
 
-        showVictoryDialog(stars, this::finish, this::restartGame);
-    }
+        // Hiện kết quả trực tiếp ngay tại thẻ overlay
+        tvOverlayTitle.setText(R.string.m3_lbl_time_out);
+        tvOverlayScore.setText(String.format(getString(R.string.m3_lbl_final_score), score));
+        tvOverlayScore.setVisibility(View.VISIBLE);
+        btnStartGame.setText(R.string.m3_btn_play_again);
 
-    private void restartGame() {
         layoutStartOverlay.setVisibility(View.VISIBLE);
-        tvTimer.setText(String.format(getString(R.string.m3_lbl_time_with_icon), 30));
     }
 
     @Override

@@ -65,13 +65,15 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
-    <!-- OVERLAY START SCREEN -->
+    <!-- OVERLAY START/RESULT SCREEN (Placed below layout_header so back button on header remains clickable) -->
     <RelativeLayout
         android:id="@+id/layout_m3_start_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_header"
         android:background="#B3FFFFFF"
+        android:clickable="true"
+        android:focusable="true"
         android:visibility="visible">
 
         <LinearLayout
@@ -85,6 +87,7 @@
             android:elevation="8dp">
 
             <TextView
+                android:id="@+id/tv_m3_overlay_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/m3_bg_banner_mint"
@@ -94,6 +97,17 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:gravity="center"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tv_m3_overlay_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điểm của bé: 0"
+                android:textColor="@color/m3_text_main"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:visibility="gone"
                 android:layout_marginBottom="24dp"/>
 
             <Button
