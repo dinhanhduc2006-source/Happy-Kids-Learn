@@ -134,14 +134,30 @@ public class GameGridAdapter extends RecyclerView.Adapter<GameGridAdapter.GameVi
                 pbProgress.setProgress(targetPercent);
             }
 
-            if (model.hasKnownTotal()) {
-                tvProgressText.setText(context.getString(
-                        R.string.m2_game_progress_format,
-                        model.getCompletedLevels(),
-                        model.getTotalLevels()
-                ));
+            String gameId = game.getId() != null ? game.getId().toLowerCase() : "";
+            boolean isFreePlayGame = gameId.equals("music") || gameId.equals("reflexes") || gameId.equals("versus");
+            View llStars = itemView.findViewById(R.id.ll_m2_card_stars);
+
+            if (isFreePlayGame) {
+                pbProgress.setVisibility(View.INVISIBLE);
+                tvProgressText.setText("Chơi tự do");
+                if (llStars != null) {
+                    llStars.setVisibility(View.INVISIBLE);
+                }
             } else {
-                tvProgressText.setText(R.string.m2_game_progress_no_data);
+                pbProgress.setVisibility(View.VISIBLE);
+                if (llStars != null) {
+                    llStars.setVisibility(View.VISIBLE);
+                }
+                if (model.hasKnownTotal()) {
+                    tvProgressText.setText(context.getString(
+                            R.string.m2_game_progress_format,
+                            model.getCompletedLevels(),
+                            model.getTotalLevels()
+                    ));
+                } else {
+                    tvProgressText.setText(R.string.m2_game_progress_no_data);
+                }
             }
 
             tvStars.setText(String.valueOf(model.getStarsEarned()));
