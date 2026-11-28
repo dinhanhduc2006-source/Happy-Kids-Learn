@@ -8,10 +8,6 @@ import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +24,8 @@ public class HandwritingBoardView extends View {
     private Paint currentPaint;
 
     private Paint gridPaint;
-    private Paint guidePaint;
+    private Paint guideThickPaint;
+    private Paint guideCorePaint;
     private Paint startDotOuterPaint;
     private Paint startDotInnerPaint;
 
@@ -68,15 +65,22 @@ public class HandwritingBoardView extends View {
         gridPaint.setStrokeWidth(1.5f * density);
         gridPaint.setPathEffect(new DashPathEffect(new float[]{8f * density, 6f * density}, 0));
 
-        // Chữ mẫu nét đứt mờ
-        guidePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        guidePaint.setColor(Color.parseColor("#94A3B8"));
-        guidePaint.setStyle(Paint.Style.STROKE);
-        guidePaint.setStrokeWidth(12f * density);
-        guidePaint.setStrokeCap(Paint.Cap.ROUND);
-        guidePaint.setStrokeJoin(Paint.Join.ROUND);
-        guidePaint.setPathEffect(new DashPathEffect(new float[]{18f * density, 14f * density}, 0));
-        guidePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        // Nét chữ mẫu 1 nét dày màu xám nhạt mờ (15dp)
+        guideThickPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        guideThickPaint.setColor(Color.parseColor("#CBD5E1"));
+        guideThickPaint.setStyle(Paint.Style.STROKE);
+        guideThickPaint.setStrokeWidth(15f * density);
+        guideThickPaint.setStrokeCap(Paint.Cap.ROUND);
+        guideThickPaint.setStrokeJoin(Paint.Join.ROUND);
+
+        // Nét đứt lõi chính giữa (2dp) cho cảm giác chữ nét đứt đúng vở tập viết
+        guideCorePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        guideCorePaint.setColor(Color.parseColor("#94A3B8"));
+        guideCorePaint.setStyle(Paint.Style.STROKE);
+        guideCorePaint.setStrokeWidth(2f * density);
+        guideCorePaint.setStrokeCap(Paint.Cap.ROUND);
+        guideCorePaint.setStrokeJoin(Paint.Join.ROUND);
+        guideCorePaint.setPathEffect(new DashPathEffect(new float[]{8f * density, 6f * density}, 0));
 
         // Chấm tròn điểm đặt bút màu cam san hô
         startDotOuterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -113,64 +117,222 @@ public class HandwritingBoardView extends View {
 
         if (width == 0 || height == 0) return;
 
-        // 1. Vẽ dòng kẻ ngang ô ly mờ
+        // 1. Vẽ dòng kẻ ngang ô ly mờ kiểu vở tiểu học
         float lineSpacing = height / 5f;
         for (int i = 1; i < 5; i++) {
             float y = lineSpacing * i;
             canvas.drawLine(20, y, width - 20, y, gridPaint);
         }
 
-        // 2. Vẽ chữ mẫu nét đứt thường cỡ lớn chính giữa
-        float textX = 0, textY = 0;
-        Rect bounds = new Rect();
+        // 2. Tạo Path chữ mẫu 1 nét duy nhất (single-stroke centerline)
+        float[] startPoint = new float[2];
+        Path guidePath = createCenterlineLetterPath(guideText, width, height, startPoint);
 
-        if (guideText != null && !guideText.isEmpty()) {
-            guidePaint.setTextSize(height * 0.55f);
-            guidePaint.getTextBounds(guideText, 0, guideText.length(), bounds);
+        // Vẽ lớp nét mờ rộng và nét đứt lõi chính giữa
+        canvas.drawPath(guidePath, guideThickPaint);
+        canvas.drawPath(guidePath, guideCorePaint);
 
-            textX = (width - bounds.width()) / 2f - bounds.left;
-            textY = (height + bounds.height()) / 2f - bounds.bottom;
+        // 3. Vẽ chấm tròn điểm đặt bút (Cam san hô) ĐÚNG tại tọa độ đầu tiên (x0, y0) của Path
+        float density = getResources().getDisplayMetrics().density;
+        canvas.drawCircle(startPoint[0], startPoint[1], 9f * density, startDotOuterPaint);
+        canvas.drawCircle(startPoint[0], startPoint[1], 4f * density, startDotInnerPaint);
 
-            canvas.drawText(guideText, textX, textY, guidePaint);
-        }
-
-        // 3. Vẽ điểm đặt bút gợi ý (Chấm cam san hô)
-        if (bounds.width() > 0 && bounds.height() > 0) {
-            float[] startRel = getStartPointRelativeOffset(guideText);
-            float dotX = textX + bounds.left + bounds.width() * startRel[0];
-            float dotY = textY + bounds.top + bounds.height() * startRel[1];
-
-            float density = getResources().getDisplayMetrics().density;
-            canvas.drawCircle(dotX, dotY, 10f * density, startDotOuterPaint);
-            canvas.drawCircle(dotX, dotY, 4f * density, startDotInnerPaint);
-        }
-
-        // 4. Vẽ duy nhất 1 nét liền mạch của trẻ em
+        // 4. Vẽ duy nhất 1 nét liền mạch do trẻ tô
         if (currentPath != null) {
             canvas.drawPath(currentPath, currentPaint);
         }
     }
 
-    private float[] getStartPointRelativeOffset(String letter) {
-        if (letter == null) return new float[]{0.5f, 0.2f};
+    /**
+     * Dựng Path nét đơn (Centerline Path) 100% chữ thường theo chuẩn ô ly vở tập viết
+     */
+    private Path createCenterlineLetterPath(String letter, float width, float height, float[] outStartPoint) {
+        Path path = new Path();
+        float lineSpacing = height / 5f;
+
+        float y1 = lineSpacing * 1; // đường kẻ trên cùng
+        float y2 = lineSpacing * 2; // đường trung bình trên
+        float y3 = lineSpacing * 3; // đường kẻ giữa (đỉnh chữ thường)
+        float y4 = lineSpacing * 4; // đường kẻ đáy (chân chữ)
+
+        float h = y4 - y3;       // chiều cao chuẩn của chữ thường (o, c, e...)
+        float w = h * 0.70f;     // chiều rộng chuẩn của chữ
+        float cx = width / 2f;
+        float cy = (y3 + y4) / 2f;
+
+        float topY = y3;
+        float bottomY = y4;
+
+        if (letter == null) letter = "o";
+
         switch (letter.toLowerCase()) {
-            case "o":
-            case "c":
-                return new float[]{0.70f, 0.25f}; // Góc trên bên phải
-            case "e":
-                return new float[]{0.30f, 0.50f}; // Giữa bên trái
-            case "l":
-                return new float[]{0.45f, 0.10f}; // Đỉnh trên
-            case "s":
-                return new float[]{0.60f, 0.20f};
-            case "n":
-            case "m":
-            case "v":
-            case "r":
+            case "o": {
+                // Khởi đầu từ đỉnh bên phải, xoay vòng tròn sang trái mượt mà
+                float x0 = cx + w * 0.35f;
+                float y0 = topY + h * 0.15f;
+                path.moveTo(x0, y0);
+                path.cubicTo(
+                        cx - w * 0.6f, topY - h * 0.05f,
+                        cx - w * 0.6f, bottomY + h * 0.05f,
+                        cx, bottomY
+                );
+                path.cubicTo(
+                        cx + w * 0.6f, bottomY + h * 0.05f,
+                        cx + w * 0.6f, topY - h * 0.05f,
+                        x0, y0
+                );
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "c": {
+                float x0 = cx + w * 0.40f;
+                float y0 = topY + h * 0.20f;
+                path.moveTo(x0, y0);
+                path.cubicTo(
+                        cx - w * 0.5f, topY - h * 0.05f,
+                        cx - w * 0.5f, bottomY + h * 0.05f,
+                        x0, bottomY - h * 0.15f
+                );
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "e": {
+                float x0 = cx - w * 0.35f;
+                float y0 = cy + h * 0.08f;
+                path.moveTo(x0, y0);
+                path.lineTo(cx + w * 0.35f, y0);
+                path.cubicTo(
+                        cx + w * 0.5f, topY - h * 0.10f,
+                        cx - w * 0.5f, topY - h * 0.10f,
+                        cx - w * 0.4f, cy + h * 0.2f
+                );
+                path.cubicTo(
+                        cx - w * 0.3f, bottomY + h * 0.08f,
+                        cx + w * 0.25f, bottomY + h * 0.08f,
+                        cx + w * 0.40f, bottomY - h * 0.15f
+                );
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "l": {
+                // Chữ l vươn cao lên đường kẻ y1
+                float x0 = cx - w * 0.20f;
+                float y0 = y2 + h * 0.3f;
+                path.moveTo(x0, y0);
+                path.cubicTo(
+                        cx + w * 0.35f, y1 - h * 0.05f,
+                        cx + w * 0.05f, y1 - h * 0.05f,
+                        cx - w * 0.05f, y2 + h * 0.5f
+                );
+                path.lineTo(cx - w * 0.05f, y4 - h * 0.2f);
+                path.quadTo(cx - w * 0.05f, y4, cx + w * 0.35f, y4 - h * 0.05f);
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "s": {
+                float x0 = cx + w * 0.35f;
+                float y0 = topY + h * 0.18f;
+                path.moveTo(x0, y0);
+                path.cubicTo(
+                        cx - w * 0.4f, topY - h * 0.08f,
+                        cx - w * 0.3f, cy - h * 0.05f,
+                        cx, cy
+                );
+                path.cubicTo(
+                        cx + w * 0.4f, cy + h * 0.05f,
+                        cx + w * 0.4f, bottomY + h * 0.08f,
+                        cx - w * 0.35f, bottomY - h * 0.1f
+                );
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "n": {
+                float x0 = cx - w * 0.35f;
+                float y0 = topY + h * 0.1f;
+                path.moveTo(x0, y0);
+                path.lineTo(x0, bottomY);
+                path.moveTo(x0, topY + h * 0.35f);
+                path.cubicTo(
+                        cx - w * 0.15f, topY - h * 0.05f,
+                        cx + w * 0.35f, topY - h * 0.05f,
+                        cx + w * 0.35f, topY + h * 0.5f
+                );
+                path.lineTo(cx + w * 0.35f, bottomY - h * 0.1f);
+                path.quadTo(cx + w * 0.35f, bottomY, cx + w * 0.50f, bottomY);
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "m": {
+                float wM = w * 1.3f;
+                float x0 = cx - wM * 0.40f;
+                float y0 = topY + h * 0.1f;
+                path.moveTo(x0, y0);
+                path.lineTo(x0, bottomY);
+
+                path.moveTo(x0, topY + h * 0.35f);
+                path.cubicTo(
+                        cx - wM * 0.20f, topY - h * 0.05f,
+                        cx, topY - h * 0.05f,
+                        cx, topY + h * 0.5f
+                );
+                path.lineTo(cx, bottomY);
+
+                path.moveTo(cx, topY + h * 0.35f);
+                path.cubicTo(
+                        cx + wM * 0.20f, topY - h * 0.05f,
+                        cx + wM * 0.40f, topY - h * 0.05f,
+                        cx + wM * 0.40f, topY + h * 0.5f
+                );
+                path.lineTo(cx + wM * 0.40f, bottomY - h * 0.1f);
+                path.quadTo(cx + wM * 0.40f, bottomY, cx + wM * 0.52f, bottomY);
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "v": {
+                float x0 = cx - w * 0.45f;
+                float y0 = topY + h * 0.1f;
+                path.moveTo(x0, y0);
+                path.lineTo(cx - w * 0.05f, bottomY - h * 0.05f);
+                path.quadTo(cx, bottomY, cx + w * 0.1f, bottomY - h * 0.05f);
+                path.lineTo(cx + w * 0.45f, topY + h * 0.1f);
+                path.quadTo(cx + w * 0.55f, topY, cx + w * 0.6f, topY + h * 0.05f);
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
+            case "r": {
+                float x0 = cx - w * 0.35f;
+                float y0 = topY + h * 0.1f;
+                path.moveTo(x0, y0);
+                path.lineTo(x0, bottomY);
+                path.moveTo(x0, topY + h * 0.35f);
+                path.cubicTo(
+                        cx - w * 0.10f, topY - h * 0.05f,
+                        cx + w * 0.35f, topY - h * 0.05f,
+                        cx + w * 0.45f, topY + h * 0.2f
+                );
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
             case "u":
-            default:
-                return new float[]{0.25f, 0.25f}; // Góc trên bên trái
+            default: {
+                float x0 = cx - w * 0.40f;
+                float y0 = topY + h * 0.1f;
+                path.moveTo(x0, y0);
+                path.lineTo(x0, bottomY - h * 0.25f);
+                path.cubicTo(
+                        x0, bottomY + h * 0.05f,
+                        cx + w * 0.30f, bottomY + h * 0.05f,
+                        cx + w * 0.30f, bottomY - h * 0.25f
+                );
+                path.lineTo(cx + w * 0.30f, topY + h * 0.1f);
+                path.moveTo(cx + w * 0.30f, topY + h * 0.35f);
+                path.lineTo(cx + w * 0.30f, bottomY - h * 0.1f);
+                path.quadTo(cx + w * 0.30f, bottomY, cx + w * 0.45f, bottomY);
+                if (outStartPoint != null) { outStartPoint[0] = x0; outStartPoint[1] = y0; }
+                break;
+            }
         }
+        return path;
     }
 
     @Override
@@ -243,7 +405,7 @@ public class HandwritingBoardView extends View {
     }
 
     /**
-     * Tính toán phần trăm diện tích chữ mẫu được trẻ tô kín (Bitmap 128x128 trong bộ nhớ)
+     * Tính toán phần trăm diện tích chữ mẫu 1 nét được trẻ tô kín (Bitmap 128x128 trong bộ nhớ)
      */
     public float calculateCoveragePercentage() {
         if (currentPath == null || guideText == null || guideText.isEmpty() || getWidth() == 0 || getHeight() == 0) {
@@ -260,21 +422,17 @@ public class HandwritingBoardView extends View {
         float scaleX = (float) size / getWidth();
         float scaleY = (float) size / getHeight();
 
-        // 1. Dựng chữ mẫu nét đặc trong Bitmap nhỏ
+        // 1. Dựng Path chữ mẫu 1 nét đặc trong Bitmap nhỏ
+        Path guidePath = createCenterlineLetterPath(guideText, size, size, null);
+
         Paint gPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         gPaint.setColor(Color.BLACK);
         gPaint.setStyle(Paint.Style.STROKE);
-        gPaint.setStrokeWidth(guidePaint.getStrokeWidth() * scaleY);
+        gPaint.setStrokeWidth(guideThickPaint.getStrokeWidth() * scaleY);
         gPaint.setStrokeCap(Paint.Cap.ROUND);
         gPaint.setStrokeJoin(Paint.Join.ROUND);
-        gPaint.setTypeface(guidePaint.getTypeface());
-        gPaint.setTextSize(guidePaint.getTextSize() * scaleY);
 
-        Rect bounds = new Rect();
-        gPaint.getTextBounds(guideText, 0, guideText.length(), bounds);
-        float textX = (size - bounds.width()) / 2f - bounds.left;
-        float textY = (size + bounds.height()) / 2f - bounds.bottom;
-        guideCanvas.drawText(guideText, textX, textY, gPaint);
+        guideCanvas.drawPath(guidePath, gPaint);
 
         // 2. Dựng 1 nét vẽ của trẻ em trong Bitmap nhỏ
         Matrix matrix = new Matrix();
