@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F8FF">
+
+    <!-- HEADER (Must match BaseGameActivity IDs) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/purple_500"
+        android:padding="8dp">
+
+        <ImageButton
+            android:id="@+id/btn_header_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/tv_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/btn_header_back"
+            android:layout_marginStart="8dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ProgressBar
+                android:id="@+id/pb_header_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:max="100" />
+            <TextView
+                android:id="@+id/tv_header_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_header_sound"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_launcher_foreground" />
+    </RelativeLayout>
+
+    <!-- CONTROLS: Prev/Next & Finish -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp">
+        <Button
+            android:id="@+id/btn_m3_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trước" />
+        <Button
+            android:id="@+id/btn_m3_finish_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="Hoàn thành" />
+        <Button
+            android:id="@+id/btn_m3_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiếp theo" />
+    </LinearLayout>
+
+    <!-- CANVAS AREA -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="16dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/tv_m3_letter_guide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="A"
+            android:textSize="200sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:alpha="0.22" />
+
+        <com.example.happykidlearn.member3.view.BaseCanvasView
+            android:id="@+id/view_m3_canvas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <!-- TOOLS & COLORS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp">
+        <View android:id="@+id/color_red" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_red" android:layout_margin="4dp"/>
+        <View android:id="@+id/color_orange" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_orange" android:layout_margin="4dp"/>
+        <View android:id="@+id/color_yellow" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_yellow" android:layout_margin="4dp"/>
+        <View android:id="@+id/color_green" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_green" android:layout_margin="4dp"/>
+        <View android:id="@+id/color_blue" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_blue" android:layout_margin="4dp"/>
+        <View android:id="@+id/color_purple" android:layout_width="40dp" android:layout_height="40dp" android:background="@color/m3_color_purple" android:layout_margin="4dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="16dp">
+        <Button android:id="@+id/btn_m3_eraser" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_eraser" />
+        <Button android:id="@+id/btn_m3_undo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_undo" android:layout_marginHorizontal="8dp"/>
+        <Button android:id="@+id/btn_m3_clear" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/m3_btn_clear" />
+    </LinearLayout>
+</LinearLayout>
