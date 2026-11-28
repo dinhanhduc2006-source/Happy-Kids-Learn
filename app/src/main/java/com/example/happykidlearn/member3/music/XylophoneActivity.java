@@ -27,10 +27,6 @@ public class XylophoneActivity extends BaseGameActivity {
 
     private XylophoneSoundEngine soundEngine;
     private final View[] keys = new View[7];
-    private final Set<Integer> playedNotes = new HashSet<>();
-    private boolean isVictoryShown = false;
-
-    private TextView tvProgress;
     private FrameLayout layoutBoard;
 
     // Bài hát mẫu: Twinkle Twinkle Little Star
@@ -69,7 +65,6 @@ public class XylophoneActivity extends BaseGameActivity {
         soundEngine = new XylophoneSoundEngine();
 
         layoutBoard = findViewById(R.id.layout_m3_xylo_board);
-        tvProgress = findViewById(R.id.tv_m3_xylo_progress);
 
         int[] keyIds = {
             R.id.m3_key_0, R.id.m3_key_1, R.id.m3_key_2,
@@ -98,25 +93,18 @@ public class XylophoneActivity extends BaseGameActivity {
             }
         });
 
-        updateProgressUI();
+        // Hide progress bar in header for free-play mode
+        if (pbHeaderProgress != null) {
+            View parent = (View) pbHeaderProgress.getParent();
+            if (parent != null) {
+                parent.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     private void animateAndPlayNote(int noteIndex) {
         if (soundManager != null && !soundManager.isSfxMuted()) {
             soundEngine.playNote(noteIndex);
-        }
-
-        playedNotes.add(noteIndex);
-        updateProgressUI();
-
-        if (playedNotes.size() == 7 && !isVictoryShown) {
-            isVictoryShown = true;
-            saveGameProgress("music", 7, 7, 3);
-            showVictoryDialog(3, this::finish, () -> {
-                playedNotes.clear();
-                isVictoryShown = false;
-                updateProgressUI();
-            });
         }
 
         View key = keys[noteIndex];
@@ -167,11 +155,6 @@ public class XylophoneActivity extends BaseGameActivity {
                 .setInterpolator(new DecelerateInterpolator())
                 .withEndAction(() -> layoutBoard.removeView(tvNote))
                 .start();
-    }
-
-    private void updateProgressUI() {
-        setGameProgress(playedNotes.size(), 7);
-        tvProgress.setText(String.format(getString(R.string.m3_lbl_notes_discovered), playedNotes.size()));
     }
 
     private void startMelody() {

@@ -39,7 +39,14 @@ public class QuickGameActivity extends BaseGameActivity {
 
         updateScoreText();
         tvTimer.setText(String.format(getString(R.string.m3_lbl_time_with_icon), 30));
-        setGameProgress(0, MAX_SCORE_GOAL);
+
+        // Hide progress bar in header for free-play mode
+        if (pbHeaderProgress != null) {
+            View parent = (View) pbHeaderProgress.getParent();
+            if (parent != null) {
+                parent.setVisibility(View.INVISIBLE);
+            }
+        }
 
         btnStartGame.setOnClickListener(v -> {
             if (soundManager != null) soundManager.playSfx(R.raw.m2_sfx_tap);
@@ -53,7 +60,6 @@ public class QuickGameActivity extends BaseGameActivity {
     private void startPlaying() {
         score = 0;
         updateScoreText();
-        setGameProgress(0, MAX_SCORE_GOAL);
         bubbleGameView.resetGame();
         bubbleGameView.startGame();
 
@@ -75,7 +81,6 @@ public class QuickGameActivity extends BaseGameActivity {
     private void onBubblePopped() {
         score++;
         updateScoreText();
-        setGameProgress(Math.min(score, MAX_SCORE_GOAL), MAX_SCORE_GOAL);
 
         if (soundManager != null) {
             if (score % 5 == 0) {

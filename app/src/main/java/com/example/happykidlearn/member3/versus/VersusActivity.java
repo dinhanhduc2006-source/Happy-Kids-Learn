@@ -42,7 +42,14 @@ public class VersusActivity extends BaseGameActivity {
         setContentView(R.layout.activity_m3_versus);
 
         setupHeader(getString(R.string.m3_game_versus_title));
-        setGameProgress(0, MAX_SCORE);
+
+        // Hide progress bar in header for free-play mode
+        if (pbHeaderProgress != null) {
+            View parent = (View) pbHeaderProgress.getParent();
+            if (parent != null) {
+                parent.setVisibility(View.INVISIBLE);
+            }
+        }
 
         layoutP1 = findViewById(R.id.layout_m3_p1);
         layoutP2 = findViewById(R.id.layout_m3_p2);
@@ -159,9 +166,6 @@ public class VersusActivity extends BaseGameActivity {
 
         pbP1.setProgress(p1Score);
         pbP2.setProgress(p2Score);
-
-        int highestScore = Math.max(p1Score, p2Score);
-        setGameProgress(highestScore, MAX_SCORE);
     }
 
     private void finishMatch(int winnerIndex) {
