@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Member 3: Crayon & Base Colors for Mini-games -->
+    <color name="m3_color_red">#FF3B30</color>
+    <color name="m3_color_orange">#FF9500</color>
+    <color name="m3_color_yellow">#FFCC00</color>
+    <color name="m3_color_green">#34C759</color>
+    <color name="m3_color_blue">#007AFF</color>
+    <color name="m3_color_purple">#AF52DE</color>
+    <color name="m3_color_pink">#FF2D55</color>
+    <color name="m3_color_brown">#A2845E</color>
+    <color name="m3_color_black">#000000</color>
+    <color name="m3_color_white">#FFFFFF</color>
+</resources>

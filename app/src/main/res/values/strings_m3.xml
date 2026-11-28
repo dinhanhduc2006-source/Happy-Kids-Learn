@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Member 3: Game Titles -->
+    <string name="m3_game_handwriting_title">Tập Viết</string>
+    <string name="m3_game_coloring_title">Tô Màu</string>
+    <string name="m3_game_music_title">Âm Nhạc</string>
+    <string name="m3_game_reflexes_title">Phản Xạ Nhanh</string>
+    <string name="m3_game_versus_title">Bố Con Thi Tài</string>
+
+    <!-- Member 3: Common UI -->
+    <string name="m3_btn_clear">Xóa hết</string>
+    <string name="m3_btn_undo">Hoàn tác</string>
+    <string name="m3_btn_eraser">Tẩy</string>
+</resources>
